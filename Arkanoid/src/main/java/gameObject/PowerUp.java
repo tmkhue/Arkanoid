@@ -26,4 +26,11 @@ public class PowerUp extends GameObject {
         this.duration = duration;
     }
 
+    public void applyEffect() {
+
+    }
+
+    public void removeEffect() {
+
+    }
 }
