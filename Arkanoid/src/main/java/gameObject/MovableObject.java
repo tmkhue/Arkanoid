@@ -1,6 +1,6 @@
 package gameObject;
 
-public class MovableObject {
+public class MovableObject extends GameObject{
     protected double dx;
     protected double dy;
 
