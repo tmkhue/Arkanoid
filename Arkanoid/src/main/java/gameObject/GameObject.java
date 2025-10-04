@@ -1,5 +1,7 @@
 package gameObject;
 
+//Tạo thêm ImageView để GameObject kế thừa lớp đó
+
 public class GameObject {
     protected double x;
     protected double y;

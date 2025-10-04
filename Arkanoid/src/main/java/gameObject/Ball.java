@@ -40,7 +40,7 @@ public class Ball extends MovableObject{
      * Note: dùng tọa độ logic có thể sẽ lệch với scene.
      * @param other
      */
-    public bounceOff(GameObject other) {
+    public void bounceOff(GameObject other) {
         Bounds a = this.getBoundsInParent(); //lấy vị trí thật trong scene
         Bounds b = this.getBoundsInParent();
 
@@ -74,8 +74,16 @@ public class Ball extends MovableObject{
                 this.y -=overlapY;
             }
         }
-        //cập nhật vị trí trên scene
+
+        //cập nhật trong scene
         view.setLayout(x);
         view.setLayout(y);
+    }
+
+    public void checkCollision(GameObject other) {
+        Bounds ballBounds = this.getBoundsInParent();
+        if (ballBounds.intersects(other.getBoundsInParent())) {
+            bounceOff();
+        }
     }
 }
