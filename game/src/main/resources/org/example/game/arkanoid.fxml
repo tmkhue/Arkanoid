@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.Pane?>
+
+<?import org.example.game.Paddle?>
+<?import org.example.game.Ball?>
+<Pane fx:id="gamePane"
+      prefHeight="800"
+      prefWidth="800"
+      xmlns="http://javafx.com/javafx/25"
+      xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="org.example.game.ArkanoidGame">
+    <children>
+        <ImageView fx:id="playboard"
+                   fitWidth="750"
+                   fitHeight="600"
+                   x="25"
+                   y="65"
+                   preserveRatio="false"
+                   opacity="0.9">  <!-- Optional: adjust transparency -->
+            <image>
+                <Image url="@Image/playBoard.png" />
+            </image>
+        </ImageView>
+        <!-- Paddle -->
+        <Paddle fx:id="paddle"
+                height="23"
+                onKeyPressed="#initialize"
+                width="150"
+                x="250"
+                y="610"/>
+
+        <!-- Ball -->
+        <Ball fx:id="ball"
+                   centerX="300"
+                   centerY="250"
+                   radius="30"/>
+
+        <!-- Bricks will be added dynamically in Controller -->
+    </children>
+
+</Pane>
