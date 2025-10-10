@@ -1,7 +1,10 @@
 package org.example.game;
 
 import javafx.fxml.FXML;
+import javafx.scene.SnapshotParameters;
 import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.paint.Color;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Circle;
 
@@ -35,15 +38,25 @@ public class Ball extends Circle{
     public void setDirectionY(double directionY) {
         this.directionY = directionY;
     }
+    //Chỉnh lại cho ball không có phần thừa khi va chạm với brick và paddle
+    private static Image getRoundedImage(Image image, double radius) {
+        Circle clip = new Circle(image.getWidth() / 2, image.getHeight() / 2, radius);
+        ImageView imageView = new ImageView(image);
+        imageView.setClip(clip);
+        SnapshotParameters parameters = new SnapshotParameters();
+        parameters.setFill(Color.TRANSPARENT);
+        return imageView.snapshot(parameters, null);
+    }
 
     public Ball() {
-        super(30);
+        super(100);
         setCenterX(300);
         setCenterY(250);
 
         try {
             Image img = new Image(getClass().getResourceAsStream("/org/example/game/Image/normalBall.png"));
-            setFill(new ImagePattern(img,0,0,1,1,true));
+            Image roundedImg = getRoundedImage(img, this.getRadius());
+            setFill(new ImagePattern(roundedImg,0,0,1,1,true));;
         } catch (Exception e) {
             System.err.println("⚠️ Could not load ball image. Using default color.");
             setStyle("-fx-fill: white;");

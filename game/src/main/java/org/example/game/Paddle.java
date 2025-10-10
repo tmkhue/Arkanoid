@@ -16,7 +16,7 @@ public class Paddle extends Rectangle{
     private double targetX;
 
     public Paddle() {
-        super(150, 23);
+        super(150, 30);
         setX(ArkanoidGame.WIDTH - getWidth());
         setY(ArkanoidGame.HEIGHT - 40);
 
@@ -51,8 +51,8 @@ public class Paddle extends Rectangle{
         this.mouseControl = true;
         double paddleHalfWidth = getWidth() / 2;
         // Move borders 20px to the right by adding 20 to the constraints
-        double leftBoundary = ArkanoidGame.LEFT_BORDER + 20 + paddleHalfWidth;      // 20px right shift for left boundary
-        double rightBoundary = ArkanoidGame.WIDTH - paddleHalfWidth + 20;  // 20px right shift for right boundary
+        double leftBoundary = ArkanoidGame.LEFT_BORDER + 20 + paddleHalfWidth;
+        double rightBoundary = ArkanoidGame.WIDTH - paddleHalfWidth;
 
         this.targetX = Math.max(leftBoundary, Math.min(mouseX, rightBoundary)) - paddleHalfWidth;
     }
