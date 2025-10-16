@@ -15,10 +15,16 @@ public class Paddle extends Rectangle{
     private boolean mouseControl = false;
     private double targetX;
 
+    // New property for current length
+    private double currentLength;
+    private static final double INITIAL_PADDLE_WIDTH = 150; // Use a constant for initial width
+
     public Paddle() {
-        super(150, 23);
+        super(INITIAL_PADDLE_WIDTH, 23); // Use the constant
         setX(ArkanoidGame.WIDTH - getWidth());
         setY(ArkanoidGame.HEIGHT - 40);
+
+        this.currentLength = INITIAL_PADDLE_WIDTH; // Initialize currentLength
 
         // Load and set the texture image
         try {
@@ -59,5 +65,30 @@ public class Paddle extends Rectangle{
 
     public void setKeyboardControl() {
         this.mouseControl = false;
+    }
+
+    // New methods for changing paddle length
+    public void increaseLength(double amount) {
+        double oldWidth = getWidth();
+        currentLength = Math.min(currentLength + amount, 250); // Max length
+        setWidth(currentLength);
+        // Adjust X position to keep the center of the paddle in roughly the same place
+        setX(getX() - (getWidth() - oldWidth) / 2);
+    }
+
+    public void decreaseLength(double amount) {
+        double oldWidth = getWidth();
+        currentLength = Math.max(currentLength - amount, 50); // Min length
+        setWidth(currentLength);
+        // Adjust X position to keep the center of the paddle in roughly the same place
+        setX(getX() - (getWidth() - oldWidth) / 2);
+    }
+
+    // You might also want a method to reset to initial length
+    public void resetLength() {
+        double oldWidth = getWidth();
+        currentLength = INITIAL_PADDLE_WIDTH;
+        setWidth(currentLength);
+        setX(getX() - (getWidth() - oldWidth) / 2);
     }
 }

@@ -49,6 +49,9 @@ public class ArkanoidGame {
             switch (e.getCode()) {
                 case LEFT -> paddle.leftPressed = true;
                 case RIGHT -> paddle.rightPressed = true;
+                // New keybindings for paddle length
+                case U -> paddle.increaseLength(10); // 'U' to make paddle longer
+                case D -> paddle.decreaseLength(10); // 'D' to make paddle shorter
             }
         });
 
@@ -117,5 +120,6 @@ public class ArkanoidGame {
         ball.setDirectionX(3);
         ball.setDirectionY(-3);
         paddle.setX((WIDTH - paddle.getWidth()) / 2);
+        paddle.resetLength(); // Reset paddle length on game reset
     }
 }
