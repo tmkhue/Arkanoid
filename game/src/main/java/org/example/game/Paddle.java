@@ -1,7 +1,6 @@
 package org.example.game;
 
 import javafx.scene.image.Image;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Rectangle;
 
@@ -15,16 +14,12 @@ public class Paddle extends Rectangle{
     private boolean mouseControl = false;
     private double targetX;
 
-    // New property for current length
-    private double currentLength;
-    private static final double INITIAL_PADDLE_WIDTH = 150; // Use a constant for initial width
+    // Remove currentLength property, it's now handled by the resizer
 
     public Paddle() {
-        super(INITIAL_PADDLE_WIDTH, 23); // Use the constant
+        super(150, 23); // Keep initial width here or get it from a constant
         setX(ArkanoidGame.WIDTH - getWidth());
         setY(ArkanoidGame.HEIGHT - 40);
-
-        this.currentLength = INITIAL_PADDLE_WIDTH; // Initialize currentLength
 
         // Load and set the texture image
         try {
@@ -67,28 +62,5 @@ public class Paddle extends Rectangle{
         this.mouseControl = false;
     }
 
-    // New methods for changing paddle length
-    public void increaseLength(double amount) {
-        double oldWidth = getWidth();
-        currentLength = Math.min(currentLength + amount, 250); // Max length
-        setWidth(currentLength);
-        // Adjust X position to keep the center of the paddle in roughly the same place
-        setX(getX() - (getWidth() - oldWidth) / 2);
-    }
-
-    public void decreaseLength(double amount) {
-        double oldWidth = getWidth();
-        currentLength = Math.max(currentLength - amount, 50); // Min length
-        setWidth(currentLength);
-        // Adjust X position to keep the center of the paddle in roughly the same place
-        setX(getX() - (getWidth() - oldWidth) / 2);
-    }
-
-    // You might also want a method to reset to initial length
-    public void resetLength() {
-        double oldWidth = getWidth();
-        currentLength = INITIAL_PADDLE_WIDTH;
-        setWidth(currentLength);
-        setX(getX() - (getWidth() - oldWidth) / 2);
-    }
+    // No more increaseLength, decreaseLength, resetLength methods here
 }
