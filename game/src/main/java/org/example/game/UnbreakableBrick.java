@@ -1,6 +1,6 @@
 package org.example.game;
 
-import gameObject.Brick;
+//import gameObject.Brick;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
@@ -8,10 +8,12 @@ import javafx.scene.shape.Rectangle;
 public class UnbreakableBrick extends Brick {
     public UnbreakableBrick() {
         super();
+        this.setHitPoints(Integer.MAX_VALUE);
     }
 
     public UnbreakableBrick(double x, double y) {
         super(x, y);
+        this.setHitPoints(Integer.MAX_VALUE);
     }
 
     @Override
@@ -20,9 +22,9 @@ public class UnbreakableBrick extends Brick {
     }
 
     public Rectangle draw(String path) {
-        Rectangle rect = new Rectangle((int) this.x, (int) this.y,
+        Rectangle rect = new Rectangle((int) this.getX(), (int) this.getY(),
                 (int) BRICK_WIDTH, (int) BRICK_HEIGHT);
-        rect.setFill(Color.GRAY);
+        rect.setFill(Color.RED);
         return rect;
     }
 }
