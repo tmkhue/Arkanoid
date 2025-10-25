@@ -13,7 +13,7 @@ public class Levels {
     private int level = 1;
 
     public void start(Pane gamePane, Ball ball){
-        Level1(gamePane);
+        Level2(gamePane);
     }
 
     public void Level1(Pane gamePane) {
