@@ -20,14 +20,13 @@ public class ArkanoidGame {
     @FXML
     private Ball ball;
 
-    private Brick bricks;
-    private Levels level;
+    private Levels levels;
+
     @FXML
     public void initialize() {
         setBackground();
-        bricks = new Brick();
-        level = new Levels();
-        level.start(gamePane, ball);
+        levels = new Levels();
+        levels.Level1(gamePane);
 
         gamePane.setFocusTraversable(true);
 
@@ -37,7 +36,6 @@ public class ArkanoidGame {
             }
         });
 
-        //Xử lí chuột
         gamePane.setOnMouseMoved(e -> {
             paddle.setMouseTarget(e.getX());
         });
@@ -45,7 +43,6 @@ public class ArkanoidGame {
             paddle.setMouseTarget(e.getX());
         });
 
-        // Xử lí bàn phím
         gamePane.setOnKeyPressed(e -> {
             switch (e.getCode()) {
                 case LEFT -> paddle.leftPressed = true;
@@ -96,7 +93,6 @@ public class ArkanoidGame {
         paddle.move();
         ball.move();
 
-        // Kiểm tra va chạm giữa paddle và ball
         if (ball.getBoundsInParent().intersects(paddle.getBoundsInParent())) {
             double hitPos = (ball.getCenterX() - paddle.getX()) / paddle.getWidth();
             double bounceAngle = (hitPos - 0.5) * 2;
@@ -104,11 +100,12 @@ public class ArkanoidGame {
             ball.setDirectionY(-Math.abs(ball.getDirectionY()));
         }
 
-        //bricks.checkCollision(ball);
-        bricks.checkCollision(ball, gamePane);
-        //level.removeDestroyedBricks(gamePane);
+        for (Brick brick : Brick.bricks) {
+            brick.checkCollision(ball, gamePane);
+        }
+        levels.removeDestroyedBricks(gamePane);
 
-        //không bắt được bóng, reset
+
         if (ball.getCenterY() - ball.getRadius() > HEIGHT) {
             resetGame();
         }
