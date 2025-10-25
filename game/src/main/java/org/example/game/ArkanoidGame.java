@@ -20,16 +20,13 @@ public class ArkanoidGame {
     @FXML
     private Ball ball;
 
-    private Brick bricks;
-    private PaddleResizer paddleResizer; // Declare the resizer
+    private Levels levels;
 
     @FXML
     public void initialize() {
         setBackground();
-        bricks = new Brick();
-        bricks.Level1(gamePane);
-
-        paddleResizer = new DefaultPaddleResizer(); // Initialize the resizer
+        levels = new Levels();
+        levels.Level1(gamePane);
 
         gamePane.setFocusTraversable(true);
 
@@ -39,7 +36,6 @@ public class ArkanoidGame {
             }
         });
 
-        //Xử lí chuột
         gamePane.setOnMouseMoved(e -> {
             paddle.setMouseTarget(e.getX());
         });
@@ -47,14 +43,10 @@ public class ArkanoidGame {
             paddle.setMouseTarget(e.getX());
         });
 
-        // Xử lí bàn phím
         gamePane.setOnKeyPressed(e -> {
             switch (e.getCode()) {
                 case LEFT -> paddle.leftPressed = true;
                 case RIGHT -> paddle.rightPressed = true;
-                // Use the resizer to change paddle length
-                case U -> paddleResizer.increaseLength(paddle, 10); // 'U' to make paddle longer
-                case D -> paddleResizer.decreaseLength(paddle, 10); // 'D' to make paddle shorter
             }
         });
 
@@ -101,7 +93,6 @@ public class ArkanoidGame {
         paddle.move();
         ball.move();
 
-        // Kiểm tra va chạm giữa paddle và ball
         if (ball.getBoundsInParent().intersects(paddle.getBoundsInParent())) {
             double hitPos = (ball.getCenterX() - paddle.getX()) / paddle.getWidth();
             double bounceAngle = (hitPos - 0.5) * 2;
@@ -109,9 +100,12 @@ public class ArkanoidGame {
             ball.setDirectionY(-Math.abs(ball.getDirectionY()));
         }
 
-        bricks.checkCollision(ball);
+        for (Brick brick : Brick.bricks) {
+            brick.checkCollision(ball, gamePane);
+        }
+        levels.removeDestroyedBricks(gamePane);
 
-        //không bắt được bóng, reset
+
         if (ball.getCenterY() - ball.getRadius() > HEIGHT) {
             resetGame();
         }
@@ -123,6 +117,5 @@ public class ArkanoidGame {
         ball.setDirectionX(3);
         ball.setDirectionY(-3);
         paddle.setX((WIDTH - paddle.getWidth()) / 2);
-        paddleResizer.resetLength(paddle); // Reset paddle length on game reset using the resizer
     }
 }
