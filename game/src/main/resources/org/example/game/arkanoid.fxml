@@ -36,7 +36,7 @@
         <Ball fx:id="ball"
                    centerX="300"
                    centerY="250"
-                   radius="30"/>
+                   radius="15"/>
 
         <!-- Bricks will be added dynamically in Controller -->
     </children>

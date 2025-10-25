@@ -7,10 +7,6 @@ import javafx.scene.image.Image;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.*;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-
 public class ArkanoidGame {
     public static final int WIDTH = 750;
     public static final int HEIGHT = 600;
@@ -25,17 +21,12 @@ public class ArkanoidGame {
     private Ball ball;
 
     private Brick bricks;
-    private Levels level;
-
-    private List<PowerUp> activePowerUps = new ArrayList<>();
-    private List<ActiveEffect> activeEffects = new ArrayList<>();
 
     @FXML
     public void initialize() {
         setBackground();
         bricks = new Brick();
-        level = new Levels();
-        level.start(gamePane, ball);
+        bricks.Level1(gamePane);
 
         gamePane.setFocusTraversable(true);
 
@@ -112,38 +103,8 @@ public class ArkanoidGame {
             ball.setDirectionY(-Math.abs(ball.getDirectionY()));
         }
 
-        if (bricks.checkCollision(ball, gamePane)) {
-            //sinh PowerUp
-            if (Math.random() < 0.2) {
-                PowerUp p = new FastBallPowerUp(ball.getCenterX(), ball.getCenterY(), 5);
-                activePowerUps.add(p);
-                gamePane.getChildren().add(p);
-            }
-        }
+        bricks.checkCollision(ball);
 
-        Iterator<PowerUp> it = activePowerUps.iterator();
-        while (it.hasNext()) {
-            PowerUp p = it.next();
-            p.move();
-            if (p.getBoundsInParent().intersects(paddle.getBoundsInParent())) {
-                p.applyEffect(paddle, ball);
-                activeEffects.add(new ActiveEffect(p, System.currentTimeMillis(), p.getDuration()));
-                gamePane.getChildren().remove(p);
-                it.remove();
-            } else if (p.getY() > HEIGHT) {
-                gamePane.getChildren().remove(p);
-                it.remove();
-            }
-        }
-        long now = System.currentTimeMillis();
-        Iterator<ActiveEffect> effectIt = activeEffects.iterator();
-        while (effectIt.hasNext()) {
-            ActiveEffect effect = effectIt.next();
-            if (now - effect.startTime >= effect.duration * 1000) {
-                effect.powerUp.removeEffect(paddle, ball);
-                effectIt.remove();
-            }
-        }
         //không bắt được bóng, reset
         if (ball.getCenterY() - ball.getRadius() > HEIGHT) {
             resetGame();
