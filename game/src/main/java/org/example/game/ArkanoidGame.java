@@ -21,12 +21,13 @@ public class ArkanoidGame {
     private Ball ball;
 
     private Brick bricks;
-
+    private Levels level;
     @FXML
     public void initialize() {
         setBackground();
         bricks = new Brick();
-        bricks.Level1(gamePane);
+        level = new Levels();
+        level.start(gamePane, ball);
 
         gamePane.setFocusTraversable(true);
 
@@ -103,7 +104,9 @@ public class ArkanoidGame {
             ball.setDirectionY(-Math.abs(ball.getDirectionY()));
         }
 
-        bricks.checkCollision(ball);
+        //bricks.checkCollision(ball);
+        bricks.checkCollision(ball, gamePane);
+        //level.removeDestroyedBricks(gamePane);
 
         //không bắt được bóng, reset
         if (ball.getCenterY() - ball.getRadius() > HEIGHT) {

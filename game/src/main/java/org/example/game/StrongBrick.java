@@ -14,9 +14,14 @@ public class StrongBrick extends Brick{
         this.setHitPoints(3);
     }
     public Rectangle draw(String path){
-        Rectangle rect = new Rectangle((int) this.x, (int) this.y,
+        Rectangle rect = new Rectangle((int) this.getX(), (int) this.getY(),
                 (int) BRICK_WIDTH, (int) BRICK_HEIGHT);
         rect.setFill(Color.LIME);
         return rect;
+    }
+
+    @Override
+    public void applyTexture() {
+        setFill(Color.LIME);
     }
 }
