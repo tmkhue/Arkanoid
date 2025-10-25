@@ -11,7 +11,7 @@ import javafx.scene.shape.Circle;
 import java.util.Objects;
 
 public class Ball extends Circle{
-    private double speed;
+    private double speed = 4;
     private double directionX = 3;
     private double directionY = -3;
 
@@ -49,7 +49,7 @@ public class Ball extends Circle{
     }
 
     public Ball() {
-        super(100);
+        super(8);
         setCenterX(300);
         setCenterY(250);
 

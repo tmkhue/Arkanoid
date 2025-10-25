@@ -110,7 +110,7 @@ public class Brick extends Rectangle {
         }
     }
 
-    public void checkCollision(Ball ball, Pane gamePane) {
+    public boolean checkCollision(Ball ball, Pane gamePane) {
         Iterator<Brick> it = bricks.iterator();
         while (it.hasNext()) {
             Brick brick = it.next();
@@ -121,9 +121,10 @@ public class Brick extends Rectangle {
                     gamePane.getChildren().remove(brick);
                 }
                 ball.setDirectionY(ball.getDirectionY() * (-1));
-                return;
+                return true;
             }
         }
+        return false;
     }
 
     public boolean isDestroyed() {

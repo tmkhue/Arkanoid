@@ -1,6 +1,6 @@
 package org.example.game;
 
-public class FastBallPowerUp extends PowerUp{
+public class FastBallPowerUp extends PowerUp {
     private double originalSpeed;
 
     public FastBallPowerUp(double x, double y, double duration) {
