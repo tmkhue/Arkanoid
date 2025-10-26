@@ -4,12 +4,12 @@ import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 
 public class Levels {
-    protected int BrickCols = 14;
-    protected int BrickRows = 5;
+    protected int BrickCols = 10;
+    protected int BrickRows = 6;
     private int level = 1;
 
     public void start(Pane gamePane, Ball ball) {
-        Level1(gamePane);
+        Level3(gamePane);
     }
 
     public void Level1(Pane gamePane) {
@@ -29,7 +29,7 @@ public class Levels {
     public void Level2(Pane gamePane) {
         for (int i = 0; i < BrickRows; i++) {
             for (int j = 0; j < BrickCols; j++) {
-                if (j >= 4 && j <= 8 && i == BrickRows - 1) {
+                if (j >= 3 && j <= 6 && i == BrickRows - 1) {
                     Brick brick = new UnbreakableBrick(
                             ArkanoidGame.LEFT_BORDER + 20 + j * (Brick.BRICK_WIDTH + 5),
                             ArkanoidGame.TOP_BORDER + 30 + i * (Brick.BRICK_HEIGHT + 5)
@@ -78,21 +78,21 @@ public class Levels {
             }
         }
     }
-
-    public boolean isAllBricksDestroyed() {
-        for (Brick brick : Brick.bricks) {
-            if (!brick.isDestroyed()) return false;
-        }
-        return true;
-    }
-
-    public void removeDestroyedBricks(Pane gamePane) {
-        Brick.bricks.removeIf(brick -> {
-            if (brick.isDestroyed()) {
-                gamePane.getChildren().remove(brick);
-                return true;
-            }
-            return false;
-        });
-    }
+//
+//    public boolean isAllBricksDestroyed() {
+//        for (Brick brick : Brick.bricks) {
+//            if (!brick.isDestroyed()) return false;
+//        }
+//        return true;
+//    }
+//
+//    public void removeDestroyedBricks(Pane gamePane) {
+//        Brick.bricks.removeIf(brick -> {
+//            if (brick.isDestroyed()) {
+//                gamePane.getChildren().remove(brick);
+//                return true;
+//            }
+//            return false;
+//        });
+//    }
 }

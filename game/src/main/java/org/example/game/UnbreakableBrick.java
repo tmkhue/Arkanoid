@@ -20,6 +20,6 @@ public class UnbreakableBrick extends Brick {
     }
 
     public void applyTexture(String path) {
-            setFill(Color.GRAY);
+        setFill(Color.GRAY);
     }
 }

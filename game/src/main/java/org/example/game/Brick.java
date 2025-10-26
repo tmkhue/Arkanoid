@@ -15,8 +15,8 @@ import static javafx.scene.paint.Color.*;
 public class Brick extends Rectangle {
     protected int hitPoints=1;
     protected String type;
-    static final double BRICK_WIDTH = 45;
-    static final double BRICK_HEIGHT = 20;
+    static final double BRICK_WIDTH = 65;
+    static final double BRICK_HEIGHT = 30;
 
     public static ArrayList<Brick> bricks = new ArrayList<>();
 
@@ -73,20 +73,19 @@ public class Brick extends Rectangle {
         xA = ball.getCenterX();
         yA = ball.getCenterY();
 
-        if (ball.getCenterX() <= getX()) {
+        if (xA < getX()) {
             xA = getX();
-        } else if (ball.getCenterX() > getX() + getWidth()) {
+        } else if (xA > getX() + getWidth()) {
             xA = getX() + getWidth();
         }
-        if (ball.getCenterY() <= getY()) {
+        if (yA < getY()) {
             yA = getY();
-        } else if (ball.getCenterY() > getY() + getHeight()) {
+        } else if (yA > getY() + getHeight()) {
             yA = getY() + getHeight();
         }
-
-        double distanceS = Math.pow(xA - ball.getCenterX(), 2)
-                + Math.pow(yA - ball.getCenterY(), 2);
-        if (distanceS <= Math.pow(ball.getRadius(),2) + 0.00001 && hitPoints > 0) {
+        double dx= xA-ball.getCenterX();
+        double dy=yA-ball.getCenterY();
+        if (dx*dx+dy*dy <= Math.pow(ball.getRadius(),2) && hitPoints > 0) {
             hitPoints--;
             System.out.println("hitted " + hitPoints);
         }
