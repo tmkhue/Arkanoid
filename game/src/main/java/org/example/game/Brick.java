@@ -4,13 +4,12 @@ import javafx.scene.image.Image;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Rectangle;
-import java.io.File;
+
 import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.List;
 import java.util.Objects;
 
-import static javafx.scene.paint.Color.*;
+import static javafx.scene.paint.Color.RED;
 
 public class Brick extends Rectangle {
     protected int hitPoints=1;
@@ -98,6 +97,31 @@ public class Brick extends Rectangle {
                 if(brick.isDestroyed()) {
                     it.remove();
                     gamePane.getChildren().remove(brick);
+                }
+                // Tính độ chồng (quả bóng chồng lên brick) theo hai trục
+                double overlapX = Math.min(ball.getCenterX() + ball.getRadius() - brick.getX(),
+                        brick.getX() + brick.getWidth() - (ball.getCenterX() - ball.getRadius()));
+                double overlapY = Math.min(ball.getCenterY() + ball.getRadius() - brick.getY(),
+                        brick.getY() + brick.getHeight() - (ball.getCenterY() - ball.getRadius()));
+                if (overlapX < overlapY) {
+//                     Xử lý quả bóng chui vào trong brick từ 2 cạnh bên
+                    if (overlapX == ball.getCenterX() + ball.getRadius() - brick.getX()) {
+                        System.out.println("day trai");
+                        ball.setCenterX(brick.getX() - ball.getRadius());
+                    } else {
+                        System.out.println("day phai");
+                        ball.setCenterX(brick.getX() + BRICK_WIDTH + ball.getRadius());
+                    }
+                    ball.setDirectionX(ball.getDirectionX() * (-1));
+                    return;
+                }
+                // Xử lý quả bóng chui vào trong brick từ cạnh trên/dưới
+                if (ball.getCenterY() < brick.getY()) {
+                    System.out.println("day tren");
+                    ball.setCenterY(brick.getY() - ball.getRadius());
+                } else {
+                    System.out.println("day duoi");
+                    ball.setCenterY(brick.getY() + BRICK_HEIGHT + ball.getRadius());
                 }
                 ball.setDirectionY(ball.getDirectionY() * (-1));
                 return;
