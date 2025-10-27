@@ -49,12 +49,13 @@ public class Ball extends Circle{
     }
 
     public Ball() {
-        super(8);
+        super(15);
         setCenterX(300);
         setCenterY(250);
 
         try {
-            Image img = new Image(getClass().getResourceAsStream("/org/example/game/Image/normalBall.png"));
+            double diameter = getRadius() * 4.5;
+            Image img = new Image(getClass().getResourceAsStream("/org/example/game/Image/normalBall.png"), diameter, diameter, true, true);
             Image roundedImg = getRoundedImage(img, this.getRadius());
             setFill(new ImagePattern(roundedImg));
         } catch (Exception e) {
