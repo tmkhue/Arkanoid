@@ -9,11 +9,17 @@ public class Levels {
     private int level = 1;
 
     public void start(Pane gamePane, Ball ball) {
-        Level2(gamePane);
+        Level3(gamePane);
+    }
+
+    public void Level0(Pane gamePane){
+        Brick brick=new UnbreakableBrick(350, 300);
+        Brick.bricks.add(brick);
+        brick.applyTexture("");
+        gamePane.getChildren().add(brick);
     }
 
     public void Level1(Pane gamePane) {
-        Color c = Color.web("rgb(1,53,250)");
         for (int row = 0; row < BrickRows; row++) {
             for (int col = 0; col < BrickCols; col++) {
                 Brick brick = new NormalBrick(

@@ -116,7 +116,7 @@ public class ArkanoidGame {
 
     private void resetGame() {
         ball.setCenterX(WIDTH / 2);
-        ball.setCenterY(HEIGHT / 2);
+        ball.setCenterY(HEIGHT/2);
         ball.setDirectionX(3);
         ball.setDirectionY(-3);
         paddle.setX((WIDTH - paddle.getWidth()) / 2);
