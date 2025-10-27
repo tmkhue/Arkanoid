@@ -16,6 +16,6 @@ public class StrongBrick extends Brick{
     }
     @Override
     public void applyTexture(String path) {
-        setFill(Color.LIME);
+        setFill(Color.DODGERBLUE);
     }
 }
