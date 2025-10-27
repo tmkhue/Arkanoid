@@ -49,7 +49,7 @@ public class Ball extends Circle{
     }
 
     public Ball() {
-        super(8);
+        super(15);
         setCenterX(300);
         setCenterY(250);
 
