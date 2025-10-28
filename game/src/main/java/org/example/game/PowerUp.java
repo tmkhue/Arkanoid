@@ -9,7 +9,7 @@ import java.util.Objects;
 public abstract class PowerUp extends Rectangle {
     protected String type;
     protected double duration;
-    protected double speed = 2;
+    protected double speed = 5;
 
     public PowerUp(String type, double duration, double x, double y) {
         super(x, y, 30, 15);
