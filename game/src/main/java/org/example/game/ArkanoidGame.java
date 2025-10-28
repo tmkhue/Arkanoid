@@ -27,8 +27,12 @@ public class ArkanoidGame {
     private Brick bricks;
     private Levels level;
 
+    private PaddleResizer paddleResizer; // Declare the resizer
+
     private List<PowerUp> activePowerUps = new ArrayList<>();
     private List<ActiveEffect> activeEffects = new ArrayList<>();
+
+    private List<Ball> balls = new ArrayList<>();
 
     @FXML
     public void initialize() {
@@ -36,6 +40,7 @@ public class ArkanoidGame {
         bricks = new Brick();
         level = new Levels();
         level.start(gamePane, ball);
+        balls.add(ball);
 
         gamePane.setFocusTraversable(true);
 
@@ -102,23 +107,38 @@ public class ArkanoidGame {
 
     private void update() {
         paddle.move();
-        ball.move();
 
-        // Kiểm tra va chạm giữa paddle và ball
-        if (ball.getBoundsInParent().intersects(paddle.getBoundsInParent())) {
-            double hitPos = (ball.getCenterX() - paddle.getX()) / paddle.getWidth();
-            double bounceAngle = (hitPos - 0.5) * 2;
-            ball.setDirectionX(bounceAngle * 2);
-            ball.setDirectionY(-Math.abs(ball.getDirectionY()));
+        Iterator<Ball> ballIt = balls.iterator();
+        while (ballIt.hasNext()) {
+            Ball b = ballIt.next();
+            b.move();
+            if (b.getBoundsInParent().intersects(paddle.getBoundsInParent())) {
+                double hitPos = (b.getCenterX() - paddle.getX()) / paddle.getWidth();
+                double bounceAngle = (hitPos - 0.5) * 2;
+                b.setDirectionX(bounceAngle * 2);
+                b.setDirectionY(-Math.abs(b.getDirectionY()));
+            }
+            if (bricks.checkCollision(b, gamePane)) {
+                //sinh PowerUp
+                if (Math.random() < 0.2) {
+                    PowerUp p;
+                    if (Math.random() < 0.5) {
+                        p = new FastBallPowerUp(b.getCenterX(), b.getCenterY(), 10);
+                    } else {
+                        p = new TripleBallPowerUp(b.getCenterX(), b.getCenterY(), 10, gamePane, balls);
+                    }
+                    activePowerUps.add(p);
+                    gamePane.getChildren().add(p);
+                }
+            }
+            if (b.getCenterY() - b.getRadius() > HEIGHT) {
+                gamePane.getChildren().remove(b);
+                ballIt.remove();
+            }
         }
 
-        if (bricks.checkCollision(ball, gamePane)) {
-            //sinh PowerUp
-            if (Math.random() < 0.2) {
-                PowerUp p = new FastBallPowerUp(ball.getCenterX(), ball.getCenterY(), 5);
-                activePowerUps.add(p);
-                gamePane.getChildren().add(p);
-            }
+        if (balls.isEmpty()) {
+            resetGame();
         }
 
         Iterator<PowerUp> it = activePowerUps.iterator();
@@ -126,7 +146,7 @@ public class ArkanoidGame {
             PowerUp p = it.next();
             p.move();
             if (p.getBoundsInParent().intersects(paddle.getBoundsInParent())) {
-                p.applyEffect(paddle, ball);
+                p.applyEffect(paddle, balls.get(0));
                 activeEffects.add(new ActiveEffect(p, System.currentTimeMillis(), p.getDuration()));
                 gamePane.getChildren().remove(p);
                 it.remove();
@@ -140,21 +160,22 @@ public class ArkanoidGame {
         while (effectIt.hasNext()) {
             ActiveEffect effect = effectIt.next();
             if (now - effect.startTime >= effect.duration * 1000) {
-                effect.powerUp.removeEffect(paddle, ball);
+                effect.powerUp.removeEffect(paddle, balls.get(0));
                 effectIt.remove();
             }
         }
-        //không bắt được bóng, reset
-        if (ball.getCenterY() - ball.getRadius() > HEIGHT) {
-            resetGame();
-        }
+
     }
 
     private void resetGame() {
-        ball.setCenterX(WIDTH / 2);
-        ball.setCenterY(HEIGHT / 2);
-        ball.setDirectionX(3);
-        ball.setDirectionY(-3);
+        balls.clear();
+        Ball newBall = new Ball();
+        newBall.setCenterX(WIDTH / 2);
+        newBall.setCenterY(HEIGHT / 2);
+        newBall.setDirectionX(3);
+        newBall.setDirectionY(-3);
+        balls.add(newBall);
+        gamePane.getChildren().add(newBall);
         paddle.setX((WIDTH - paddle.getWidth()) / 2);
     }
 }

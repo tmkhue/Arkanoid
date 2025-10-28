@@ -1,20 +1,24 @@
 package org.example.game;
 
-public class FastBallPowerUp extends PowerUp{
-    private double originalSpeed;
+public class FastBallPowerUp extends PowerUp {
+    private double originalDirectionX;
+    private double originalDirectionY;
 
     public FastBallPowerUp(double x, double y, double duration) {
         super("FastBall", duration, x, y);
     }
 
     public void applyEffect(Paddle paddle, Ball ball) {
-        originalSpeed = ball.getSpeed();
-        ball.setSpeed(originalSpeed * 1.5);
-        System.out.println("Speed x 1.5");
+        originalDirectionX = ball.getDirectionX();
+        originalDirectionY = ball.getDirectionY();
+        ball.setDirectionX(originalDirectionX * 1.5);
+        ball.setDirectionY(originalDirectionY * 1.5);
+        System.out.println("Inscrease speed");
     }
 
     public void removeEffect(Paddle paddle, Ball ball) {
-        ball.setSpeed(originalSpeed);
+        ball.setDirectionX(originalDirectionX);
+        ball.setDirectionY(originalDirectionY);
         System.out.println("Original Speed");
     }
 }
