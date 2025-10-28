@@ -123,9 +123,9 @@ public class ArkanoidGame {
                 if (Math.random() < 0.2) {
                     PowerUp p;
                     if (Math.random() < 0.5) {
-                        p = new FastBallPowerUp(b.getCenterX(), b.getCenterY(), 20);
+                        p = new FastBallPowerUp(b.getCenterX(), b.getCenterY(), 10);
                     } else {
-                        p = new TripleBallPowerUp(b.getCenterX(), b.getCenterY(), 20, gamePane, balls);
+                        p = new TripleBallPowerUp(b.getCenterX(), b.getCenterY(), 10, gamePane, balls);
                     }
                     activePowerUps.add(p);
                     gamePane.getChildren().add(p);
