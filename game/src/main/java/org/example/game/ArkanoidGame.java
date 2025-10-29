@@ -30,7 +30,7 @@ public class ArkanoidGame {
     private PaddleResizer paddleResizer; // Declare the resizer
 
     private List<PowerUp> activePowerUps = new ArrayList<>();
-    private List<ActiveEffect> activeEffects = new ArrayList<>();
+    public static List<ActiveEffect> activeEffects = new ArrayList<>();
 
     private List<Ball> balls = new ArrayList<>();
 
@@ -122,10 +122,12 @@ public class ArkanoidGame {
                 //sinh PowerUp
                 if (Math.random() < 0.2) {
                     PowerUp p;
-                    if (Math.random() < 0.5) {
-                        p = new FastBallPowerUp(b.getCenterX(), b.getCenterY(), 10);
+                    if (Math.random() < 0.33) {
+                        p = new FastBallPowerUp(b.getCenterX(), b.getCenterY(), 15);
+                    } else if (Math.random() < 0.66) {
+                        p = new TripleBallPowerUp(b.getCenterX(), b.getCenterY(), 15, gamePane, balls);
                     } else {
-                        p = new TripleBallPowerUp(b.getCenterX(), b.getCenterY(), 10, gamePane, balls);
+                        p = new StrongBallPowerUp(b.getCenterX(), b.getCenterY(), 15);
                     }
                     activePowerUps.add(p);
                     gamePane.getChildren().add(p);
