@@ -23,6 +23,7 @@ public class TripleBallPowerUp extends PowerUp {
             newBall.setCenterY(mainBall.getCenterY());
             newBall.setDirectionX(mainBall.getDirectionX());
             newBall.setDirectionY(mainBall.getDirectionY());
+            newBall.setGamePane(gamePane);
             gamePane.getChildren().add(newBall);
             balls.add(newBall);
             extra.add(newBall);

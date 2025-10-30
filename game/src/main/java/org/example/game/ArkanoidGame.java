@@ -39,6 +39,7 @@ public class ArkanoidGame {
         setBackground();
         bricks = new Brick();
         level = new Levels();
+        ball.setGamePane(gamePane);
         level.start(gamePane, ball);
         balls.add(ball);
 
@@ -150,6 +151,7 @@ public class ArkanoidGame {
                 it.remove();
             }
         }
+
         long now = System.currentTimeMillis();
         Iterator<ActiveEffect> effectIt = activeEffects.iterator();
         while (effectIt.hasNext()) {
@@ -159,7 +161,6 @@ public class ArkanoidGame {
                 effectIt.remove();
             }
         }
-
     }
 
     private void resetGame() {
@@ -169,6 +170,7 @@ public class ArkanoidGame {
         newBall.setCenterY(HEIGHT / 2);
         newBall.setDirectionX(3);
         newBall.setDirectionY(-3);
+        newBall.setGamePane(gamePane);
         balls.add(newBall);
         gamePane.getChildren().add(newBall);
         paddle.setX((WIDTH - paddle.getWidth()) / 2);
