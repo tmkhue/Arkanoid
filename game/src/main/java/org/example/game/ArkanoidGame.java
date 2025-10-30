@@ -121,14 +121,7 @@ public class ArkanoidGame {
             if (bricks.checkCollision(b, gamePane)) {
                 //sinh PowerUp
                 if (Math.random() < 0.2) {
-                    PowerUp p;
-                    if (Math.random() < 0.33) {
-                        p = new FastBallPowerUp(b.getCenterX(), b.getCenterY(), 15);
-                    } else if (Math.random() < 0.66) {
-                        p = new TripleBallPowerUp(b.getCenterX(), b.getCenterY(), 15, gamePane, balls);
-                    } else {
-                        p = new StrongBallPowerUp(b.getCenterX(), b.getCenterY(), 15);
-                    }
+                    PowerUp p = PowerUpFactory.createPowerUp(b.getCenterX(), b.getCenterY(), gamePane, balls, paddle);
                     activePowerUps.add(p);
                     gamePane.getChildren().add(p);
                 }

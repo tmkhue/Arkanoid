@@ -16,7 +16,7 @@ public class StrongBallPowerUp extends PowerUp {
             }
         }
         try {
-            double diameter = ball.getRadius() * 4.5 * 1.5;
+            double diameter = ball.getRadius() * 4.5;
             Image strongImg = new Image(getClass().getResourceAsStream("/org/example/game/Image/StrongBall.png"), diameter, diameter, true, true);
             ball.setFill(new ImagePattern(strongImg));
         } catch (Exception e) {
@@ -31,7 +31,7 @@ public class StrongBallPowerUp extends PowerUp {
             return;
         }
         try {
-            double diameter = ball.getRadius() * 4.5 / 1.5;
+            double diameter = ball.getRadius() * 4.5;
             Image img = new Image(getClass().getResourceAsStream("/org/example/game/Image/normalBall.png"), diameter, diameter, true, true);
             ball.setFill(new ImagePattern(img));
         } catch (Exception e) {
