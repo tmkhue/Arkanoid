@@ -1,13 +1,23 @@
 package org.example.game;
 
+import com.almasb.fxgl.app.GameApplication;
+import com.almasb.fxgl.app.GameSettings;
 import javafx.animation.AnimationTimer;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
+import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.scene.control.Menu;
+import javafx.scene.control.MenuBar;
+import javafx.scene.control.MenuItem;
 import javafx.scene.image.Image;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.*;
+import javafx.scene.shape.Rectangle;
+import javafx.scene.text.Font;
+import javafx.stage.Stage;
 
-public class ArkanoidGame {
+public class ArkanoidGame{
     public static final int WIDTH = 750;
     public static final int HEIGHT = 600;
     public static final int LEFT_BORDER = 25;
@@ -114,7 +124,7 @@ public class ArkanoidGame {
         }
     }
 
-    private void resetGame() {
+    public void resetGame() {
         ball.setCenterX(WIDTH / 2);
         ball.setCenterY(HEIGHT/2);
         ball.setDirectionX(3);
