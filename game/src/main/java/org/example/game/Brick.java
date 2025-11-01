@@ -4,44 +4,36 @@ import javafx.scene.image.Image;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Rectangle;
-import java.io.File;
+
 import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.List;
 import java.util.Objects;
 
-import static javafx.scene.paint.Color.*;
+import static javafx.scene.paint.Color.RED;
 
 public class Brick extends Rectangle {
-    protected int hitPoints;
+    protected int hitPoints=1;
     protected String type;
-    static final double BRICK_WIDTH = 45;
-    static final double BRICK_HEIGHT = 20;
+    static final double BRICK_WIDTH = 60;
+    static final double BRICK_HEIGHT = 40;
 
     public static ArrayList<Brick> bricks = new ArrayList<>();
 
     public Brick() {
-        super(BRICK_WIDTH, BRICK_HEIGHT);
-        this.hitPoints = 1;
-        this.type = "normal";
+        super();
     }
 
     public Brick(double x, double y) {
         super(x, y, BRICK_WIDTH, BRICK_HEIGHT);
-        this.hitPoints = 1;
-        this.type = "normal";
     }
 
     public Brick(double x, double y, String type) {
         super(x, y, BRICK_WIDTH, BRICK_HEIGHT);
         this.type = type;
-        this.hitPoints = 1;
     }
 
     public Brick(double x, double y, double brickWidth, double brickHeight) {
         super(x, y, brickWidth, brickHeight);
-        this.hitPoints = 1;
-        this.type = "normal";
     }
 
     public int getHitPoints() {
@@ -60,65 +52,76 @@ public class Brick extends Rectangle {
         this.type = type;
     }
 
-    public static Brick create(double x, double y, String type) {
-        return switch (type) {
-            case "strong" -> new StrongBrick(x, y);
-            case "unbreakable" -> new UnbreakableBrick(x, y);
-            default -> new Brick(x, y, type);
-        };
-    }
 
-    public static Brick create(double x, double y) {
-        return create(x, y, "normal");
-    }
-
-    public void applyTexture() {
+    public void applyTexture(String path) {
         try {
             Image img = new Image(Objects.requireNonNull(
-                    getClass().getResourceAsStream("/org/example/game/Image/normalBrick.png")));
+                    getClass().getResourceAsStream(path)));
             if (img.isError()) {
                 throw new Exception("Image loading error");
             }
             setFill(new ImagePattern(img));
         } catch (Exception e) {
             System.err.println("Cannot load brick image, using default color");
-            setFill(LAVENDER);
+            setFill(RED);
         }
     }
 
-    public void takeHit(Ball ball) {
+    public boolean isHit(Ball ball) {
         double xA, yA; //tọa độ điểm gần tâm ball nhất
         xA = ball.getCenterX();
         yA = ball.getCenterY();
 
-        if (ball.getCenterX() < getX()) {
+        if (ball.getCenterX() <= getX()) {
             xA = getX();
         } else if (ball.getCenterX() > getX() + getWidth()) {
             xA = getX() + getWidth();
         }
-        if (ball.getCenterY() < getY()) {
+        if (ball.getCenterY() <= getY()) {
             yA = getY();
         } else if (ball.getCenterY() > getY() + getHeight()) {
             yA = getY() + getHeight();
         }
 
-        double distance = Math.sqrt(Math.pow(xA - ball.getCenterX(), 2)
-                + Math.pow(yA - ball.getCenterY(), 2));
-        if (distance <= ball.getRadius() / 2 && hitPoints > 0) {
-            hitPoints--;
-            System.out.println("hitted " + hitPoints);
-        }
+        double distanceS = Math.pow(xA - ball.getCenterX(), 2)
+                + Math.pow(yA - ball.getCenterY(), 2);
+        return distanceS <= Math.pow(ball.getRadius(),2);
     }
 
     public boolean checkCollision(Ball ball, Pane gamePane) {
         Iterator<Brick> it = bricks.iterator();
         while (it.hasNext()) {
             Brick brick = it.next();
-            if (brick.getBoundsInParent().intersects(ball.getBoundsInParent())) {
-                brick.takeHit(ball);
-                if(!brick.isDestroyed()) {
+            if (brick.isHit(ball)) {
+                brick.setHitPoints(brick.getHitPoints()-1);
+                if(brick.isDestroyed()) {
                     it.remove();
                     gamePane.getChildren().remove(brick);
+                }
+                // Tính độ chồng (quả bóng chồng lên brick) theo hai trục
+                double overlapX = Math.min(ball.getCenterX() + ball.getRadius() - brick.getX(),
+                        brick.getX() + brick.getWidth() - (ball.getCenterX() - ball.getRadius()));
+                double overlapY = Math.min(ball.getCenterY() + ball.getRadius() - brick.getY(),
+                        brick.getY() + brick.getHeight() - (ball.getCenterY() - ball.getRadius()));
+                if (overlapX < overlapY) {
+//                     Xử lý quả bóng chui vào trong brick từ 2 cạnh bên
+                    if (overlapX == ball.getCenterX() + ball.getRadius() - brick.getX()) {
+                        System.out.println("day trai");
+                        ball.setCenterX(brick.getX() - ball.getRadius());
+                    } else {
+                        System.out.println("day phai");
+                        ball.setCenterX(brick.getX() + BRICK_WIDTH + ball.getRadius());
+                    }
+                    ball.setDirectionX(ball.getDirectionX() * (-1));
+                    return;
+                }
+                // Xử lý quả bóng chui vào trong brick từ cạnh trên/dưới
+                if (ball.getCenterY() < brick.getY()) {
+                    System.out.println("day tren");
+                    ball.setCenterY(brick.getY() - ball.getRadius());
+                } else {
+                    System.out.println("day duoi");
+                    ball.setCenterY(brick.getY() + BRICK_HEIGHT + ball.getRadius());
                 }
                 ball.setDirectionY(ball.getDirectionY() * (-1));
                 return true;
@@ -128,6 +131,7 @@ public class Brick extends Rectangle {
     }
 
     public boolean isDestroyed() {
+        System.out.println("hitpoints: " + hitPoints);
         return hitPoints <= 0;
     }
 }
