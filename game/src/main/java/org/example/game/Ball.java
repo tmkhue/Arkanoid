@@ -20,6 +20,7 @@ public class Ball extends Circle{
     private double directionY = -3;
 
     private List<Circle> shadowList = new ArrayList<>();
+
     private Pane gamePane;
 
     public void setGamePane(Pane gamePane) {
