@@ -1,5 +1,8 @@
 package org.example.game;
 
+import javafx.scene.image.Image;
+import javafx.scene.paint.ImagePattern;
+
 public class FastBallPowerUp extends PowerUp {
     private double originalDirectionX;
     private double originalDirectionY;
