@@ -152,14 +152,24 @@ public class ArkanoidGame {
             }
         }
         long now = System.currentTimeMillis();
-        Iterator<ActiveEffect> effectIt = activeEffects.iterator();
-        while (effectIt.hasNext()) {
-            ActiveEffect effect = effectIt.next();
+
+
+        List<ActiveEffect> effectsToRemove = new ArrayList<>();
+        List<ActiveEffect> effectsToUpdate = new ArrayList<>();
+
+        for (ActiveEffect effect : activeEffects) {
             if (now - effect.startTime >= effect.duration * 1000) {
                 effect.powerUp.removeEffect(paddle, balls.get(0));
-                effectIt.remove();
+                effectsToRemove.add(effect);
+            } else {
+                // Nếu hiệu ứng là PaddleResizePowerUp, gọi updateEffect()
+                if (effect.powerUp instanceof PaddleResizePowerUp) {
+                    ((PaddleResizePowerUp) effect.powerUp).updateEffect(paddle);
+                }
             }
         }
+
+        activeEffects.removeAll(effectsToRemove); // Xóa các hiệu ứng đã hết hạn
 
     }
 
