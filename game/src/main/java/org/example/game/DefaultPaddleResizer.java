@@ -1,9 +1,9 @@
 package org.example.game;
 
 public class DefaultPaddleResizer implements PaddleResizer {
-    private static final double MAX_PADDLE_WIDTH = 250;
-    private static final double MIN_PADDLE_WIDTH = 50;
-    private static final double INITIAL_PADDLE_WIDTH = 150;
+    public static final double MAX_PADDLE_WIDTH = 250;
+    public static final double MIN_PADDLE_WIDTH = 50;
+    public static final double INITIAL_PADDLE_WIDTH = 150;
 
     @Override
     public void increaseLength(Paddle paddle, double amount) {
