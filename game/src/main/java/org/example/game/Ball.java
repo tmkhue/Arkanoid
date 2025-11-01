@@ -11,8 +11,8 @@ import javafx.scene.shape.Circle;
 import java.util.Objects;
 
 public class Ball extends Circle{
-    private double directionX = 3;
-    private double directionY = -3;
+    private double directionX = 5;
+    private double directionY = -5;
 
     public double getDirectionX() {
         return directionX;

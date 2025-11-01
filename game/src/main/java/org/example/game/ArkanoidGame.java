@@ -1,15 +1,19 @@
+// ArkanoidGame.java không cần thay đổi gì thêm.
+// Các event listener cho chuột và bàn phím hoạt động độc lập và chỉ cập nhật các biến
+// trong Paddle. Lớp Paddle sẽ quyết định cách sử dụng chúng.
+
 package org.example.game;
 
 import javafx.animation.AnimationTimer;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.image.Image;
-import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.*;
 
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Objects;
 
 public class ArkanoidGame {
     public static final int WIDTH = 750;
@@ -27,7 +31,7 @@ public class ArkanoidGame {
     private Brick bricks;
     private Levels level;
 
-    private PaddleResizer paddleResizer; // Declare the resizer
+    private PaddleResizer paddleResizer;
 
     private List<PowerUp> activePowerUps = new ArrayList<>();
     public static List<ActiveEffect> activeEffects = new ArrayList<>();
@@ -50,15 +54,16 @@ public class ArkanoidGame {
             }
         });
 
-        //Xử lí chuột
+        // Xử lý chuột
         gamePane.setOnMouseMoved(e -> {
-            paddle.setMouseTarget(e.getX());
+            paddle.setMouseTargetX(e.getX());
         });
         gamePane.setOnMouseDragged(e -> {
-            paddle.setMouseTarget(e.getX());
+            paddle.setMouseTargetX(e.getX());
         });
 
-        // Xử lí bàn phím
+
+        // Xử lý bàn phím
         gamePane.setOnKeyPressed(e -> {
             switch (e.getCode()) {
                 case LEFT -> paddle.leftPressed = true;
@@ -86,7 +91,7 @@ public class ArkanoidGame {
 
     private void setBackground(){
         try {
-            Image backgroundImage = new Image(getClass().getResourceAsStream("/org/example/game/Image/background.png"));
+            Image backgroundImage = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/org/example/game/Image/background.png")));
 
             // tạo hình nền
             BackgroundImage bgImage = new BackgroundImage(
@@ -151,14 +156,23 @@ public class ArkanoidGame {
             }
         }
         long now = System.currentTimeMillis();
-        Iterator<ActiveEffect> effectIt = activeEffects.iterator();
-        while (effectIt.hasNext()) {
-            ActiveEffect effect = effectIt.next();
+
+        List<ActiveEffect> effectsToRemove = new ArrayList<>();
+        List<ActiveEffect> effectsToUpdate = new ArrayList<>();
+
+        for (ActiveEffect effect : activeEffects) {
             if (now - effect.startTime >= effect.duration * 1000) {
                 effect.powerUp.removeEffect(paddle, balls.get(0));
-                effectIt.remove();
+                effectsToRemove.add(effect);
+            } else {
+                // Nếu hiệu ứng là PaddleResizePowerUp, gọi updateEffect()
+                if (effect.powerUp instanceof PaddleResizePowerUp) {
+                    ((PaddleResizePowerUp) effect.powerUp).updateEffect(paddle);
+                }
             }
         }
+
+        activeEffects.removeAll(effectsToRemove); // Xóa các hiệu ứng đã hết hạn
 
     }
 

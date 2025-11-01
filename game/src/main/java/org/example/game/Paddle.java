@@ -1,26 +1,26 @@
 package org.example.game;
 
 import javafx.scene.image.Image;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Rectangle;
 
 import java.util.Objects;
 
-public class Paddle extends Rectangle{
-    private int dx;
-    private int speed;
+public class Paddle extends Rectangle {
+    private int keyboardSpeed = 5;
     public boolean leftPressed = false;
     public boolean rightPressed = false;
-    private boolean mouseControl = false;
-    private double targetX;
+
+    private double mouseTargetX;
+    private double keyboardTargetX;
+
+    private boolean keyboardControlled = false;
 
     public Paddle() {
         super(150, 23);
-        setX(ArkanoidGame.WIDTH - getWidth());
+        setX(ArkanoidGame.WIDTH / 2 - getWidth() / 2 + ArkanoidGame.LEFT_BORDER);
         setY(ArkanoidGame.HEIGHT - 40);
 
-        // Load and set the texture image
         try {
             Image img = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/org/example/game/Image/Paddle.png")));
             if (img.isError()) {
@@ -29,35 +29,70 @@ public class Paddle extends Rectangle{
             setFill(new ImagePattern(img));
         } catch (Exception e) {
             System.err.println("⚠️ Could not load paddle image: " + e.getMessage());
-            setFill(javafx.scene.paint.Color.BLUE); // Use fill instead of style
+            setFill(javafx.scene.paint.Color.BLUE);
         }
+
+        double initialCenterX = getX() + getWidth() / 2;
+        this.mouseTargetX = initialCenterX;
+        this.keyboardTargetX = initialCenterX;
     }
 
-    public void move(){
-        if (mouseControl) {
-            double currentX = getX();
-            double newX = currentX + (targetX - currentX) * 0.3;
-            setX(newX);
+    public void move() {
+        double currentCenterX = getX() + getWidth() / 2;
+        double finalTargetX;
+
+        boolean usingKeyboard = leftPressed || rightPressed;
+
+        if (usingKeyboard) {
+            if (!keyboardControlled) {
+                keyboardTargetX = currentCenterX;
+                keyboardControlled = true;
+            }
+            if (leftPressed) {
+                keyboardTargetX -= keyboardSpeed;
+            } else if (rightPressed) {
+                keyboardTargetX += keyboardSpeed;
+            }
+            finalTargetX = keyboardTargetX;
         } else {
-            if (leftPressed && getX() > ArkanoidGame.LEFT_BORDER) {
-                setX(getX() - 5);
+            if (keyboardControlled) {
+                mouseTargetX = currentCenterX;
+                keyboardControlled = false; // Đặt cờ là không điều khiển bằng bàn phím nữa
             }
-            if (rightPressed && getX() < ArkanoidGame.WIDTH + ArkanoidGame.LEFT_BORDER - getWidth()) {
-                setX(getX() + 5);
-            }
+            finalTargetX = mouseTargetX; // Paddle đi theo target của chuột
         }
-    }
-    public void setMouseTarget(double mouseX) {
-        this.mouseControl = true;
+
         double paddleHalfWidth = getWidth() / 2;
-        // Move borders 20px to the right by adding 20 to the constraints
-        double leftBoundary = ArkanoidGame.LEFT_BORDER + paddleHalfWidth;      // 20px right shift for left boundary
-        double rightBoundary = ArkanoidGame.WIDTH - paddleHalfWidth + 20;  // 20px right shift for right boundary
+        double minAllowedCenterX = ArkanoidGame.LEFT_BORDER + paddleHalfWidth;
+        double maxAllowedCenterX = ArkanoidGame.WIDTH + ArkanoidGame.LEFT_BORDER - paddleHalfWidth;
 
-        this.targetX = Math.max(leftBoundary, Math.min(mouseX, rightBoundary)) - paddleHalfWidth;
+        keyboardTargetX = Math.max(minAllowedCenterX, Math.min(keyboardTargetX, maxAllowedCenterX));
+        mouseTargetX = Math.max(minAllowedCenterX, Math.min(mouseTargetX, maxAllowedCenterX));
+        finalTargetX = Math.max(minAllowedCenterX, Math.min(finalTargetX, maxAllowedCenterX));
+
+        double newX = getX() + (finalTargetX - currentCenterX) * 0.3;
+
+        double minX = ArkanoidGame.LEFT_BORDER;
+        double maxX = ArkanoidGame.WIDTH + ArkanoidGame.LEFT_BORDER - getWidth();
+
+        setX(Math.max(minX, Math.min(newX, maxX)));
     }
 
-    public void setKeyboardControl() {
-        this.mouseControl = false;
+    public void setMouseTargetX(double mouseX) {
+        double paddleHalfWidth = getWidth() / 2;
+        double leftBoundary = ArkanoidGame.LEFT_BORDER + paddleHalfWidth;
+        double rightBoundary = ArkanoidGame.WIDTH - paddleHalfWidth + ArkanoidGame.LEFT_BORDER;
+
+        this.mouseTargetX = Math.max(leftBoundary, Math.min(mouseX, rightBoundary));
+    }
+
+    public void resetControlStates() {
+        leftPressed = false;
+        rightPressed = false;
+        keyboardControlled = false;
+
+        double initialCenterX = ArkanoidGame.WIDTH / 2 - getWidth() / 2 + ArkanoidGame.LEFT_BORDER + getWidth()/2;
+        this.mouseTargetX = initialCenterX;
+        this.keyboardTargetX = initialCenterX;
     }
 }
