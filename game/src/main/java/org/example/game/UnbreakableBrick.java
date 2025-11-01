@@ -18,6 +18,7 @@ public class UnbreakableBrick extends Brick {
 
     @Override
     public boolean isDestroyed() {
+        System.out.println("Ham isDestroyed trong U");
         return false;
     }
 
