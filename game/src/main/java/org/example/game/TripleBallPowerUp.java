@@ -11,7 +11,7 @@ public class TripleBallPowerUp extends PowerUp {
     private Pane gamePane;
 
     public TripleBallPowerUp(double x, double y, double duration, Pane gamePane, List<Ball> balls) {
-        super("Triple Ball", duration, x, y);
+        super("Triple Ball", duration, x, y, "/org/example/game/Image/Ballx3.png");
         this.balls = balls;
         this.gamePane = gamePane;
     }

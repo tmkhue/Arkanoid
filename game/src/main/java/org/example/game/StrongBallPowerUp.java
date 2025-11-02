@@ -6,7 +6,7 @@ import javafx.scene.paint.ImagePattern;
 
 public class StrongBallPowerUp extends PowerUp {
     public StrongBallPowerUp(double x, double y, double duration) {
-        super("Strong Ball",duration, x, y);
+        super("Strong Ball",duration, x, y, "/org/example/game/Image/StrongBall_1.png");
     }
 
     public void applyEffect(Paddle paddle, Ball ball) {
@@ -24,6 +24,7 @@ public class StrongBallPowerUp extends PowerUp {
             System.err.println("⚠️ Could not load ball image. Using default color.");
             setStyle("-fx-fill: white;");
         }
+        ball.setStrong(true);
         System.out.println("Strong Ball");
     }
 
@@ -39,6 +40,7 @@ public class StrongBallPowerUp extends PowerUp {
             System.err.println("⚠️ Could not load ball image. Using default color.");
             setStyle("-fx-fill: white;");
         }
+        ball.setStrong(false);
         System.out.println("Normal Ball");
     }
 }

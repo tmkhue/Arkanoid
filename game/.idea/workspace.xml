@@ -6,10 +6,12 @@
   <component name="ChangeListManager">
     <list default="true" id="b31c86f8-594e-4db9-81e9-0d805fcf0aa2" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/game/Brick.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/game/Brick.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/game/Levels.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/game/Levels.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/game/NormalBrick.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/game/NormalBrick.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/game/StrongBrick.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/game/StrongBrick.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/game/ArkanoidGame.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/game/ArkanoidGame.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/game/Ball.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/game/Ball.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/game/FastBallPowerUp.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/game/FastBallPowerUp.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/game/PowerUp.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/game/PowerUp.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/game/StrongBallPowerUp.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/game/StrongBallPowerUp.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/game/TripleBallPowerUp.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/game/TripleBallPowerUp.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -33,11 +35,23 @@
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$/.." value="hachi" />
+        <entry key="$PROJECT_DIR$/.." value="main" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
   </component>
+  <component name="GitHubPullRequestSearchHistory"><![CDATA[{
+  "lastFilter": {
+    "state": "OPEN",
+    "assignee": "bichphuong060112"
+  }
+}]]></component>
+  <component name="GithubPullRequestsUISettings"><![CDATA[{
+  "selectedUrlAndAccountId": {
+    "url": "https://github.com/tmkhue/Arkanoid",
+    "accountId": "9e9c2778-a245-48a1-b422-66834c895283"
+  }
+}]]></component>
   <component name="MavenImportPreferences">
     <option name="generalSettings">
       <MavenGeneralSettings>
@@ -105,6 +119,7 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Application.GameMain" />
         <item itemvalue="Application.GameMain" />
         <item itemvalue="Application.GameMain" />
       </list>

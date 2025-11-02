@@ -1,14 +1,11 @@
 package org.example.game;
 
-import javafx.scene.image.Image;
-import javafx.scene.paint.ImagePattern;
-
 public class FastBallPowerUp extends PowerUp {
     private double originalDirectionX;
     private double originalDirectionY;
 
     public FastBallPowerUp(double x, double y, double duration) {
-        super("FastBall", duration, x, y);
+        super("FastBall", duration, x, y, "/org/example/game/Image/fastBall.png");
     }
 
     public void applyEffect(Paddle paddle, Ball ball) {

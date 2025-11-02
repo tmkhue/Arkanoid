@@ -1,7 +1,6 @@
 package org.example.game;
 
 import javafx.animation.FadeTransition;
-import javafx.fxml.FXML;
 import javafx.scene.SnapshotParameters;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -13,11 +12,20 @@ import javafx.util.Duration;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 public class Ball extends Circle{
     private double directionX = 3;
     private double directionY = -3;
+
+    private boolean isStrong = false;
+
+    public boolean isStrong() {
+        return isStrong;
+    }
+
+    public void setStrong(boolean strong) {
+        isStrong = strong;
+    }
 
     private List<Circle> shadowList = new ArrayList<>();
 

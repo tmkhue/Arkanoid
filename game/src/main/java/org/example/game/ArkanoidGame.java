@@ -4,7 +4,6 @@ import javafx.animation.AnimationTimer;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.image.Image;
-import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.*;
 
 import java.util.ArrayList;
@@ -28,6 +27,8 @@ public class ArkanoidGame {
     private Levels level;
 
     private PaddleResizer paddleResizer; // Declare the resizer
+
+    private boolean ballAttached = true;
 
     private List<PowerUp> activePowerUps = new ArrayList<>();
     public static List<ActiveEffect> activeEffects = new ArrayList<>();
@@ -64,6 +65,14 @@ public class ArkanoidGame {
             switch (e.getCode()) {
                 case LEFT -> paddle.leftPressed = true;
                 case RIGHT -> paddle.rightPressed = true;
+                case SPACE -> {
+                    if (ballAttached && !balls.isEmpty()) {
+                        Ball b = balls.get(0);
+                        b.setDirectionX(0);
+                        b.setDirectionY(-3);
+                        ballAttached = false;
+                    }
+                }
             }
         });
 
@@ -165,10 +174,11 @@ public class ArkanoidGame {
 
     private void resetGame() {
         balls.clear();
+        ballAttached = true;
         Ball newBall = new Ball();
-        newBall.setCenterX(WIDTH / 2);
-        newBall.setCenterY(HEIGHT / 2);
-        newBall.setDirectionX(3);
+        newBall.setCenterX(paddle.getX() + paddle.getWidth() / 2);
+        newBall.setCenterY(paddle.getY() - newBall.getRadius() - 2);
+        newBall.setDirectionX(0);
         newBall.setDirectionY(-3);
         newBall.setGamePane(gamePane);
         balls.add(newBall);
