@@ -4,6 +4,7 @@ import javafx.animation.AnimationTimer;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
@@ -41,10 +42,14 @@ public class ArkanoidGame {
     private int score = 0;
     private Text scoreText;
 
+    private int lives = 3;
+    private List<ImageView> liveList = new ArrayList<>();
+
     @FXML
     public void initialize() {
         setBackground();
         setupScoreText();
+        setLives();
 
         bricks = new Brick();
         level = new Levels();
@@ -118,6 +123,23 @@ public class ArkanoidGame {
         gamePane.getChildren().add(scoreText);
     }
 
+    private void setLives() {
+        try {
+            Image liveImg = new Image(getClass().getResourceAsStream("/org/example/game/Image/Hearts.png"));
+            for (int i = 0; i < lives; i++) {
+                ImageView live = new ImageView(liveImg);
+                live.setFitWidth(30);
+                live.setFitHeight(30);
+                live.setX(WIDTH - 150 + i * 35);
+                live.setY(20);
+                liveList.add(live);
+                gamePane.getChildren().add(live);
+            }
+        } catch (Exception e) {
+            System.err.println("Could not lead live image");
+        }
+    }
+
     private void setBackground(){
         try {
             Image backgroundImage = new Image(getClass().getResourceAsStream("/org/example/game/Image/background.png"));
@@ -166,6 +188,7 @@ public class ArkanoidGame {
             if (b.getCenterY() - b.getRadius() > HEIGHT) {
                 gamePane.getChildren().remove(b);
                 ballIt.remove();
+                loseLife();
             }
         }
 
@@ -199,6 +222,17 @@ public class ArkanoidGame {
 
     }
 
+    private void loseLife() {
+        if (lives > 0) {
+            lives--;
+            if (!liveList.isEmpty()) {
+                ImageView liveToRemove = liveList.remove(liveList.size() - 1);
+                gamePane.getChildren().remove(liveToRemove);
+            }
+            resetGame();
+        }
+    }
+
     private void updateScoreText() {
         scoreText.setText(String.valueOf(score));
     }
@@ -206,8 +240,10 @@ public class ArkanoidGame {
     private void resetGame() {
         balls.clear();
         ballAttached = true;
-        score = 0;
-        updateScoreText();
+        if (lives <= 0) {
+            score = 0;
+            updateScoreText();
+        }
         Ball newBall = new Ball();
         newBall.setCenterX(paddle.getX() + paddle.getWidth() / 2);
         newBall.setCenterY(paddle.getY() - newBall.getRadius() - 2);
