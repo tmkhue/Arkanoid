@@ -5,6 +5,9 @@ import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.image.Image;
 import javafx.scene.layout.*;
+import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
+import javafx.scene.text.Text;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -35,9 +38,14 @@ public class ArkanoidGame {
 
     private List<Ball> balls = new ArrayList<>();
 
+    private int score = 0;
+    private Text scoreText;
+
     @FXML
     public void initialize() {
         setBackground();
+        setupScoreText();
+
         bricks = new Brick();
         level = new Levels();
         ball.setGamePane(gamePane);
@@ -94,6 +102,22 @@ public class ArkanoidGame {
         Platform.runLater(() -> gamePane.requestFocus());
     }
 
+    private void setupScoreText() {
+        try {
+            Font gameFont = Font.loadFont(getClass().getResourceAsStream("/org/example/game/Font/Black_Stuff.otf"), 50);
+            scoreText = new Text("0");
+            scoreText.setFont(gameFont);
+        } catch (Exception e) {
+            System.err.println("Could not load font, using default.");
+            scoreText = new Text("0");
+            scoreText.setFont(Font.font(30));
+        }
+        scoreText.setFill(Color.BLUE);
+        scoreText.setX(190);
+        scoreText.setY(745);
+        gamePane.getChildren().add(scoreText);
+    }
+
     private void setBackground(){
         try {
             Image backgroundImage = new Image(getClass().getResourceAsStream("/org/example/game/Image/background.png"));
@@ -130,6 +154,9 @@ public class ArkanoidGame {
             }
             if (bricks.checkCollision(b, gamePane)) {
                 //sinh PowerUp
+                score += 10;
+                updateScoreText();
+
                 if (Math.random() < 0.2) {
                     PowerUp p = PowerUpFactory.createPowerUp(b.getCenterX(), b.getCenterY(), gamePane, balls, paddle);
                     activePowerUps.add(p);
@@ -172,9 +199,15 @@ public class ArkanoidGame {
 
     }
 
+    private void updateScoreText() {
+        scoreText.setText(String.valueOf(score));
+    }
+
     private void resetGame() {
         balls.clear();
         ballAttached = true;
+        score = 0;
+        updateScoreText();
         Ball newBall = new Ball();
         newBall.setCenterX(paddle.getX() + paddle.getWidth() / 2);
         newBall.setCenterY(paddle.getY() - newBall.getRadius() - 2);
