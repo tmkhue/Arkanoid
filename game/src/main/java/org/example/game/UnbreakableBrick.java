@@ -21,6 +21,7 @@ public class UnbreakableBrick extends Brick {
     }
 
     public void applyTexture(String path) {
-            setFill(Color.GRAY);
+        path="/org/example/game/Image/UnbreakableBrick.png";
+        super.applyTexture(path);
     }
 }
