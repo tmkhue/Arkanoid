@@ -62,7 +62,7 @@ public class Brick extends Rectangle {
             }
             setFill(new ImagePattern(img));
         } catch (Exception e) {
-            System.err.println("Cannot load brick image, using default color");
+            System.err.println("Cannot load "+ type +" image, using default color");
             setFill(RED);
         }
     }
@@ -88,12 +88,16 @@ public class Brick extends Rectangle {
         return distanceS <= Math.pow(ball.getRadius(),2);
     }
 
-    public boolean checkCollision(Ball ball, Pane gamePane) {
+    public void takeHit(Ball ball){
+        hitPoints--;
+    }
+
+    public void checkCollision(Ball ball, Pane gamePane) {
         Iterator<Brick> it = bricks.iterator();
         while (it.hasNext()) {
             Brick brick = it.next();
             if (brick.isHit(ball)) {
-                brick.setHitPoints(brick.getHitPoints()-1);
+                brick.takeHit(ball);
                 if(brick.isDestroyed()) {
                     it.remove();
                     gamePane.getChildren().remove(brick);

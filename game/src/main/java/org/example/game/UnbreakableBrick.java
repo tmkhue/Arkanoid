@@ -21,10 +21,8 @@ public class UnbreakableBrick extends Brick {
         return false;
     }
 
-    public Rectangle draw(String path) {
-        Rectangle rect = new Rectangle((int) this.getX(), (int) this.getY(),
-                (int) BRICK_WIDTH, (int) BRICK_HEIGHT);
-        rect.setFill(Color.RED);
-        return rect;
+    public void applyTexture(String path) {
+        path="/org/example/game/Image/UnbreakableBrick.png";
+        super.applyTexture(path);
     }
 }
