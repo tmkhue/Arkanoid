@@ -5,7 +5,7 @@ import javafx.scene.layout.Pane;
 import java.util.List;
 
 public class PowerUpFactory {
-    public static PowerUp createPowerUp(double x, double y, Pane gamePane, List<Ball> balls, Paddle paddle) {
+    public static PowerUp createPowerUp(double x, double y, Pane gamePane, List<Ball> balls, Paddle paddle, PaddleResizer paddleResizer) {
         if (Math.random() < 0.2) {
             return new FastBallPowerUp(x, y, 15);
         } else if (Math.random() < 0.4) {
@@ -13,7 +13,7 @@ public class PowerUpFactory {
         } else if (Math.random() < 0.6) {
             return new StrongBallPowerUp(x, y, 15);
         } else {
-            return new PaddleResizePowerUp(x, y, 15);
+            return new WidenPaddlePowerUp(x, y, 10, paddleResizer);
         }
     }
 }
