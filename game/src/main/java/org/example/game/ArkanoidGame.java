@@ -42,6 +42,7 @@ public class ArkanoidGame {
         ball.setGamePane(gamePane);
         level.start(gamePane, ball);
         balls.add(ball);
+        paddleResizer = new DefaultPaddleResizer();
 
         gamePane.setFocusTraversable(true);
 
@@ -122,7 +123,7 @@ public class ArkanoidGame {
             if (bricks.checkCollision(b, gamePane)) {
                 //sinh PowerUp
                 if (Math.random() < 0.2) {
-                    PowerUp p = PowerUpFactory.createPowerUp(b.getCenterX(), b.getCenterY(), gamePane, balls, paddle);
+                    PowerUp p = PowerUpFactory.createPowerUp(b.getCenterX(), b.getCenterY(), gamePane, balls, paddle, paddleResizer);
                     activePowerUps.add(p);
                     gamePane.getChildren().add(p);
                 }
@@ -152,24 +153,14 @@ public class ArkanoidGame {
             }
         }
         long now = System.currentTimeMillis();
-
-
-        List<ActiveEffect> effectsToRemove = new ArrayList<>();
-        List<ActiveEffect> effectsToUpdate = new ArrayList<>();
-
-        for (ActiveEffect effect : activeEffects) {
+        Iterator<ActiveEffect> effectIt = activeEffects.iterator();
+        while (effectIt.hasNext()) {
+            ActiveEffect effect = effectIt.next();
             if (now - effect.startTime >= effect.duration * 1000) {
                 effect.powerUp.removeEffect(paddle, balls.get(0));
-                effectsToRemove.add(effect);
-            } else {
-                // Nếu hiệu ứng là PaddleResizePowerUp, gọi updateEffect()
-                if (effect.powerUp instanceof PaddleResizePowerUp) {
-                    ((PaddleResizePowerUp) effect.powerUp).updateEffect(paddle);
-                }
+                effectIt.remove();
             }
         }
-
-        activeEffects.removeAll(effectsToRemove); // Xóa các hiệu ứng đã hết hạn
 
     }
 
