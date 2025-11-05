@@ -93,6 +93,7 @@ public class ArkanoidGame {
     }
 
     private void update() {
+        ball.toFront();
         paddle.move();
         ball.move();
 
@@ -105,7 +106,7 @@ public class ArkanoidGame {
         }
 
         //bricks.checkCollision(ball);
-        bricks.checkCollision(ball, gamePane);
+        bricks.resolveCollision(ball, gamePane);
         //level.removeDestroyedBricks(gamePane);
 
         //không bắt được bóng, reset
