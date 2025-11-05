@@ -181,7 +181,7 @@ public class ArkanoidGame {
                 score += 10;
                 updateScoreText();
 
-                if (Math.random() < 0.2) {
+                if (Math.random() < 0.05) {
                     PowerUp p = PowerUpFactory.createPowerUp(b.getCenterX(), b.getCenterY(), gamePane, balls, paddle);
                     activePowerUps.add(p);
                     gamePane.getChildren().add(p);
@@ -252,7 +252,8 @@ public class ArkanoidGame {
         Ball newBall = new Ball();
         newBall.setCenterX(paddle.getX() + paddle.getWidth() / 2);
         newBall.setDirectionX(0);
-        newBall.setDirectionY(-3);
+        newBall.setDirectionY(-1);
+        newBall.setSpeed(3);
         newBall.setGamePane(gamePane);
         balls.add(newBall);
         gamePane.getChildren().add(newBall);

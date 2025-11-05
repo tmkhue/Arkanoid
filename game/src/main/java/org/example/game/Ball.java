@@ -14,8 +14,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Ball extends Circle{
-    private double directionX = 3;
-    private double directionY = -3;
+    private double directionX = 1;
+    private double directionY = -1;
+    private double speed = 3;
 
     private boolean isStrong = false;
 
@@ -25,6 +26,14 @@ public class Ball extends Circle{
 
     public void setStrong(boolean strong) {
         isStrong = strong;
+    }
+
+    public double getSpeed() {
+        return speed;
+    }
+
+    public void setSpeed(double speed) {
+        this.speed = speed;
     }
 
     private List<Circle> shadowList = new ArrayList<>();
@@ -77,8 +86,8 @@ public class Ball extends Circle{
     }
 
     public void move(){
-        this.setCenterX(this.getCenterX() + directionX);
-        this.setCenterY(this.getCenterY() + directionY);
+        this.setCenterX(this.getCenterX() + directionX * speed);
+        this.setCenterY(this.getCenterY() + directionY * speed);
 
         shadowEffect(this);
 

@@ -17,12 +17,18 @@ public class TripleBallPowerUp extends PowerUp {
     }
 
     public void applyEffect(Paddle paddle, Ball mainBall) {
-        for (int i = 0; i< 2; i++) {
+        for (int i = 0; i < 2; i++) {
             Ball newBall = new Ball();
             newBall.setCenterX(mainBall.getCenterX());
             newBall.setCenterY(mainBall.getCenterY());
-            newBall.setDirectionX(mainBall.getDirectionX());
-            newBall.setDirectionY(mainBall.getDirectionY());
+            double angleOffset = (i == 0) ? Math.toRadians(-20) : Math.toRadians(20);
+            double newDirectionX = mainBall.getDirectionX() * Math.cos(angleOffset)
+                    - mainBall.getDirectionY() * Math.sin(angleOffset);
+            double newDirectionY = mainBall.getDirectionX() * Math.cos(angleOffset)
+                    + mainBall.getDirectionY() * Math.sin(angleOffset);
+            newBall.setDirectionX(newDirectionX);
+            newBall.setDirectionY(newDirectionY);
+            newBall.setSpeed(mainBall.getSpeed());
             newBall.setGamePane(gamePane);
             gamePane.getChildren().add(newBall);
             balls.add(newBall);
