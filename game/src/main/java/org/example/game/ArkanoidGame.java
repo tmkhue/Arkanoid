@@ -164,6 +164,8 @@ public class ArkanoidGame {
     private void update() {
         paddle.move();
 
+        List<Ball> ballsToRemove = new ArrayList<>();
+
         Iterator<Ball> ballIt = balls.iterator();
         while (ballIt.hasNext()) {
             Ball b = ballIt.next();
@@ -186,14 +188,18 @@ public class ArkanoidGame {
                 }
             }
             if (b.getCenterY() - b.getRadius() > HEIGHT) {
-                gamePane.getChildren().remove(b);
+                ballsToRemove.add(b);
                 ballIt.remove();
-                loseLife();
             }
         }
 
+        for (Ball b : ballsToRemove) {
+            gamePane.getChildren().remove(b);
+            balls.remove(b);
+        }
+
         if (balls.isEmpty()) {
-            resetGame();
+            loseLife();
         }
 
         Iterator<PowerUp> it = activePowerUps.iterator();
@@ -219,7 +225,6 @@ public class ArkanoidGame {
                 effectIt.remove();
             }
         }
-
     }
 
     private void loseLife() {
@@ -229,7 +234,11 @@ public class ArkanoidGame {
                 ImageView liveToRemove = liveList.remove(liveList.size() - 1);
                 gamePane.getChildren().remove(liveToRemove);
             }
-            resetGame();
+            if (lives > 0) {
+                resetAfterLifeLost();
+            } else {
+                resetGame();
+            }
         }
     }
 
@@ -237,21 +246,44 @@ public class ArkanoidGame {
         scoreText.setText(String.valueOf(score));
     }
 
-    private void resetGame() {
+    private void resetAfterLifeLost() {
         balls.clear();
         ballAttached = true;
-        if (lives <= 0) {
-            score = 0;
-            updateScoreText();
-        }
         Ball newBall = new Ball();
         newBall.setCenterX(paddle.getX() + paddle.getWidth() / 2);
-        newBall.setCenterY(paddle.getY() - newBall.getRadius() - 2);
         newBall.setDirectionX(0);
         newBall.setDirectionY(-3);
         newBall.setGamePane(gamePane);
         balls.add(newBall);
         gamePane.getChildren().add(newBall);
         paddle.setX((WIDTH - paddle.getWidth()) / 2);
+    }
+
+    private void resetGame() {
+        new Thread(() -> {
+            try {
+                Thread.sleep(2000);
+                Platform.runLater(() -> {
+                    gamePane.getChildren().removeIf(node -> node instanceof Brick
+                            || node instanceof PowerUp || node instanceof Ball);
+                    balls.clear();
+                    ballAttached = true;
+                    score = 0;
+                    updateScoreText();
+                    for (ImageView live : liveList) {
+                        gamePane.getChildren().remove(live);
+                    }
+                    liveList.clear();
+                    lives = 3;
+                    setLives();
+                    ball = new Ball();
+                    ball.setGamePane(gamePane);
+                    level.start(gamePane, ball);
+                    balls.add(ball);
+                    gamePane.getChildren().add(ball);
+                    paddle.setX((WIDTH - paddle.getWidth()) / 2);
+                });
+            } catch (InterruptedException ignored) {}
+        }).start();
     }
 }
