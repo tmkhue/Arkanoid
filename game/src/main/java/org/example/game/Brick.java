@@ -134,4 +134,8 @@ public class Brick extends Rectangle {
         System.out.println("hitpoints: " + hitPoints);
         return hitPoints <= 0;
     }
+
+    public boolean isCleared() {
+        return bricks.isEmpty();
+    }
 }

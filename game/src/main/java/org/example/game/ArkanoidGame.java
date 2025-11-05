@@ -42,6 +42,8 @@ public class ArkanoidGame {
     private int score = 0;
     private Text scoreText;
 
+    private Text levelText;
+
     private int lives = 3;
     private List<ImageView> liveList = new ArrayList<>();
 
@@ -49,6 +51,7 @@ public class ArkanoidGame {
     public void initialize() {
         setBackground();
         setupScoreText();
+        setupLevelText();
         setLives();
 
         bricks = new Brick();
@@ -105,6 +108,22 @@ public class ArkanoidGame {
         };
         timer.start();
         Platform.runLater(() -> gamePane.requestFocus());
+    }
+
+    private void setupLevelText() {
+        try {
+            Font gameFont = Font.loadFont(getClass().getResourceAsStream("/org/example/game/Font/Black_Stuff_Bold.ttf"), 50);
+            levelText = new Text("LEVEL " + String.valueOf(level.getLevel()));
+            levelText.setFont(gameFont);
+        } catch (Exception e) {
+            System.err.println("Could not load font, using default.");
+            levelText = new Text("0");
+            levelText.setFont(Font.font(30));
+        }
+        levelText.setFill(Color.BLUE);
+        levelText.setX(10);
+        levelText.setY(50);
+        gamePane.getChildren().add(levelText);
     }
 
     private void setupScoreText() {
@@ -225,6 +244,17 @@ public class ArkanoidGame {
                 effectIt.remove();
             }
         }
+        if (bricks.isCleared()) {
+            nextLevel();
+        }
+    }
+
+    private void nextLevel() {
+        gamePane.getChildren().removeIf(node -> node instanceof Brick
+                || node instanceof PowerUp || node instanceof Ball);
+        level.next();
+        level.start(gamePane, ball);
+        resetBall();
     }
 
     private void loseLife() {
@@ -235,7 +265,7 @@ public class ArkanoidGame {
                 gamePane.getChildren().remove(liveToRemove);
             }
             if (lives > 0) {
-                resetAfterLifeLost();
+                resetBall();
             } else {
                 resetGame();
             }
@@ -246,11 +276,10 @@ public class ArkanoidGame {
         scoreText.setText(String.valueOf(score));
     }
 
-    private void resetAfterLifeLost() {
+    private void resetBall() {
         balls.clear();
         ballAttached = true;
         Ball newBall = new Ball();
-        newBall.setCenterX(paddle.getX() + paddle.getWidth() / 2);
         newBall.setDirectionX(0);
         newBall.setDirectionY(-1);
         newBall.setSpeed(3);

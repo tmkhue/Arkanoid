@@ -1,15 +1,28 @@
 package org.example.game;
 
 import javafx.scene.layout.Pane;
-import javafx.scene.paint.Color;
 
 public class Levels {
     protected int BrickCols = 11;
     protected int BrickRows = 5;
     private int level = 1;
 
+    public int getLevel() {
+        return level;
+    }
+
+    public void next() {
+        level++;
+    }
+
     public void start(Pane gamePane, Ball ball) {
-        Level3(gamePane);
+        switch (level) {
+            case 0 -> Level0(gamePane);
+            case 1 -> Level1(gamePane);
+            case 2 -> Level2(gamePane);
+            case 3 -> Level3(gamePane);
+            default -> Level0(gamePane);
+        }
     }
 
     public void Level0(Pane gamePane){
