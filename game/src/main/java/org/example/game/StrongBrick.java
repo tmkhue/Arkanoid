@@ -3,6 +3,7 @@ package org.example.game;
 import javafx.scene.image.Image;
 import javafx.scene.image.PixelReader;
 import javafx.scene.image.WritableImage;
+import javafx.scene.layout.Pane;
 import javafx.scene.paint.ImagePattern;
 
 import java.util.ArrayList;
@@ -23,7 +24,7 @@ public class StrongBrick extends Brick{
         this.setHitPoints(5);
     }
     @Override
-    public void applyTexture(String path) {
+    public void applyTexture(String path, Pane gamePane) {
         int index = 5 - hitPoints;
         Image img = null;
         if (index >= 0 && index < frames.size()) {
@@ -37,12 +38,13 @@ public class StrongBrick extends Brick{
             System.err.println("Cannot load " + type + " image, using default color");
             setFill(RED);
         }
+        gamePane.getChildren().add(this);
     }
 
     @Override
-    public void takeHit(Ball ball) {
+    public void takeHit(Ball ball, Pane gamePane) {
         if (--hitPoints> 0) {
-            applyTexture("");
+            applyTexture("", gamePane);
         }
     }
 

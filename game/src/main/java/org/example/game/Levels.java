@@ -8,14 +8,13 @@ public class Levels {
     private int level = 1;
 
     public void start(Pane gamePane, Ball ball) {
-        Level3(gamePane);
+        Level0(gamePane);
     }
 
     public void Level0(Pane gamePane){
-        Brick brick = new StrongBrick(350, 300);
+        Brick brick = new Flower(350, 300, 300);
+        brick.applyTexture("", gamePane);
         Brick.bricks.add(brick);
-        brick.applyTexture("");
-        gamePane.getChildren().add(brick);
     }
 
     public void Level1(Pane gamePane) {
@@ -27,8 +26,7 @@ public class Levels {
                     System.out.println("vào if");
                     Brick brick = new NormalBrick(x, y);
                     Brick.bricks.add(brick);
-                    brick.applyTexture("");
-                    gamePane.getChildren().add(brick);
+                    brick.applyTexture("", gamePane);
                 } else break;
             }
         }
@@ -45,13 +43,11 @@ public class Levels {
                 if (j >= 3 && j <= 7 && i == BrickRows - 1) {
                     Brick brick = new UnbreakableBrick(x, y);
                     Brick.bricks.add(brick);
-                    brick.applyTexture("");
-                    gamePane.getChildren().add(brick);
+                    brick.applyTexture("", gamePane);
                 } else {
                     Brick brick = new NormalBrick(x, y);
                     Brick.bricks.add(brick);
-                    brick.applyTexture("");
-                    gamePane.getChildren().add(brick);
+                    brick.applyTexture("", gamePane);
                 }
             }
         }
@@ -69,18 +65,15 @@ public class Levels {
                         || (j == 9 && i == 1)) {
                     Brick brick = new StrongBrick(x, y);
                     Brick.bricks.add(brick);
-                    brick.applyTexture("");
-                    gamePane.getChildren().add(brick);
+                    brick.applyTexture("", gamePane);
                 } else if (j != 3 && j != 7 && j < 9 || (j > 8 && i < 3)) {
                     Brick brick = new NormalBrick(x, y);
                     Brick.bricks.add(brick);
-                    brick.applyTexture("");
-                    gamePane.getChildren().add(brick);
+                    brick.applyTexture("", gamePane);
                 } else {
                     Brick brick = new UnbreakableBrick(x, y);
                     Brick.bricks.add(brick);
-                    brick.applyTexture("");
-                    gamePane.getChildren().add(brick);
+                    brick.applyTexture("", gamePane);
                 }
             }
         }

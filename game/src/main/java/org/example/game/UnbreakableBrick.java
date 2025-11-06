@@ -1,7 +1,6 @@
 package org.example.game;
 
-//import gameObject.Brick;
-import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 
@@ -21,8 +20,8 @@ public class UnbreakableBrick extends Brick {
         return false;
     }
 
-    public void applyTexture(String path) {
+    public void applyTexture(String path, Pane gamePane) {
         path="/org/example/game/Image/UnbreakableBrick.png";
-        super.applyTexture(path);
+        super.applyTexture(path, gamePane);
     }
 }

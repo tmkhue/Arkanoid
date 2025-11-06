@@ -108,6 +108,7 @@ public class ArkanoidGame {
     }
 
     private void update() {
+        ball.toFront();
         paddle.move();
 
         Iterator<Ball> ballIt = balls.iterator();
@@ -120,7 +121,7 @@ public class ArkanoidGame {
                 b.setDirectionX(bounceAngle * 2);
                 b.setDirectionY(-Math.abs(b.getDirectionY()));
             }
-            if (bricks.checkCollision(b, gamePane)) {
+            if (bricks.resolveCollision(b, gamePane)) {
                 //sinh PowerUp
                 if (Math.random() < 0.2) {
                     PowerUp p = PowerUpFactory.createPowerUp(b.getCenterX(), b.getCenterY(), gamePane, balls, paddle, paddleResizer);

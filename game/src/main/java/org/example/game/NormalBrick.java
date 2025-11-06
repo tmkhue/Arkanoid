@@ -1,5 +1,7 @@
 package org.example.game;
 
+import javafx.scene.layout.Pane;
+
 public class NormalBrick extends Brick {
     public NormalBrick(){
         super();
@@ -12,8 +14,8 @@ public class NormalBrick extends Brick {
     }
 
     @Override
-    public void applyTexture(String path) {
+    public void applyTexture(String path, Pane gamePane) {
         path="/org/example/game/Image/normalBrick.png";
-        super.applyTexture(path);
+        super.applyTexture(path, gamePane);
     }
 }
