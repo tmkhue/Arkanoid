@@ -92,7 +92,7 @@ public class Brick extends Rectangle {
         hitPoints--;
     }
 
-    public void checkCollision(Ball ball, Pane gamePane) {
+    public boolean checkCollision(Ball ball, Pane gamePane) {
         Iterator<Brick> it = bricks.iterator();
         while (it.hasNext()) {
             Brick brick = it.next();
@@ -116,7 +116,9 @@ public class Brick extends Rectangle {
                         System.out.println("day phai");
                         ball.setCenterX(brick.getX() + BRICK_WIDTH + ball.getRadius());
                     }
-                    ball.setDirectionX(ball.getDirectionX() * (-1));
+                    if(!ball.isStrong() || brick instanceof UnbreakableBrick){
+                        ball.setDirectionX(ball.getDirectionX() * (-1));
+                    }
                     return true;
                 }
                 // Xử lý quả bóng chui vào trong brick từ cạnh trên/dưới
@@ -127,7 +129,9 @@ public class Brick extends Rectangle {
                     System.out.println("day duoi");
                     ball.setCenterY(brick.getY() + BRICK_HEIGHT + ball.getRadius());
                 }
-                ball.setDirectionY(ball.getDirectionY() * (-1));
+                if(!ball.isStrong() || brick instanceof UnbreakableBrick){
+                    ball.setDirectionY(ball.getDirectionY() * (-1));
+                }
                 return true;
             }
         }

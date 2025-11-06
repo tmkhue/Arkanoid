@@ -30,7 +30,7 @@ public class ArkanoidGame {
     private Brick bricks;
     private Levels level;
 
-    private PaddleResizer paddleResizer; // Declare the resizer
+    private PaddleResizer paddleResizer = new DefaultPaddleResizer(); // Declare the resizer
 
     private boolean ballAttached = true;
 
@@ -128,10 +128,10 @@ public class ArkanoidGame {
             Image liveImg = new Image(getClass().getResourceAsStream("/org/example/game/Image/Hearts.png"));
             for (int i = 0; i < lives; i++) {
                 ImageView live = new ImageView(liveImg);
-                live.setFitWidth(30);
-                live.setFitHeight(30);
-                live.setX(WIDTH - 150 + i * 35);
-                live.setY(20);
+                live.setFitWidth(40);
+                live.setFitHeight(40);
+                live.setX(WIDTH - 150 + i * 45);
+                live.setY(15);
                 liveList.add(live);
                 gamePane.getChildren().add(live);
             }
@@ -182,7 +182,7 @@ public class ArkanoidGame {
                 updateScoreText();
 
                 if (Math.random() < 0.05) {
-                    PowerUp p = PowerUpFactory.createPowerUp(b.getCenterX(), b.getCenterY(), gamePane, balls, paddle);
+                    PowerUp p = PowerUpFactory.createPowerUp(b.getCenterX(), b.getCenterY(), gamePane, balls, paddle, paddleResizer);
                     activePowerUps.add(p);
                     gamePane.getChildren().add(p);
                 }
