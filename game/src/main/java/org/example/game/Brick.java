@@ -142,7 +142,7 @@ public class Brick extends Rectangle {
                         ball.setCenterX(brick.getX() + BRICK_WIDTH + ball.getRadius());
                     }
                     ball.setDirectionX(ball.getDirectionX() * (-1));
-                    return true;
+                    return;
                 }
                 // Xử lý quả bóng chui vào trong brick từ cạnh trên/dưới
                 if (ball.getCenterY() < brick.getY()) {
@@ -153,10 +153,9 @@ public class Brick extends Rectangle {
                     ball.setCenterY(brick.getY() + BRICK_HEIGHT + ball.getRadius());
                 }
                 ball.setDirectionY(ball.getDirectionY() * (-1));
-                return true;
+                return;
             }
         }
-        return false;
     }
 
     public boolean isDestroyed() {
