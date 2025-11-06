@@ -50,12 +50,13 @@ public class ArkanoidGame {
     @FXML
     public void initialize() {
         setBackground();
-        setupScoreText();
-        setupLevelText();
+
         setLives();
 
         bricks = new Brick();
         level = new Levels();
+        setupScoreText();
+        setupLevelText();
         ball.setGamePane(gamePane);
         level.start(gamePane, ball);
         balls.add(ball);
@@ -113,11 +114,11 @@ public class ArkanoidGame {
     private void setupLevelText() {
         try {
             Font gameFont = Font.loadFont(getClass().getResourceAsStream("/org/example/game/Font/Black_Stuff_Bold.ttf"), 50);
-            levelText = new Text("LEVEL " + String.valueOf(level.getLevel()));
+            levelText = new Text("LEVEL " + level.getLevel());
             levelText.setFont(gameFont);
         } catch (Exception e) {
             System.err.println("Could not load font, using default.");
-            levelText = new Text("0");
+            levelText = new Text("LEVEL " + level.getLevel());
             levelText.setFont(Font.font(30));
         }
         levelText.setFill(Color.BLUE);
