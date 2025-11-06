@@ -13,7 +13,7 @@ import java.util.Objects;
 import static javafx.scene.paint.Color.RED;
 
 public class StrongBrick extends Brick{
-    public final static List<WritableImage> frames;
+    private static List<WritableImage> frames;
     public StrongBrick(){
         super();
         this.setType("S");

@@ -2,22 +2,21 @@ package org.example.game;
 
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Rectangle;
 
 public class UnbreakableBrick extends Brick {
     public UnbreakableBrick() {
         super();
-        this.setType("U");
         this.setHitPoints(Integer.MAX_VALUE);
     }
 
     public UnbreakableBrick(double x, double y) {
-        super(x, y,"U");
+        super(x, y);
         this.setHitPoints(Integer.MAX_VALUE);
     }
 
     @Override
     public boolean isDestroyed() {
-        System.out.println("Ham isDestroyed trong U");
         return false;
     }
 
