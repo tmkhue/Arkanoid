@@ -162,6 +162,7 @@ public class ArkanoidGame {
     }
 
     private void update() {
+        ball.toFront();
         paddle.move();
 
         List<Ball> ballsToRemove = new ArrayList<>();
@@ -176,7 +177,7 @@ public class ArkanoidGame {
                 b.setDirectionX(bounceAngle * 2);
                 b.setDirectionY(-Math.abs(b.getDirectionY()));
             }
-            if (bricks.checkCollision(b, gamePane)) {
+            if (bricks.resolveCollision(b, gamePane)) {
                 //sinh PowerUp
                 score += 10;
                 updateScoreText();

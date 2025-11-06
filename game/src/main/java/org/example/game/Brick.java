@@ -1,9 +1,11 @@
 package org.example.game;
 
+import javafx.animation.PauseTransition;
 import javafx.scene.image.Image;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Rectangle;
+import javafx.util.Duration;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -14,6 +16,8 @@ import static javafx.scene.paint.Color.RED;
 public class Brick extends Rectangle {
     protected int hitPoints=1;
     protected String type;
+    protected double brickHeight;
+    protected double brickWidth;
     static final double BRICK_WIDTH = 60;
     static final double BRICK_HEIGHT = 40;
 
@@ -53,7 +57,7 @@ public class Brick extends Rectangle {
     }
 
 
-    public void applyTexture(String path) {
+    public void applyTexture(String path, Pane gamePane) {
         try {
             Image img = new Image(Objects.requireNonNull(
                     getClass().getResourceAsStream(path)));
@@ -65,6 +69,7 @@ public class Brick extends Rectangle {
             System.err.println("Cannot load "+ type +" image, using default color");
             setFill(RED);
         }
+        gamePane.getChildren().add(this);
     }
 
     public boolean isHit(Ball ball) {
@@ -88,19 +93,39 @@ public class Brick extends Rectangle {
         return distanceS <= Math.pow(ball.getRadius(),2);
     }
 
-    public void takeHit(Ball ball){
+    public void takeHit(Ball ball, Pane gamePane) {
         hitPoints--;
     }
 
-    public boolean checkCollision(Ball ball, Pane gamePane) {
+    public void resolveCollision(Ball ball, Pane gamePane) {
         Iterator<Brick> it = bricks.iterator();
         while (it.hasNext()) {
             Brick brick = it.next();
             if (brick.isHit(ball)) {
-                brick.takeHit(ball);
+                brick.takeHit(ball, gamePane);
                 if(brick.isDestroyed()) {
                     it.remove();
                     gamePane.getChildren().remove(brick);
+                    if (brick instanceof Flower) {
+                        PauseTransition pause = new PauseTransition(Duration.seconds(0.5));
+                        pause.setOnFinished(event -> {
+                            gamePane.getChildren().remove(((Flower) brick).flowerCenter);
+                        });
+                        pause.play();
+                    }
+                }
+                if (brick instanceof Flower) {
+                    double sumR = ball.getRadius() + ((Flower) brick).flowerCenter.getRadius();
+                    double overlapX = Math.abs(ball.getCenterX() -
+                            ((Flower) brick).flowerCenter.getCenterX()) ;
+                    double overlapY = Math.abs(ball.getCenterY() -
+                            ((Flower) brick).flowerCenter.getCenterY());
+                    if (overlapX > overlapY) {
+                        ball.setDirectionX(ball.getDirectionX() * (-1));
+                        return;
+                    }
+                    ball.setDirectionY(ball.getDirectionY() * (-1));
+                    return;
                 }
                 // Tính độ chồng (quả bóng chồng lên brick) theo hai trục
                 double overlapX = Math.min(ball.getCenterX() + ball.getRadius() - brick.getX(),
@@ -116,9 +141,7 @@ public class Brick extends Rectangle {
                         System.out.println("day phai");
                         ball.setCenterX(brick.getX() + BRICK_WIDTH + ball.getRadius());
                     }
-                    if(!ball.isStrong() || brick instanceof UnbreakableBrick){
-                        ball.setDirectionX(ball.getDirectionX() * (-1));
-                    }
+                    ball.setDirectionX(ball.getDirectionX() * (-1));
                     return true;
                 }
                 // Xử lý quả bóng chui vào trong brick từ cạnh trên/dưới
@@ -129,9 +152,7 @@ public class Brick extends Rectangle {
                     System.out.println("day duoi");
                     ball.setCenterY(brick.getY() + BRICK_HEIGHT + ball.getRadius());
                 }
-                if(!ball.isStrong() || brick instanceof UnbreakableBrick){
-                    ball.setDirectionY(ball.getDirectionY() * (-1));
-                }
+                ball.setDirectionY(ball.getDirectionY() * (-1));
                 return true;
             }
         }
