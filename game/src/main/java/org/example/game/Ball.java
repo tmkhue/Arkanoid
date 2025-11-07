@@ -1,19 +1,32 @@
 package org.example.game;
 
-import javafx.fxml.FXML;
+import javafx.animation.FadeTransition;
 import javafx.scene.SnapshotParameters;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Circle;
+import javafx.util.Duration;
 
-import java.util.Objects;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Ball extends Circle{
-    private double speed;
-    private double directionX = 3;
-    private double directionY = -3;
+    private double directionX = 1;
+    private double directionY = -1;
+    private double speed = 3;
+
+    private boolean isStrong = false;
+
+    public boolean isStrong() {
+        return isStrong;
+    }
+
+    public void setStrong(boolean strong) {
+        isStrong = strong;
+    }
 
     public double getSpeed() {
         return speed;
@@ -21,6 +34,14 @@ public class Ball extends Circle{
 
     public void setSpeed(double speed) {
         this.speed = speed;
+    }
+
+    private List<Circle> shadowList = new ArrayList<>();
+
+    private Pane gamePane;
+
+    public void setGamePane(Pane gamePane) {
+        this.gamePane = gamePane;
     }
 
     public double getDirectionX() {
@@ -49,12 +70,12 @@ public class Ball extends Circle{
     }
 
     public Ball() {
-        super(100);
+        super(15);
         setCenterX(300);
         setCenterY(250);
-
         try {
-            Image img = new Image(getClass().getResourceAsStream("/org/example/game/Image/normalBall.png"));
+            double diameter = getRadius() * 4.5;
+            Image img = new Image(getClass().getResourceAsStream("/org/example/game/Image/normalBall.png"), diameter, diameter, true, true);
             Image roundedImg = getRoundedImage(img, this.getRadius());
             setFill(new ImagePattern(roundedImg));
         } catch (Exception e) {
@@ -64,8 +85,10 @@ public class Ball extends Circle{
     }
 
     public void move(){
-        this.setCenterX(this.getCenterX() + directionX);
-        this.setCenterY(this.getCenterY() + directionY);
+        this.setCenterX(this.getCenterX() + directionX * speed);
+        this.setCenterY(this.getCenterY() + directionY * speed);
+
+        shadowEffect(this);
 
         if (getCenterX() - getRadius() <= ArkanoidGame.LEFT_BORDER || getCenterX() + getRadius() >= ArkanoidGame.WIDTH + ArkanoidGame.LEFT_BORDER) {
             directionX *= -1;
@@ -73,5 +96,28 @@ public class Ball extends Circle{
         if (getCenterY() - getDirectionX() <= ArkanoidGame.TOP_BORDER) {
             directionY *= -1;
         }
+    }
+
+    public void shadowEffect(Ball ball) {
+        if (gamePane == null) {
+            return;
+        }
+        Circle shadow = new Circle(getRadius());
+        shadow.setCenterX(getCenterX());
+        shadow.setCenterY(getCenterY());
+        shadow.setFill(getFill());
+        shadow.setOpacity(0.1);
+        gamePane.getChildren().add(1, shadow);
+        shadow.toFront();
+        shadowList.add(shadow);
+
+        FadeTransition fade = new FadeTransition(Duration.millis(150), shadow);
+        fade.setFromValue(0.1);
+        fade.setToValue(0);
+        fade.setOnFinished(e -> {
+            gamePane.getChildren().remove(shadow);
+            shadowList.remove(shadow);
+        });
+        fade.play();
     }
 }
