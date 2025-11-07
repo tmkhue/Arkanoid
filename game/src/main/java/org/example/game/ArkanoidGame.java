@@ -4,8 +4,11 @@ import javafx.animation.AnimationTimer;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.image.Image;
-import javafx.scene.input.KeyEvent;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
+import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
+import javafx.scene.text.Text;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -27,22 +30,32 @@ public class ArkanoidGame {
     private Brick bricks;
     private Levels level;
 
-    private PaddleResizer paddleResizer; // Declare the resizer
+    private PaddleResizer paddleResizer = new DefaultPaddleResizer(); // Declare the resizer
+
+    private boolean ballAttached = true;
 
     private List<PowerUp> activePowerUps = new ArrayList<>();
     public static List<ActiveEffect> activeEffects = new ArrayList<>();
 
     private List<Ball> balls = new ArrayList<>();
 
+    private int score = 0;
+    private Text scoreText;
+
+    private int lives = 3;
+    private List<ImageView> liveList = new ArrayList<>();
+
     @FXML
     public void initialize() {
         setBackground();
+        setupScoreText();
+        setLives();
+
         bricks = new Brick();
         level = new Levels();
         ball.setGamePane(gamePane);
         level.start(gamePane, ball);
         balls.add(ball);
-        paddleResizer = new DefaultPaddleResizer();
 
         gamePane.setFocusTraversable(true);
 
@@ -65,6 +78,14 @@ public class ArkanoidGame {
             switch (e.getCode()) {
                 case LEFT -> paddle.leftPressed = true;
                 case RIGHT -> paddle.rightPressed = true;
+                case SPACE -> {
+                    if (ballAttached && !balls.isEmpty()) {
+                        Ball b = balls.get(0);
+                        b.setDirectionX(0);
+                        b.setDirectionY(-3);
+                        ballAttached = false;
+                    }
+                }
             }
         });
 
@@ -84,6 +105,39 @@ public class ArkanoidGame {
         };
         timer.start();
         Platform.runLater(() -> gamePane.requestFocus());
+    }
+
+    private void setupScoreText() {
+        try {
+            Font gameFont = Font.loadFont(getClass().getResourceAsStream("/org/example/game/Font/Black_Stuff.otf"), 50);
+            scoreText = new Text("0");
+            scoreText.setFont(gameFont);
+        } catch (Exception e) {
+            System.err.println("Could not load font, using default.");
+            scoreText = new Text("0");
+            scoreText.setFont(Font.font(30));
+        }
+        scoreText.setFill(Color.BLUE);
+        scoreText.setX(190);
+        scoreText.setY(745);
+        gamePane.getChildren().add(scoreText);
+    }
+
+    private void setLives() {
+        try {
+            Image liveImg = new Image(getClass().getResourceAsStream("/org/example/game/Image/Hearts.png"));
+            for (int i = 0; i < lives; i++) {
+                ImageView live = new ImageView(liveImg);
+                live.setFitWidth(40);
+                live.setFitHeight(40);
+                live.setX(WIDTH - 150 + i * 45);
+                live.setY(15);
+                liveList.add(live);
+                gamePane.getChildren().add(live);
+            }
+        } catch (Exception e) {
+            System.err.println("Could not lead live image");
+        }
     }
 
     private void setBackground(){
@@ -108,7 +162,10 @@ public class ArkanoidGame {
     }
 
     private void update() {
+        ball.toFront();
         paddle.move();
+
+        List<Ball> ballsToRemove = new ArrayList<>();
 
         Iterator<Ball> ballIt = balls.iterator();
         while (ballIt.hasNext()) {
@@ -120,22 +177,30 @@ public class ArkanoidGame {
                 b.setDirectionX(bounceAngle * 2);
                 b.setDirectionY(-Math.abs(b.getDirectionY()));
             }
-            if (bricks.checkCollision(b, gamePane)) {
+            if (bricks.isHit(b)) {
                 //sinh PowerUp
-                if (Math.random() < 0.2) {
+                score += 10;
+                updateScoreText();
+
+                if (Math.random() < 0.05) {
                     PowerUp p = PowerUpFactory.createPowerUp(b.getCenterX(), b.getCenterY(), gamePane, balls, paddle, paddleResizer);
                     activePowerUps.add(p);
                     gamePane.getChildren().add(p);
                 }
             }
             if (b.getCenterY() - b.getRadius() > HEIGHT) {
-                gamePane.getChildren().remove(b);
+                ballsToRemove.add(b);
                 ballIt.remove();
             }
         }
 
+        for (Ball b : ballsToRemove) {
+            gamePane.getChildren().remove(b);
+            balls.remove(b);
+        }
+
         if (balls.isEmpty()) {
-            resetGame();
+            loseLife();
         }
 
         Iterator<PowerUp> it = activePowerUps.iterator();
@@ -161,19 +226,66 @@ public class ArkanoidGame {
                 effectIt.remove();
             }
         }
-
     }
 
-    private void resetGame() {
+    private void loseLife() {
+        if (lives > 0) {
+            lives--;
+            if (!liveList.isEmpty()) {
+                ImageView liveToRemove = liveList.remove(liveList.size() - 1);
+                gamePane.getChildren().remove(liveToRemove);
+            }
+            if (lives > 0) {
+                resetAfterLifeLost();
+            } else {
+                resetGame();
+            }
+        }
+    }
+
+    private void updateScoreText() {
+        scoreText.setText(String.valueOf(score));
+    }
+
+    private void resetAfterLifeLost() {
         balls.clear();
+        ballAttached = true;
         Ball newBall = new Ball();
-        newBall.setCenterX(WIDTH / 2);
-        newBall.setCenterY(HEIGHT / 2);
-        newBall.setDirectionX(3);
-        newBall.setDirectionY(-3);
+        newBall.setCenterX(paddle.getX() + paddle.getWidth() / 2);
+        newBall.setDirectionX(0);
+        newBall.setDirectionY(-1);
+        newBall.setSpeed(3);
         newBall.setGamePane(gamePane);
         balls.add(newBall);
         gamePane.getChildren().add(newBall);
         paddle.setX((WIDTH - paddle.getWidth()) / 2);
+    }
+
+    private void resetGame() {
+        new Thread(() -> {
+            try {
+                Thread.sleep(2000);
+                Platform.runLater(() -> {
+                    gamePane.getChildren().removeIf(node -> node instanceof Brick
+                            || node instanceof PowerUp || node instanceof Ball);
+                    balls.clear();
+                    ballAttached = true;
+                    score = 0;
+                    updateScoreText();
+                    for (ImageView live : liveList) {
+                        gamePane.getChildren().remove(live);
+                    }
+                    liveList.clear();
+                    lives = 3;
+                    setLives();
+                    ball = new Ball();
+                    ball.setGamePane(gamePane);
+                    level.start(gamePane, ball);
+                    balls.add(ball);
+                    gamePane.getChildren().add(ball);
+                    paddle.setX((WIDTH - paddle.getWidth()) / 2);
+                });
+            } catch (InterruptedException ignored) {}
+        }).start();
     }
 }

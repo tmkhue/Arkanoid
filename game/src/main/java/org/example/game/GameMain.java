@@ -11,12 +11,6 @@ import java.net.URL;
 public class GameMain extends Application {
     @Override
     public void start(Stage stage) throws Exception {
-        /*FXMLLoader loader = new FXMLLoader(getClass().getResource("/org/example/game/arkanoid.fxml"));
-        Scene scene = new Scene(loader.load());
-        stage.setScene(scene);
-        stage.setTitle("Arkanoid Game - JavaFX FXML");
-        stage.show();*/
-
         URL fxmlUrl = getClass().getResource("/org/example/game/Menu.fxml");
         if (fxmlUrl == null) {
             throw new Exception("Cannot find mainMenu.fxml in the resources folder.");

@@ -1,9 +1,11 @@
 package org.example.game;
 
+import javafx.animation.PauseTransition;
 import javafx.scene.image.Image;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Rectangle;
+import javafx.util.Duration;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -12,8 +14,12 @@ import java.util.Objects;
 import static javafx.scene.paint.Color.RED;
 
 public class Brick extends Rectangle {
-    protected int hitPoints=1;
+    protected int hitPoints;
     protected String type;
+    protected double brickHeight;
+    protected double brickWidth;
+    private int directionY = 1;
+    protected boolean movable = false;
     static final double BRICK_WIDTH = 60;
     static final double BRICK_HEIGHT = 40;
 
@@ -36,6 +42,16 @@ public class Brick extends Rectangle {
         super(x, y, brickWidth, brickHeight);
     }
 
+    public Brick(double x, double y, double brickHeight, double brickWidth, boolean movable) {
+        super(x, y, brickWidth, brickHeight);
+        this.movable = movable;
+    }
+
+    public Brick(double x, double y, String type, boolean movable) {
+        super(x, y, BRICK_WIDTH, BRICK_HEIGHT);
+        this.type = type;
+        this.movable = movable;
+    }
     public int getHitPoints() {
         return hitPoints;
     }
@@ -52,8 +68,15 @@ public class Brick extends Rectangle {
         this.type = type;
     }
 
+    public boolean isMovable() {
+        return movable;
+    }
 
-    public void applyTexture(String path) {
+    public void setMovable(boolean movable) {
+        this.movable = movable;
+    }
+
+    public void applyTexture(String path, Pane gamePane) {
         try {
             Image img = new Image(Objects.requireNonNull(
                     getClass().getResourceAsStream(path)));
@@ -62,11 +85,30 @@ public class Brick extends Rectangle {
             }
             setFill(new ImagePattern(img));
         } catch (Exception e) {
-            System.err.println("Cannot load brick image, using default color");
+            System.err.println("Cannot load "+ type +" image, using default color");
             setFill(RED);
+        }
+        if (!gamePane.getChildren().contains(this)) {
+            gamePane.getChildren().add(this);
         }
     }
 
+    public void moveBrick(double speed, double angle) {
+        double dx = Math.cos(Math.toRadians(angle)) * speed;
+        double dy = Math.sin(Math.toRadians(angle)) * speed * directionY;
+        if (getY() >= ArkanoidGame.HEIGHT / 2.0) {
+            directionY *= -1;
+            this.setY(this.getY() - 10);
+        }
+        if (getY() <= 70) {
+            directionY *= -1;
+            this.setY(this.getY() + 10);
+        }
+
+        this.setY(this.getY() + dy);
+        this.setX(this.getX() + dx);
+
+    }
     public boolean isHit(Ball ball) {
         double xA, yA; //tọa độ điểm gần tâm ball nhất
         xA = ball.getCenterX();
@@ -88,15 +130,38 @@ public class Brick extends Rectangle {
         return distanceS <= Math.pow(ball.getRadius(),2);
     }
 
-    public boolean checkCollision(Ball ball, Pane gamePane) {
+    public void takeHit(Ball ball, Pane gamePane) {
+        hitPoints--;
+    }
+
+    public boolean resolveCollision(Ball ball, Pane gamePane) {
         Iterator<Brick> it = bricks.iterator();
         while (it.hasNext()) {
             Brick brick = it.next();
             if (brick.isHit(ball)) {
-                brick.setHitPoints(brick.getHitPoints()-1);
+                brick.takeHit(ball, gamePane);
                 if(brick.isDestroyed()) {
                     it.remove();
                     gamePane.getChildren().remove(brick);
+                    if (brick instanceof Flower) {
+                        PauseTransition pause = new PauseTransition(Duration.seconds(0.5));
+                        pause.setOnFinished(event -> {
+                            gamePane.getChildren().remove(((Flower) brick).flowerCenter);
+                        });
+                        pause.play();
+                    }
+                }
+                if (brick instanceof Flower) {
+                    double overlapX = Math.abs(ball.getCenterX() -
+                            ((Flower) brick).flowerCenter.getCenterX()) ;
+                    double overlapY = Math.abs(ball.getCenterY() -
+                            ((Flower) brick).flowerCenter.getCenterY());
+                    if (overlapX > overlapY) {
+                        ball.setDirectionX(ball.getDirectionX() * (-1));
+                        return true;
+                    }
+                    ball.setDirectionY(ball.getDirectionY() * (-1));
+                    return true;
                 }
                 // Tính độ chồng (quả bóng chồng lên brick) theo hai trục
                 double overlapX = Math.min(ball.getCenterX() + ball.getRadius() - brick.getX(),
@@ -113,7 +178,7 @@ public class Brick extends Rectangle {
                         ball.setCenterX(brick.getX() + BRICK_WIDTH + ball.getRadius());
                     }
                     ball.setDirectionX(ball.getDirectionX() * (-1));
-                    return true;
+                    return;
                 }
                 // Xử lý quả bóng chui vào trong brick từ cạnh trên/dưới
                 if (ball.getCenterY() < brick.getY()) {
@@ -124,10 +189,9 @@ public class Brick extends Rectangle {
                     ball.setCenterY(brick.getY() + BRICK_HEIGHT + ball.getRadius());
                 }
                 ball.setDirectionY(ball.getDirectionY() * (-1));
-                return true;
+                return;
             }
         }
-        return false;
     }
 
     public boolean isDestroyed() {
