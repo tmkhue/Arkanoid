@@ -14,10 +14,12 @@ import java.util.Objects;
 import static javafx.scene.paint.Color.RED;
 
 public class Brick extends Rectangle {
-    protected int hitPoints=1;
+    protected int hitPoints;
     protected String type;
     protected double brickHeight;
     protected double brickWidth;
+    private int directionY = 1;
+    protected boolean movable = false;
     static final double BRICK_WIDTH = 60;
     static final double BRICK_HEIGHT = 40;
 
@@ -40,6 +42,16 @@ public class Brick extends Rectangle {
         super(x, y, brickWidth, brickHeight);
     }
 
+    public Brick(double x, double y, double brickHeight, double brickWidth, boolean movable) {
+        super(x, y, brickWidth, brickHeight);
+        this.movable = movable;
+    }
+
+    public Brick(double x, double y, String type, boolean movable) {
+        super(x, y, BRICK_WIDTH, BRICK_HEIGHT);
+        this.type = type;
+        this.movable = movable;
+    }
     public int getHitPoints() {
         return hitPoints;
     }
@@ -56,6 +68,13 @@ public class Brick extends Rectangle {
         this.type = type;
     }
 
+    public boolean isMovable() {
+        return movable;
+    }
+
+    public void setMovable(boolean movable) {
+        this.movable = movable;
+    }
 
     public void applyTexture(String path, Pane gamePane) {
         try {
@@ -69,9 +88,27 @@ public class Brick extends Rectangle {
             System.err.println("Cannot load "+ type +" image, using default color");
             setFill(RED);
         }
-        gamePane.getChildren().add(this);
+        if (!gamePane.getChildren().contains(this)) {
+            gamePane.getChildren().add(this);
+        }
     }
 
+    public void moveBrick(double speed, double angle) {
+        double dx = Math.cos(Math.toRadians(angle)) * speed;
+        double dy = Math.sin(Math.toRadians(angle)) * speed * directionY;
+        if (getY() >= ArkanoidGame.HEIGHT / 2.0) {
+            directionY *= -1;
+            this.setY(this.getY() - 10);
+        }
+        if (getY() <= 70) {
+            directionY *= -1;
+            this.setY(this.getY() + 10);
+        }
+
+        this.setY(this.getY() + dy);
+        this.setX(this.getX() + dx);
+
+    }
     public boolean isHit(Ball ball) {
         double xA, yA; //tọa độ điểm gần tâm ball nhất
         xA = ball.getCenterX();
@@ -97,7 +134,7 @@ public class Brick extends Rectangle {
         hitPoints--;
     }
 
-    public void resolveCollision(Ball ball, Pane gamePane) {
+    public boolean resolveCollision(Ball ball, Pane gamePane) {
         Iterator<Brick> it = bricks.iterator();
         while (it.hasNext()) {
             Brick brick = it.next();
@@ -115,17 +152,16 @@ public class Brick extends Rectangle {
                     }
                 }
                 if (brick instanceof Flower) {
-                    double sumR = ball.getRadius() + ((Flower) brick).flowerCenter.getRadius();
                     double overlapX = Math.abs(ball.getCenterX() -
                             ((Flower) brick).flowerCenter.getCenterX()) ;
                     double overlapY = Math.abs(ball.getCenterY() -
                             ((Flower) brick).flowerCenter.getCenterY());
                     if (overlapX > overlapY) {
                         ball.setDirectionX(ball.getDirectionX() * (-1));
-                        return;
+                        return true;
                     }
                     ball.setDirectionY(ball.getDirectionY() * (-1));
-                    return;
+                    return true;
                 }
                 // Tính độ chồng (quả bóng chồng lên brick) theo hai trục
                 double overlapX = Math.min(ball.getCenterX() + ball.getRadius() - brick.getX(),

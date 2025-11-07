@@ -13,15 +13,22 @@ import java.util.Objects;
 import static javafx.scene.paint.Color.RED;
 
 public class StrongBrick extends Brick{
-    private static List<WritableImage> frames;
+    public static final List<WritableImage> frames;
+    public static final int HIT_POINTS = 5;
     public StrongBrick(){
         super();
         this.setType("S");
-        this.setHitPoints(5);
+        this.setHitPoints(HIT_POINTS);
     }
-    public StrongBrick(double x, double y){
+
+    public StrongBrick(double x, double y) {
         super(x, y,"S");
         this.setHitPoints(5);
+    }
+
+    public StrongBrick(double x, double y, boolean movable) {
+        super(x, y, "S", movable);
+        this.setHitPoints(HIT_POINTS);
     }
     @Override
     public void applyTexture(String path, Pane gamePane) {
@@ -38,7 +45,9 @@ public class StrongBrick extends Brick{
             System.err.println("Cannot load " + type + " image, using default color");
             setFill(RED);
         }
-        gamePane.getChildren().add(this);
+        if (!gamePane.getChildren().contains(this)) {
+            gamePane.getChildren().add(this);
+        }
     }
 
     @Override

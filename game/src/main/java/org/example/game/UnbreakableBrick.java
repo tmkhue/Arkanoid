@@ -11,7 +11,11 @@ public class UnbreakableBrick extends Brick {
     }
 
     public UnbreakableBrick(double x, double y) {
-        super(x, y);
+        super(x, y, "U");
+        this.setHitPoints(Integer.MAX_VALUE);
+    }
+    public UnbreakableBrick(double x, double y, boolean movable) {
+        super(x, y,"U", movable);
         this.setHitPoints(Integer.MAX_VALUE);
     }
 

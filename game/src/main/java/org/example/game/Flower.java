@@ -4,8 +4,6 @@ import javafx.animation.AnimationTimer;
 import javafx.application.Platform;
 import javafx.scene.Group;
 import javafx.scene.image.Image;
-import javafx.scene.image.PixelReader;
-import javafx.scene.image.WritableImage;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Circle;
@@ -14,6 +12,7 @@ import javafx.scene.transform.Rotate;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import static javafx.scene.paint.Color.RED;
 
@@ -24,12 +23,18 @@ public class Flower extends Brick {
     public static final double FLOWER_RADIUS = 80.2517 / 2.0;
     public static final double PETAL_WIDTH = 78.1547 + 5;
     public static final double PETAL_HEIGHT = 113.8707;
-    public static final int HIT_POINTS = 6;
+    public static final int HIT_POINTS = 5;
 
-    public static List<Image> centers;
+    public static Image face1;
+    public static Image face2;
+    public static Image petal;
     public static List<Group> petals;
+
     Circle flowerCenter = new Circle();
 
+    /**
+     * constructor.
+     */
     public Flower() {
         super();
         this.setHitPoints(HIT_POINTS);
@@ -46,6 +51,17 @@ public class Flower extends Brick {
         flowerCenter = new Circle(x + brickWidth / 2.0, y + brickHeight / 2.0, radius);
     }
 
+    public Flower(double x, double y, double brickHeight, boolean movable) {
+        double scaleY = brickHeight / FLOWER_HEIGHT;
+        double brickWidth = scaleY * FLOWER_WIDTH;
+        double radius = scaleY * FLOWER_RADIUS;
+        super(x, y, "F", movable);
+        this.brickWidth = brickWidth;
+        this.brickHeight = brickHeight;
+        this.setHitPoints(HIT_POINTS);
+        flowerCenter = new Circle(x + brickWidth / 2.0, y + brickHeight / 2.0, radius);
+    }
+
     public Circle getFlowerCenter() {
         return flowerCenter;
     }
@@ -54,11 +70,14 @@ public class Flower extends Brick {
         this.flowerCenter = flowerCenter;
     }
 
+    /**
+     * Override.
+     */
     @Override
     public boolean isHit(Ball ball) {
         double dx = ball.getCenterX() - flowerCenter.getCenterX();
         double dy = ball.getCenterY() - flowerCenter.getCenterY();
-        return dx * dx + dy * dy - 1 <= Math.pow(ball.getRadius() + flowerCenter.getRadius(), 2);
+        return dx * dx + dy * dy <= Math.pow(ball.getRadius() + flowerCenter.getRadius(), 2);
     }
 
     @Override
@@ -69,14 +88,6 @@ public class Flower extends Brick {
 
     @Override
     public void applyTexture(String path, Pane gamePane) {
-        path = "C:\\Users\\dinh_tuyet_anh\\Downloads\\CanhHoa_1.png";
-//        Image img = new Image(Objects.requireNonNull(
-//                getClass().getResourceAsStream(path)));
-        try {
-            Image img = new Image("file:" + path);
-            if (img.isError()) {
-                throw new Exception("Image loading error!");
-            }
             double centerX = flowerCenter.getCenterX();
             double centerY = flowerCenter.getCenterY();
             double radius = flowerCenter.getRadius();
@@ -85,14 +96,13 @@ public class Flower extends Brick {
             double width = PETAL_WIDTH * height / PETAL_HEIGHT;
             for (int i = HIT_POINTS - 1; i >= 0; i--) {
                 Rectangle petalRect = new Rectangle(centerX - width / 2, centerY - 20 - height, width, height);
-                petalRect.setFill(new ImagePattern(img, 0, 0, 1, 1, true));
+                petalRect.setFill(new ImagePattern(Flower.petal, 0, 0, 1, 1, true));
                 // phép xoay
                 Rotate rotate = new Rotate();
                 rotate.setPivotX(centerX);
                 rotate.setPivotY(centerY);
                 rotate.setAngle(i * 360.0 / HIT_POINTS);
                 petalRect.getTransforms().addAll(rotate);
-                System.out.println("VẼ HOA");
                 if (hitPoints == HIT_POINTS) {
                     Flower.petals.get(i).getChildren().add(petalRect);
                 }
@@ -100,29 +110,47 @@ public class Flower extends Brick {
             for (int i = 0; i < petals.size(); i++) {
                 gamePane.getChildren().add(Flower.petals.get(i));
             }
-        } catch (Exception e) {
-            System.err.println("Cannot load image, using default color");
-            setFill(RED);
+        drawFlowerCenter(gamePane);
+    }
+
+    public void drawFlowerCenter(Pane gamePane) {
+        ImagePattern pattern1 = new ImagePattern(face1, 0, 0, 1, 1, true);
+        ImagePattern pattern2 = new ImagePattern(face2, 0, 0, 1, 1, true);
+        if (!gamePane.getChildren().contains(flowerCenter)) {
+            gamePane.getChildren().add(flowerCenter);
         }
-        ImagePattern pattern = new ImagePattern(centers.getFirst(), 0, 0, 1, 1, true);
-        flowerCenter.setFill(pattern);
-        gamePane.getChildren().remove(flowerCenter);
-        gamePane.getChildren().add(flowerCenter);
-        flowerCenter.toFront();
+
+        final long interval = 500_000_000;
+        final long[] lastSwitch = {0};
+        final boolean[] toggle = {false};
+
+        AnimationTimer timer = new AnimationTimer() {
+            @Override
+            public void handle(long now) {
+                if (now - lastSwitch[0] >= interval) {
+                    toggle[0] = !toggle[0];
+                    lastSwitch[0] = now;
+
+                    if (toggle[0]) {
+                        flowerCenter.setFill(pattern1);
+                    } else {
+                        flowerCenter.setFill(pattern2);
+                    }
+                    flowerCenter.toFront();
+                }
+            }
+        };
+        timer.start();
+        Platform.runLater(gamePane::requestFocus);
     }
 
     public void move(Pane gamePane, int i) {
         double speed = 10; // tốc độ rơi (px mỗi frame)
-        Rectangle rect = (Rectangle) petals.get(i).getChildren().getFirst();
-        gamePane.getChildren().remove(petals.get(i));
-        petals.get(i).toFront();
+        Rectangle rect = (Rectangle) Flower.petals.get(i).getChildren().getFirst();
+        gamePane.getChildren().remove(Flower.petals.get(i));
+        Flower.petals.get(i).toFront();
         List<PetalPiece> root = new ArrayList<>();
-        String path = "C:\\Users\\dinh_tuyet_anh\\Downloads\\CanhHoa_1.png";
-        try {
-            Image img = new Image("file:" + path);
-            if (img.isError()) {
-                throw new Exception("Image loading error!");
-            }
+
             for (int j = 0; j < 10; j++) {
                 double x = rect.getX() + Math.random() * rect.getWidth();
                 double y = rect.getY() + Math.random() * rect.getHeight();
@@ -134,14 +162,10 @@ public class Flower extends Brick {
                 }
                 double radius = Math.random() * 10 + 3;
                 PetalPiece r = new PetalPiece(radius, x, y, directionX, directionY + 3);
-                r.setFill(new ImagePattern(img, 0, 0, 1, 1, true));
+                r.setFill(new ImagePattern(Flower.petal, 0, 0, 1, 1, true));
                 root.add(r);
                 gamePane.getChildren().add(r);
             }
-        } catch (Exception e) {
-            System.err.println("Cannot load image, using default color");
-            setFill(RED);
-        }
 
         AnimationTimer timer = new AnimationTimer() {
             @Override
@@ -161,7 +185,7 @@ public class Flower extends Brick {
             }
         };
         timer.start();
-        Platform.runLater(() -> gamePane.requestFocus());
+        Platform.runLater(gamePane::requestFocus);
     }
 
     static {
@@ -169,22 +193,28 @@ public class Flower extends Brick {
         for (int i = 0; i < HIT_POINTS; i++) {
             petals.add(new Group());
         }
-        centers = new ArrayList<>();
+
         try {
-            Image center = new Image("file:C:\\Users\\dinh_tuyet_anh\\Downloads\\Two_faces.png");
-            double centerWidth = center.getWidth() / 2;
-            double centerHeight = center.getHeight();
-
-            PixelReader reader = center.getPixelReader();
-
-            for (int x = 0; x < 2; x++) {
-                WritableImage frame = new WritableImage(reader,
-                        (int) (x * centerWidth), 0,
-                        (int) centerWidth, (int) centerHeight);
-                centers.add(frame);
+            String path = "/org/example/game/Image/CanhHoa_1.png";
+            petal = new Image(Objects.requireNonNull(
+                Flower.class.getResourceAsStream(path)));
+            if (petal.isError()) {
+                throw new Exception("Image loading error");
+            }
+            path = "/org/example/game/Image/face1.png";
+            face1 = new Image(Objects.requireNonNull(
+                    Flower.class.getResourceAsStream(path)));
+            if (Flower.face1.isError()) {
+                throw new Exception("Image loading error!");
+            }
+            path = "/org/example/game/Image/face2.png";
+            face2 = new Image(Objects.requireNonNull(
+                    Flower.class.getResourceAsStream(path)));
+            if (Flower.face2.isError()) {
+                throw new Exception("Image loading error!");
             }
         } catch (Exception e) {
-            System.err.println("Cannot load image");
+            System.err.println("Cannot load images");
         }
     }
 }
