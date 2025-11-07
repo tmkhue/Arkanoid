@@ -244,7 +244,7 @@ public class ArkanoidGame {
                 score += 10;
                 updateScoreText();
 
-                if (Math.random() < 0.5) {
+                if (Math.random() < 0.05) {
                     PowerUp p = PowerUpFactory.createPowerUp(b.getCenterX(), b.getCenterY(), gamePane, balls, paddle, paddleResizer, this);
                     activePowerUps.add(p);
                     gamePane.getChildren().add(p);

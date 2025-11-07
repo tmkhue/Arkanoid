@@ -2,6 +2,8 @@ package org.example.game;
 
 import javafx.scene.layout.Pane;
 
+import static org.example.game.Brick.bricks;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -9,12 +11,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-import static org.example.game.Brick.bricks;
-
 public class Levels {
     protected int BrickCols = 11;
     protected int BrickRows = 5;
-    protected int level = 3;
+    private int level = 1;
     public static final int LEVEL = 3;
 
     public int getLevel() {
@@ -28,7 +28,14 @@ public class Levels {
     public void start(Pane gamePane, Ball ball) {
         drawNormalLevel(gamePane);
         drawBoss(gamePane);
-//        Level0(gamePane);
+
+        switch (level) {
+            case 0 -> Level0(gamePane);
+            case 1 -> Level1(gamePane);
+            case 2 -> Level2(gamePane);
+            case 3 -> Level3(gamePane);
+            default -> Level0(gamePane);
+        }
     }
 
     public String[][] loadLevel() {
@@ -122,21 +129,15 @@ public class Levels {
     public void drawBoss(Pane gamePane) {
 //        bricks.clear();
 
-        if (level == LEVEL ) {
+        if (level == LEVEL) {
             System.out.println("DRAW BOSS");
             Brick flower = new Flower(200, 150, 300);
             bricks.add(flower);
             flower.applyTexture("", gamePane);
-        switch (level) {
-            case 0 -> Level0(gamePane);
-            case 1 -> Level1(gamePane);
-            case 2 -> Level2(gamePane);
-            case 3 -> Level3(gamePane);
-            default -> Level0(gamePane);
         }
     }
 
-    public void Level0(Pane gamePane){
+    public void Level0(Pane gamePane) {
         Brick brick = new Flower(350, 300, 300);
         brick.applyTexture("", gamePane);
         bricks.add(brick);
@@ -162,7 +163,7 @@ public class Levels {
             for (int j = 0; j < BrickCols; j++) {
                 double x = ArkanoidGame.LEFT_BORDER + 20 + j * (Brick.BRICK_WIDTH + 5);
                 double y = ArkanoidGame.TOP_BORDER + 30 + i * (Brick.BRICK_HEIGHT + 5);
-                if(!(x + Brick.BRICK_WIDTH < ArkanoidGame.LEFT_BORDER + ArkanoidGame.WIDTH)){
+                if (!(x + Brick.BRICK_WIDTH < ArkanoidGame.LEFT_BORDER + ArkanoidGame.WIDTH)) {
                     break;
                 }
                 if (j >= 3 && j <= 7 && i == BrickRows - 1) {
@@ -183,7 +184,7 @@ public class Levels {
             for (int j = 0; j < BrickCols; j++) {
                 double x = ArkanoidGame.LEFT_BORDER + 20 + j * (Brick.BRICK_WIDTH + 5);
                 double y = ArkanoidGame.TOP_BORDER + 30 + i * (Brick.BRICK_HEIGHT + 5);
-                if(!(x + Brick.BRICK_WIDTH < ArkanoidGame.LEFT_BORDER + ArkanoidGame.WIDTH)){
+                if (!(x + Brick.BRICK_WIDTH < ArkanoidGame.LEFT_BORDER + ArkanoidGame.WIDTH)) {
                     break;
                 }
                 if (((j == 1 || j == 5) && i > 0 && i < 4)
