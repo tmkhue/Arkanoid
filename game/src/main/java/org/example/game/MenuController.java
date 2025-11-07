@@ -44,61 +44,34 @@ public class MenuController implements Initializable {
     private Button StartButton = new Button();
 
     @FXML
-    private ImageView face;
-
-    @FXML
     private Button MusicButton;
-    private ImageView Sound;
-    private Image soundOnImage;
-    private Image soundOffImage;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        MusicManager.startBackgroundMusic();
         setGameName();
         startSpinningAnimation();
         moving();
 
-        //tao anh cho nut EXIT
-        Image Exit = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/org/example/game/Image/Exit.png")));
-        Image ExitOnHover = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/org/example/game/Image/Exit_on_hover.png")));
+        //tao anh cho cac nut
+        setButton(ExitButton, "/org/example/game/Image/Exit.png", "/org/example/game/Image/Exit_on_hover.png");
+        setButton(StartButton, "/org/example/game/Image/Start.png", "/org/example/game/Image/Start_on_hover.png");
+        setButton(MusicButton, "/org/example/game/Image/Music.png", "/org/example/game/Image/Music_on_hover.png");
+    }
 
-        ImageView ExitView = new ImageView(Exit);
-        ExitView.setFitWidth(BUTTON_W);
-        ExitView.setFitHeight(BUTTON_H);
-        ExitButton.setLayoutX(800/2 - BUTTON_W/2);
-        ExitButton.setGraphic(ExitView);
-        ExitButton.setStyle("-fx-background-color: transparent; -fx-padding: 0;");
+    private void setButton(Button button, String normal, String onHover){
+        Image Img = new Image(Objects.requireNonNull(getClass().getResourceAsStream(normal)));
+        Image OnHover = new Image(Objects.requireNonNull(getClass().getResourceAsStream(onHover)));
 
-        ExitButton.setOnMouseEntered(e -> ExitView.setImage(ExitOnHover));
-        ExitButton.setOnMouseExited(e -> ExitView.setImage(Exit));
+        ImageView View = new ImageView(Img);
+        View.setFitWidth(BUTTON_W);
+        View.setFitHeight(BUTTON_H);
+        button.setLayoutX(800/2 - BUTTON_W/2);
+        button.setGraphic(View);
+        button.setStyle("-fx-background-color: transparent; -fx-padding: 0;");
 
-        //tạo ảnh cho nút start
-        Image Start = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/org/example/game/Image/Start.png")));
-        Image StartOnHover = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/org/example/game/Image/Start_on_hover.png")));
-
-        ImageView StartView = new ImageView(Start);
-        StartView.setFitWidth(BUTTON_W);
-        StartView.setFitHeight(BUTTON_H);
-        StartButton.setLayoutX(800/2 - BUTTON_W/2);
-        StartButton.setGraphic(StartView);
-        StartButton.setStyle("-fx-background-color: transparent; -fx-padding: 0;");
-
-        StartButton.setOnMouseEntered(e -> StartView.setImage(StartOnHover));
-        StartButton.setOnMouseExited(e -> StartView.setImage(Start));
-
-        //tạo âm thanh
-        soundOnImage = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/org/example/game/Image/Music.png")));
-        soundOffImage = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/org/example/game/Image/Music_on_hover.png")));
-
-        Sound = new ImageView(soundOffImage);
-        Sound.setFitWidth(BUTTON_W);
-        Sound.setFitHeight(BUTTON_H);
-
-        Sound.setLayoutX(800/2 - BUTTON_W/2);
-
-        MusicButton.setGraphic(Sound);
-
-        MusicButton.setStyle("-fx-background-color: transparent; -fx-padding: 0;");
+        button.setOnMouseEntered(e -> View.setImage(OnHover));
+        button.setOnMouseExited(e -> View.setImage(Img));
     }
 
     private void setGameName(){
@@ -167,13 +140,27 @@ public class MenuController implements Initializable {
     }
 
     @FXML
-    private void toggleMusic() {
-        MusicManager.toggleMusic();
+    private void openMusicSettings(ActionEvent event) {
+        try {
+            MusicManager.startBackgroundMusic();
 
-        if (MusicManager.isPlaying()) {
-            Sound.setImage(soundOnImage);
-        } else {
-            Sound.setImage(soundOffImage);
+            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+
+            URL fxmlUrl = getClass().getResource("/org/example/game/music_settings.fxml");
+            if (fxmlUrl == null) {
+                throw new IOException("Cannot find music-settings.fxml");
+            }
+
+            Parent musicRoot = FXMLLoader.load(fxmlUrl);
+            Scene musicScene = new Scene(musicRoot);
+
+            stage.setScene(musicScene);
+            stage.setTitle("Arkanoid Game - Music Settings");
+            stage.show();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+            System.err.println("Error loading music settings scene: " + e.getMessage());
         }
     }
 }
