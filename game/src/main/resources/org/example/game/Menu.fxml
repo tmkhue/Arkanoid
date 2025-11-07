@@ -18,10 +18,13 @@
         <Button fx:id="StartButton" layoutX="342.0" layoutY="419.0" mnemonicParsing="false" onAction="#startGame" snapToPixel="false" textOverrun="LEADING_ELLIPSIS">
         </Button>
 
-        <Button fx:id="ExitButton" layoutX="389.0" layoutY="645.0" mnemonicParsing="false" onAction="#exit">
+        <Button fx:id="MusicButton" layoutX="342.0" layoutY="528.0" mnemonicParsing="false" onAction="#openMusicSettings">
         </Button>
 
-        <Button fx:id="MusicButton" layoutX="342.0" layoutY="478.0" onAction="#toggleMusic" />
+        <Button fx:id="ExitButton" layoutY="645.0" mnemonicParsing="false" onAction="#exit">
+        </Button>
+
+<!--        <Button fx:id="MusicButton" layoutX="342.0" layoutY="478.0" onAction="#toggleMusic" />-->
         <Text fx:id="GameName" boundsType="VISUAL" depthTest="DISABLE" fontSmoothingType="LCD" layoutX="74.0" layoutY="309.0" strokeType="OUTSIDE" strokeWidth="0.0" text="ARKANOID">
             <effect>
                 <DropShadow spread="0.31">
