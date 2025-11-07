@@ -47,8 +47,15 @@ public class ArkanoidGame {
     private int lives = 3;
     private List<ImageView> liveList = new ArrayList<>();
 
+    private static ArkanoidGame instance;
+
+    public static ArkanoidGame getInstance() {
+        return instance;
+    }
+
     @FXML
     public void initialize() {
+        instance = this;
         setBackground();
 
         setLives();
@@ -158,6 +165,28 @@ public class ArkanoidGame {
         } catch (Exception e) {
             System.err.println("Could not lead live image");
         }
+    }
+
+    public void addLife() {
+        Platform.runLater(() -> {
+            if (lives < 3) {
+                lives++;
+                try {
+                    Image liveImg = new Image(getClass().getResourceAsStream("/org/example/game/Image/Hearts.png"));
+                    ImageView live = new ImageView(liveImg);
+                    live.setFitWidth(30);
+                    live.setFitHeight(30);
+                    live.setX(WIDTH - 150 + liveList.size() * 35);
+                    live.setY(20);
+                    liveList.add(live);
+                    gamePane.getChildren().add(live);
+                } catch (Exception e) {
+                    System.err.println("Không thể thêm mạng");
+                }
+            } else {
+                System.out.println("Mạng đã đầy");
+            }
+        });
     }
 
     private void setBackground(){
