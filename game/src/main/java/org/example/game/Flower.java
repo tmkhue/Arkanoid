@@ -14,8 +14,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-import static javafx.scene.paint.Color.RED;
-
 public class Flower extends Brick {
     // kích thước bông hoa
     public static final double FLOWER_WIDTH = 261.0528;
@@ -51,17 +49,6 @@ public class Flower extends Brick {
         flowerCenter = new Circle(x + brickWidth / 2.0, y + brickHeight / 2.0, radius);
     }
 
-    public Flower(double x, double y, double brickHeight, boolean movable) {
-        double scaleY = brickHeight / FLOWER_HEIGHT;
-        double brickWidth = scaleY * FLOWER_WIDTH;
-        double radius = scaleY * FLOWER_RADIUS;
-        super(x, y, "F", movable);
-        this.brickWidth = brickWidth;
-        this.brickHeight = brickHeight;
-        this.setHitPoints(HIT_POINTS);
-        flowerCenter = new Circle(x + brickWidth / 2.0, y + brickHeight / 2.0, radius);
-    }
-
     public Circle getFlowerCenter() {
         return flowerCenter;
     }
@@ -75,15 +62,24 @@ public class Flower extends Brick {
      */
     @Override
     public boolean isHit(Ball ball) {
-        double dx = ball.getCenterX() - flowerCenter.getCenterX();
-        double dy = ball.getCenterY() - flowerCenter.getCenterY();
-        return dx * dx + dy * dy <= Math.pow(ball.getRadius() + flowerCenter.getRadius(), 2);
+        if (Brick.bricks.stream().noneMatch(
+                b -> b instanceof NormalBrick || b instanceof StrongBrick)) {
+            double dx = ball.getCenterX() - flowerCenter.getCenterX();
+            double dy = ball.getCenterY() - flowerCenter.getCenterY();
+            return dx * dx + dy * dy <= Math.pow(ball.getRadius() + flowerCenter.getRadius(), 2);
+        }
+        return false;
     }
 
     @Override
     public void takeHit(Ball ball, Pane gamePane) {
-        hitPoints--;
-        move(gamePane, hitPoints);
+        if (Brick.bricks.stream().noneMatch(
+                b -> b instanceof NormalBrick || b instanceof StrongBrick)) {
+            hitPoints--;
+            move(gamePane, hitPoints);
+        }
+//        hitPoints--;
+//        move(gamePane, hitPoints);
     }
 
     @Override
