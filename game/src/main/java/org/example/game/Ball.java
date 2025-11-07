@@ -1,7 +1,6 @@
 package org.example.game;
 
 import javafx.animation.FadeTransition;
-import javafx.fxml.FXML;
 import javafx.scene.SnapshotParameters;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -13,11 +12,29 @@ import javafx.util.Duration;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 public class Ball extends Circle{
-    private double directionX = 3;
-    private double directionY = -3;
+    private double directionX = 1;
+    private double directionY = -1;
+    private double speed = 3;
+
+    private boolean isStrong = false;
+
+    public boolean isStrong() {
+        return isStrong;
+    }
+
+    public void setStrong(boolean strong) {
+        isStrong = strong;
+    }
+
+    public double getSpeed() {
+        return speed;
+    }
+
+    public void setSpeed(double speed) {
+        this.speed = speed;
+    }
 
     private List<Circle> shadowList = new ArrayList<>();
 
@@ -56,7 +73,6 @@ public class Ball extends Circle{
         super(15);
         setCenterX(300);
         setCenterY(250);
-
         try {
             double diameter = getRadius() * 4.5;
             Image img = new Image(getClass().getResourceAsStream("/org/example/game/Image/normalBall.png"), diameter, diameter, true, true);
@@ -69,8 +85,8 @@ public class Ball extends Circle{
     }
 
     public void move(){
-        this.setCenterX(this.getCenterX() + directionX);
-        this.setCenterY(this.getCenterY() + directionY);
+        this.setCenterX(this.getCenterX() + directionX * speed);
+        this.setCenterY(this.getCenterY() + directionY * speed);
 
         shadowEffect(this);
 
@@ -95,8 +111,8 @@ public class Ball extends Circle{
         shadow.toFront();
         shadowList.add(shadow);
 
-        FadeTransition fade = new FadeTransition(Duration.millis(400), shadow);
-        fade.setFromValue(0.4);
+        FadeTransition fade = new FadeTransition(Duration.millis(150), shadow);
+        fade.setFromValue(0.1);
         fade.setToValue(0);
         fade.setOnFinished(e -> {
             gamePane.getChildren().remove(shadow);

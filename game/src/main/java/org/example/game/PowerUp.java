@@ -11,12 +11,12 @@ public abstract class PowerUp extends Rectangle {
     protected double duration;
     protected double speed = 5;
 
-    public PowerUp(String type, double duration, double x, double y) {
-        super(x, y, 30, 15);
+    public PowerUp(String type, double duration, double x, double y, String imagePath) {
+        super(x, y, 60, 60);
         this.type = type;
         this.duration = duration;
         try {
-            Image img = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/org/example/game/Image/Paddle.png")));
+            Image img = new Image(Objects.requireNonNull(getClass().getResourceAsStream(imagePath)));
             setFill(new ImagePattern(img));
         } catch (Exception e) {
             System.err.println("⚠️ Could not load powerUp image: " + e.getMessage());

@@ -17,6 +17,14 @@ public class Levels {
     protected int level = 3;
     public static final int LEVEL = 3;
 
+    public int getLevel() {
+        return level;
+    }
+
+    public void next() {
+        level++;
+    }
+
     public void start(Pane gamePane, Ball ball) {
         drawNormalLevel(gamePane);
         drawBoss(gamePane);
@@ -119,6 +127,12 @@ public class Levels {
             Brick flower = new Flower(200, 150, 300);
             bricks.add(flower);
             flower.applyTexture("", gamePane);
+        switch (level) {
+            case 0 -> Level0(gamePane);
+            case 1 -> Level1(gamePane);
+            case 2 -> Level2(gamePane);
+            case 3 -> Level3(gamePane);
+            default -> Level0(gamePane);
         }
     }
 

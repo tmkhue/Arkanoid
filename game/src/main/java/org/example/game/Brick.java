@@ -232,7 +232,8 @@ public class Brick extends Rectangle {
                     } else {
                         ball.setCenterX(brick.getX() + BRICK_WIDTH + ball.getRadius());
                     }
-                    ball.setDirectionX(ball.getDirectionX() * (-1));
+                    if(!ball.isStrong() || brick instanceof UnbreakableBrick)
+                        ball.setDirectionX(ball.getDirectionX() * (-1));
                     return true;
                 }
                 // Xử lý quả bóng chui vào trong brick từ cạnh trên/dưới
@@ -241,7 +242,8 @@ public class Brick extends Rectangle {
                 } else {
                     ball.setCenterY(brick.getY() + BRICK_HEIGHT + ball.getRadius());
                 }
-                ball.setDirectionY(ball.getDirectionY() * (-1));
+                if(!ball.isStrong() || brick instanceof UnbreakableBrick)
+                    ball.setDirectionY(ball.getDirectionY() * (-1));
                 return true;
             }
         }
@@ -251,5 +253,9 @@ public class Brick extends Rectangle {
     public boolean isDestroyed() {
         System.out.println("hitpoints: " + hitPoints);
         return hitPoints <= 0;
+    }
+
+    public boolean isCleared() {
+        return bricks.isEmpty();
     }
 }
