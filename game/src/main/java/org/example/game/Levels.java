@@ -15,6 +15,9 @@ public class Levels {
         Brick brick = new Flower(350, 300, 300);
         brick.applyTexture("", gamePane);
         Brick.bricks.add(brick);
+//        Brick brick=new StrongBrick(200, 150);
+//        Brick.bricks.add(brick);
+//        brick.applyTexture("", gamePane);
     }
 
     public void Level1(Pane gamePane) {

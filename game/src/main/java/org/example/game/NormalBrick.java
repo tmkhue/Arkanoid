@@ -12,6 +12,10 @@ public class NormalBrick extends Brick {
         super(x, y,"N");
         this.setHitPoints(1);
     }
+    public NormalBrick(double x, double y, boolean movable){
+        super(x, y,"N", movable);
+        this.setHitPoints(1);
+    }
 
     @Override
     public void applyTexture(String path, Pane gamePane) {
