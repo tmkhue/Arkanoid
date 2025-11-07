@@ -221,6 +221,12 @@ public class ArkanoidGame {
         ball.toFront();
         paddle.move();
 
+        for (Brick brick:Brick.bricks){
+                brick.moveBrick(2);
+                if(!(brick instanceof Flower)){
+                    brick.toFront();
+                }
+        }
         List<Ball> ballsToRemove = new ArrayList<>();
 
         Iterator<Ball> ballIt = balls.iterator();

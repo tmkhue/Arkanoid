@@ -14,13 +14,17 @@ public class UnbreakableBrick extends Brick {
         super(x, y, "U");
         this.setHitPoints(Integer.MAX_VALUE);
     }
-    public UnbreakableBrick(double x, double y, boolean movable) {
-        super(x, y,"U", movable);
+    public UnbreakableBrick(double x, double y, double angle,
+                            double minX, double maxX,double maxY, double minY){
+        super(x, y, "U", angle, minX, maxX, minY, maxY);
         this.setHitPoints(Integer.MAX_VALUE);
     }
-
     @Override
     public boolean isDestroyed() {
+//        if (Brick.bricks.stream().noneMatch(
+//                b -> b instanceof NormalBrick || b instanceof StrongBrick)) {
+//            return true;
+//        }
         return false;
     }
 

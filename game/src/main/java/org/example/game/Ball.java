@@ -108,6 +108,7 @@ public class Ball extends Circle{
         shadow.setFill(getFill());
         shadow.setOpacity(0.1);
         gamePane.getChildren().add(1, shadow);
+        shadow.toFront();
         shadowList.add(shadow);
 
         FadeTransition fade = new FadeTransition(Duration.millis(150), shadow);

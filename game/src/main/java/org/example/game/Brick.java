@@ -18,8 +18,12 @@ public class Brick extends Rectangle {
     protected String type;
     protected double brickHeight;
     protected double brickWidth;
-    private int directionY = 1;
-    protected boolean movable = false;
+    // các thuộc tính của brick di chuyển được
+    private int directionX = 1, directionY = 1;
+    double angle = 90;
+    private double minY, minX;
+    private double maxY, maxX;
+    static boolean isPaused = false;
     static final double BRICK_WIDTH = 60;
     static final double BRICK_HEIGHT = 40;
 
@@ -42,16 +46,33 @@ public class Brick extends Rectangle {
         super(x, y, brickWidth, brickHeight);
     }
 
-    public Brick(double x, double y, double brickHeight, double brickWidth, boolean movable) {
-        super(x, y, brickWidth, brickHeight);
-        this.movable = movable;
-    }
-
-    public Brick(double x, double y, String type, boolean movable) {
+    public Brick(double x, double y, String type, double angle,
+                 double minX, double maxX, double minY, double maxY) {
         super(x, y, BRICK_WIDTH, BRICK_HEIGHT);
         this.type = type;
-        this.movable = movable;
+        this.angle = angle;
+        this.minX = minX;
+        this.maxX = maxX;
+        this.minY = minY;
+        this.maxY = maxY;
     }
+
+    public double getMinY() {
+        return minY;
+    }
+
+    public void setMinY(double minY) {
+        this.minY = minY;
+    }
+
+    public double getMaxY() {
+        return maxY;
+    }
+
+    public void setMaxY(double maxY) {
+        this.maxY = maxY;
+    }
+
     public int getHitPoints() {
         return hitPoints;
     }
@@ -68,12 +89,8 @@ public class Brick extends Rectangle {
         this.type = type;
     }
 
-    public boolean isMovable() {
-        return movable;
-    }
-
-    public void setMovable(boolean movable) {
-        this.movable = movable;
+    public boolean equals(Object obj) {
+        return super.equals(obj);
     }
 
     public void applyTexture(String path, Pane gamePane) {
@@ -93,20 +110,44 @@ public class Brick extends Rectangle {
         }
     }
 
-    public void moveBrick(double speed, double angle) {
-        double dx = Math.cos(Math.toRadians(angle)) * speed;
+    public void moveBrick(double speed) {
+        if (minY == maxY && maxX == minX) {
+            return;
+        }
+        double dx = Math.cos(Math.toRadians(angle)) * speed * directionX;
         double dy = Math.sin(Math.toRadians(angle)) * speed * directionY;
-        if (getY() >= ArkanoidGame.HEIGHT / 2.0) {
-            directionY *= -1;
-            this.setY(this.getY() - 10);
+        if (maxY != minY) {
+            if (getY() >= this.maxY) {
+                directionY *= -1;
+                this.setY(this.getY() - 10);
+            }
+            if (getY() <= this.minY) {
+                directionY *= -1;
+                this.setY(this.getY() + 10);
+            }
         }
-        if (getY() <= 70) {
-            directionY *= -1;
-            this.setY(this.getY() + 10);
+        if (minX != maxX) {
+            if (getX() >= this.maxX) {
+                directionX *= -1;
+                this.setX(this.getX() - 10);
+            }
+            if (getX() <= this.minX) {
+                directionX *= -1;
+                this.setX(this.getX() + 10);
+            }
         }
-
         this.setY(this.getY() + dy);
         this.setX(this.getX() + dx);
+        for (Brick brick : bricks) {
+            if (this.equals(brick)) {
+                continue;
+            }
+            if (this.getBoundsInParent().intersects(brick.getBoundsInParent())) {
+                directionX *= -1;
+                System.out.println("VA CHAM");
+                break;
+            }
+        }
 
     }
     public boolean isHit(Ball ball) {
@@ -135,9 +176,19 @@ public class Brick extends Rectangle {
     }
 
     public boolean resolveCollision(Ball ball, Pane gamePane) {
+
         Iterator<Brick> it = bricks.iterator();
         while (it.hasNext()) {
             Brick brick = it.next();
+            if (!isPaused && Brick.bricks.stream().noneMatch(
+                    b -> b instanceof NormalBrick || b instanceof StrongBrick)) {
+                    PauseTransition pause = new PauseTransition(Duration.seconds(0.5));
+                    pause.setOnFinished(event -> {
+                        System.out.println("Tạm dừng");
+                    });
+                    pause.play();
+                    isPaused = true;
+            }
             if (brick.isHit(ball)) {
                 brick.takeHit(ball, gamePane);
                 if(brick.isDestroyed()) {
@@ -152,15 +203,21 @@ public class Brick extends Rectangle {
                     }
                 }
                 if (brick instanceof Flower) {
-                    double overlapX = Math.abs(ball.getCenterX() -
-                            ((Flower) brick).flowerCenter.getCenterX()) ;
-                    double overlapY = Math.abs(ball.getCenterY() -
-                            ((Flower) brick).flowerCenter.getCenterY());
-                    if (overlapX > overlapY) {
+                    double dx = ball.getCenterX() - ((Flower) brick).flowerCenter.getCenterX();
+                    double dy = ball.getCenterY() - ((Flower) brick).flowerCenter.getCenterY();
+                    double sumR = ball.getRadius() +
+                            ((Flower) brick).flowerCenter.getRadius();
+                    double overlapX = ball.getCenterX() -
+                            ((Flower) brick).flowerCenter.getCenterX();
+                    double overlapY = ball.getCenterY() -
+                            ((Flower) brick).flowerCenter.getCenterY();
+                    if (Math.abs(overlapX) > Math.abs(overlapY)) {
+                        ball.setCenterX(ball.getCenterX() + Math.sqrt(dx*dx+dy*dy) -sumR);
                         ball.setDirectionX(ball.getDirectionX() * (-1));
                         return true;
                     }
                     ball.setDirectionY(ball.getDirectionY() * (-1));
+                    ball.setCenterY(ball.getCenterY() + Math.sqrt(dx*dx+dy*dy) - sumR);
                     return true;
                 }
                 // Tính độ chồng (quả bóng chồng lên brick) theo hai trục
@@ -171,10 +228,8 @@ public class Brick extends Rectangle {
                 if (overlapX < overlapY) {
 //                     Xử lý quả bóng chui vào trong brick từ 2 cạnh bên
                     if (overlapX == ball.getCenterX() + ball.getRadius() - brick.getX()) {
-                        System.out.println("day trai");
                         ball.setCenterX(brick.getX() - ball.getRadius());
                     } else {
-                        System.out.println("day phai");
                         ball.setCenterX(brick.getX() + BRICK_WIDTH + ball.getRadius());
                     }
                     if(!ball.isStrong() || brick instanceof UnbreakableBrick)
@@ -183,10 +238,8 @@ public class Brick extends Rectangle {
                 }
                 // Xử lý quả bóng chui vào trong brick từ cạnh trên/dưới
                 if (ball.getCenterY() < brick.getY()) {
-                    System.out.println("day tren");
                     ball.setCenterY(brick.getY() - ball.getRadius());
                 } else {
-                    System.out.println("day duoi");
                     ball.setCenterY(brick.getY() + BRICK_HEIGHT + ball.getRadius());
                 }
                 if(!ball.isStrong() || brick instanceof UnbreakableBrick)

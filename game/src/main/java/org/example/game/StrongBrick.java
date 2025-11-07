@@ -26,8 +26,9 @@ public class StrongBrick extends Brick{
         this.setHitPoints(5);
     }
 
-    public StrongBrick(double x, double y, boolean movable) {
-        super(x, y, "S", movable);
+    public StrongBrick(double x, double y, double angle,
+                       double minX, double maxX, double maxY, double minY){
+        super(x, y, "S", angle, minX, maxX, minY, maxY);
         this.setHitPoints(HIT_POINTS);
     }
     @Override
