@@ -177,8 +177,9 @@ public class Brick extends Rectangle {
                         System.out.println("day phai");
                         ball.setCenterX(brick.getX() + BRICK_WIDTH + ball.getRadius());
                     }
-                    ball.setDirectionX(ball.getDirectionX() * (-1));
-                     return true;
+                    if(!ball.isStrong() || brick instanceof UnbreakableBrick)
+                        ball.setDirectionX(ball.getDirectionX() * (-1));
+                    return true;
                 }
                 // Xử lý quả bóng chui vào trong brick từ cạnh trên/dưới
                 if (ball.getCenterY() < brick.getY()) {
@@ -188,7 +189,8 @@ public class Brick extends Rectangle {
                     System.out.println("day duoi");
                     ball.setCenterY(brick.getY() + BRICK_HEIGHT + ball.getRadius());
                 }
-                ball.setDirectionY(ball.getDirectionY() * (-1));
+                if(!ball.isStrong() || brick instanceof UnbreakableBrick)
+                    ball.setDirectionY(ball.getDirectionY() * (-1));
                 return true;
             }
         }

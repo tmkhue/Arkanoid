@@ -15,8 +15,10 @@ public class PowerUpFactory {
             return new StrongBallPowerUp(x, y, 15);
         } else if (Math.random() < 0.4) {
             return new WidenPaddlePowerUp(x, y, 10, paddleResizer);
-        } else {
+        } else if (Math.random() < 0.5) {
             return new ArrowPowerUp(x, y, 15, gamePane, arkanoidGame);
+        } else {
+            return new ExtraLifePowerUp(x, y);
         }
     }
 }

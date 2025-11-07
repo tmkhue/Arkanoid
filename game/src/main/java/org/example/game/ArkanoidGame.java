@@ -131,14 +131,19 @@ public class ArkanoidGame {
             levelText.setFont(Font.font(30));
         }
         levelText.setFill(Color.BLUE);
-        levelText.setX(10);
+        levelText.setX(WIDTH/2.5);
         levelText.setY(50);
         gamePane.getChildren().add(levelText);
     }
 
+    public void increaseScore(int amount) {
+        score += amount;
+        updateScoreText();
+    } //cộng điểm cho tính năng của Paddle
+
     private void setupScoreText() {
         try {
-            Font gameFont = Font.loadFont(getClass().getResourceAsStream("/org/example/game/Font/Black_Stuff.otf"), 50);
+            Font gameFont = Font.loadFont(getClass().getResourceAsStream("/org/example/game/Font/Black_Stuff_Bold.ttf"), 50);
             scoreText = new Text("0");
             scoreText.setFont(gameFont);
         } catch (Exception e) {
@@ -176,10 +181,10 @@ public class ArkanoidGame {
                 try {
                     Image liveImg = new Image(getClass().getResourceAsStream("/org/example/game/Image/Hearts.png"));
                     ImageView live = new ImageView(liveImg);
-                    live.setFitWidth(30);
-                    live.setFitHeight(30);
-                    live.setX(WIDTH - 150 + liveList.size() * 35);
-                    live.setY(20);
+                    live.setFitWidth(40);
+                    live.setFitHeight(40);
+                    live.setX(WIDTH - 150 + liveList.size() * 45);
+                    live.setY(15);
                     liveList.add(live);
                     gamePane.getChildren().add(live);
                 } catch (Exception e) {
@@ -233,8 +238,8 @@ public class ArkanoidGame {
                 score += 10;
                 updateScoreText();
 
-                if (Math.random() < 0.05) {
-                    PowerUp p = PowerUpFactory.createPowerUp(b.getCenterX(), b.getCenterY(), gamePane, balls, paddle, paddleResizer);
+                if (Math.random() < 0.5) {
+                    PowerUp p = PowerUpFactory.createPowerUp(b.getCenterX(), b.getCenterY(), gamePane, balls, paddle, paddleResizer, this);
                     activePowerUps.add(p);
                     gamePane.getChildren().add(p);
                 }
@@ -282,10 +287,15 @@ public class ArkanoidGame {
         }
     }
 
+    private void updateLevelText() {
+        levelText.setText("LEVEL " + level.getLevel());
+    }
+
     private void nextLevel() {
         gamePane.getChildren().removeIf(node -> node instanceof Brick
                 || node instanceof PowerUp || node instanceof Ball);
         level.next();
+        updateLevelText();
         level.start(gamePane, ball);
         resetBall();
     }
