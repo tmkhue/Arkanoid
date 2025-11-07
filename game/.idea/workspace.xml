@@ -4,11 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="b31c86f8-594e-4db9-81e9-0d805fcf0aa2" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+    <list default="true" id="b31c86f8-594e-4db9-81e9-0d805fcf0aa2" name="Changes" comment="sửa font">
       <change beforePath="$PROJECT_DIR$/src/main/java/org/example/game/ArkanoidGame.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/game/ArkanoidGame.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/game/Brick.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/game/Brick.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/game/Levels.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/game/Levels.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/game/PowerUpFactory.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/game/PowerUpFactory.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -143,6 +141,19 @@
       <option name="presentableId" value="Default" />
       <updated>1760502716612</updated>
     </task>
+    <task id="LOCAL-00001" summary="sửa font">
+      <option name="closed" value="true" />
+      <created>1762512545410</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1762512545410</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="sửa font" />
+    <option name="LAST_COMMIT_MESSAGE" value="sửa font" />
   </component>
 </project>

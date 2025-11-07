@@ -131,7 +131,7 @@ public class ArkanoidGame {
             levelText.setFont(Font.font(30));
         }
         levelText.setFill(Color.BLUE);
-        levelText.setX(WIDTH/3);
+        levelText.setX(WIDTH/2.5);
         levelText.setY(50);
         gamePane.getChildren().add(levelText);
     }
@@ -181,10 +181,10 @@ public class ArkanoidGame {
                 try {
                     Image liveImg = new Image(getClass().getResourceAsStream("/org/example/game/Image/Hearts.png"));
                     ImageView live = new ImageView(liveImg);
-                    live.setFitWidth(30);
-                    live.setFitHeight(30);
-                    live.setX(WIDTH - 150 + liveList.size() * 35);
-                    live.setY(20);
+                    live.setFitWidth(40);
+                    live.setFitHeight(40);
+                    live.setX(WIDTH - 150 + liveList.size() * 45);
+                    live.setY(15);
                     liveList.add(live);
                     gamePane.getChildren().add(live);
                 } catch (Exception e) {
@@ -287,10 +287,15 @@ public class ArkanoidGame {
         }
     }
 
+    private void updateLevelText() {
+        levelText.setText("LEVEL " + level.getLevel());
+    }
+
     private void nextLevel() {
         gamePane.getChildren().removeIf(node -> node instanceof Brick
                 || node instanceof PowerUp || node instanceof Ball);
         level.next();
+        updateLevelText();
         level.start(gamePane, ball);
         resetBall();
     }
