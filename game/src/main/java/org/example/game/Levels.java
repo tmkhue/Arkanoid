@@ -8,7 +8,7 @@ public class Levels {
     private int level = 1;
 
     public void start(Pane gamePane, Ball ball) {
-        Level0(gamePane);
+        Level1(gamePane);
     }
 
     public void Level0(Pane gamePane){

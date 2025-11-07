@@ -11,7 +11,7 @@ public class WidenPaddlePowerUp extends PowerUp {
     private double widenAmountPerFrame = 12;
 
     public WidenPaddlePowerUp(double x, double y, double duration, PaddleResizer paddleResizer) {
-        //String path = "org/example/game/Image/WidePaddle.png";
+
         super("Widen Paddle", duration, x, y, "org/example/game/Image/WidePaddle.png");
         this.paddleResizer = paddleResizer;
         try {
@@ -25,7 +25,7 @@ public class WidenPaddlePowerUp extends PowerUp {
 
     @Override
     public void applyEffect(Paddle paddle, Ball ball) {
-        // Prevent multiple instances of this power-up from stacking
+
         for (ActiveEffect ae : ArkanoidGame.activeEffects) {
             if (ae.powerUp instanceof WidenPaddlePowerUp) {
                 System.out.println("Widen Paddle effect already active.");
@@ -48,7 +48,7 @@ public class WidenPaddlePowerUp extends PowerUp {
         if (widenTimer != null) {
             widenTimer.stop();
         }
-        paddleResizer.resetLength(paddle); // Reset to initial size
+        paddleResizer.resetLength(paddle);
         System.out.println("Removing Widen Paddle effect and resetting paddle size.");
     }
 }

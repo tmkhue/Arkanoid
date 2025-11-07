@@ -107,6 +107,11 @@ public class ArkanoidGame {
         Platform.runLater(() -> gamePane.requestFocus());
     }
 
+    public void increaseScore(int amount) {
+        score += amount;
+        updateScoreText();
+    } //cộng điểm cho tính năng của Paddle
+
     private void setupScoreText() {
         try {
             Font gameFont = Font.loadFont(getClass().getResourceAsStream("/org/example/game/Font/Black_Stuff.otf"), 50);
@@ -177,13 +182,13 @@ public class ArkanoidGame {
                 b.setDirectionX(bounceAngle * 2);
                 b.setDirectionY(-Math.abs(b.getDirectionY()));
             }
-            if (bricks.isHit(b)) {
+            if (bricks.resolveCollision(b, gamePane)) {
                 //sinh PowerUp
                 score += 10;
                 updateScoreText();
 
-                if (Math.random() < 0.05) {
-                    PowerUp p = PowerUpFactory.createPowerUp(b.getCenterX(), b.getCenterY(), gamePane, balls, paddle, paddleResizer);
+                if (Math.random() < 0.5) {
+                    PowerUp p = PowerUpFactory.createPowerUp(b.getCenterX(), b.getCenterY(), gamePane, balls, paddle, paddleResizer, this);
                     activePowerUps.add(p);
                     gamePane.getChildren().add(p);
                 }

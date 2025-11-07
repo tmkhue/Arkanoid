@@ -10,7 +10,7 @@ public class DefaultPaddleResizer implements PaddleResizer {
         double oldWidth = paddle.getWidth();
         double newWidth = Math.min(paddle.getWidth() + amount, MAX_PADDLE_WIDTH);
         paddle.setWidth(newWidth);
-        // Adjust X position to keep the center of the paddle in roughly the same place
+
         paddle.setX(paddle.getX() - (newWidth - oldWidth) / 2);
     }
 
@@ -19,7 +19,6 @@ public class DefaultPaddleResizer implements PaddleResizer {
         double oldWidth = paddle.getWidth();
         double newWidth = Math.max(paddle.getWidth() - amount, MIN_PADDLE_WIDTH);
         paddle.setWidth(newWidth);
-        // Adjust X position to keep the center of the paddle in roughly the same place
         paddle.setX(paddle.getX() - (newWidth - oldWidth) / 2);
     }
 
