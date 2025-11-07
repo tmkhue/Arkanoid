@@ -73,7 +73,6 @@ public class Ball extends Circle{
         super(15);
         setCenterX(300);
         setCenterY(250);
-
         try {
             double diameter = getRadius() * 4.5;
             Image img = new Image(getClass().getResourceAsStream("/org/example/game/Image/normalBall.png"), diameter, diameter, true, true);
