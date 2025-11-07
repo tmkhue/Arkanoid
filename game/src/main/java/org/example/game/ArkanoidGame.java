@@ -177,7 +177,7 @@ public class ArkanoidGame {
                 b.setDirectionX(bounceAngle * 2);
                 b.setDirectionY(-Math.abs(b.getDirectionY()));
             }
-            if (bricks.isHit(b)) {
+            if (bricks.resolveCollision(ball, gamePane)) {
                 //sinh PowerUp
                 score += 10;
                 updateScoreText();
