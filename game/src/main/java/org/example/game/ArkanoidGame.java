@@ -64,6 +64,8 @@ public class ArkanoidGame {
         level = new Levels();
         setupScoreText();
         setupLevelText();
+        ball.setCenterX(paddle.getX() - paddle.getWidth() / 2);
+        ball.setCenterY(paddle.getY() - ball.getRadius());
         ball.setGamePane(gamePane);
         level.start(gamePane, ball);
         balls.add(ball);
@@ -226,7 +228,7 @@ public class ArkanoidGame {
                 b.setDirectionX(bounceAngle * 2);
                 b.setDirectionY(-Math.abs(b.getDirectionY()));
             }
-            if (bricks.resolveCollision(ball, gamePane)) {
+            if (bricks.resolveCollision(b, gamePane)) {
                 //sinh PowerUp
                 score += 10;
                 updateScoreText();
@@ -311,6 +313,8 @@ public class ArkanoidGame {
         balls.clear();
         ballAttached = true;
         Ball newBall = new Ball();
+        newBall.setCenterX(paddle.getX() + paddle.getWidth() / 2);
+        newBall.setCenterY(paddle.getY() - newBall.getRadius());
         newBall.setDirectionX(0);
         newBall.setDirectionY(-1);
         newBall.setSpeed(3);
@@ -338,6 +342,9 @@ public class ArkanoidGame {
                     lives = 3;
                     setLives();
                     ball = new Ball();
+                    ball.setCenterX(paddle.getX() + paddle.getWidth() / 2);
+                    ball.setCenterY(paddle.getY() - ball.getRadius());
+                    ball.setSpeed(3);
                     ball.setGamePane(gamePane);
                     level.start(gamePane, ball);
                     balls.add(ball);
