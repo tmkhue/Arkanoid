@@ -20,7 +20,6 @@ public class Paddle extends Rectangle{
         setX(ArkanoidGame.WIDTH - getWidth());
         setY(ArkanoidGame.HEIGHT - 40);
 
-        // Load and set the texture image
         try {
             Image img = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/org/example/game/Image/Paddle.png")));
             if (img.isError()) {
@@ -29,7 +28,7 @@ public class Paddle extends Rectangle{
             setFill(new ImagePattern(img));
         } catch (Exception e) {
             System.err.println("⚠️ Could not load paddle image: " + e.getMessage());
-            setFill(javafx.scene.paint.Color.BLUE); // Use fill instead of style
+            setFill(javafx.scene.paint.Color.BLUE);
         }
     }
 
@@ -50,9 +49,8 @@ public class Paddle extends Rectangle{
     public void setMouseTarget(double mouseX) {
         this.mouseControl = true;
         double paddleHalfWidth = getWidth() / 2;
-        // Move borders 20px to the right by adding 20 to the constraints
-        double leftBoundary = ArkanoidGame.LEFT_BORDER + paddleHalfWidth;      // 20px right shift for left boundary
-        double rightBoundary = ArkanoidGame.WIDTH - paddleHalfWidth + 20;  // 20px right shift for right boundary
+        double leftBoundary = ArkanoidGame.LEFT_BORDER + paddleHalfWidth;
+        double rightBoundary = ArkanoidGame.WIDTH - paddleHalfWidth + 20;
 
         this.targetX = Math.max(leftBoundary, Math.min(mouseX, rightBoundary)) - paddleHalfWidth;
     }

@@ -1,21 +1,22 @@
 package org.example.game;
 
 import javafx.scene.layout.Pane;
+import javafx.scene.text.Text;
 
 import java.util.List;
 
 public class PowerUpFactory {
-    public static PowerUp createPowerUp(double x, double y, Pane gamePane, List<Ball> balls, Paddle paddle, PaddleResizer paddleResizer) {
-        if (Math.random() < 1.0 / 6.0) {
+    public static PowerUp createPowerUp(double x, double y, Pane gamePane, List<Ball> balls, Paddle paddle, PaddleResizer paddleResizer, ArkanoidGame arkanoidGame) {
+        if (Math.random() < 0.1) {
             return new FastBallPowerUp(x, y, 15);
-        } else if (Math.random() < 2.0 / 6.0) {
+        } else if (Math.random() < 0.2) {
             return new TripleBallPowerUp(x, y, 15, gamePane, balls);
-        } else if (Math.random() < 3.0 / 6.0) {
+        } else if (Math.random() < 0.3) {
             return new StrongBallPowerUp(x, y, 15);
-        } else if (Math.random() < 4.0 / 6.0) {
+        } else if (Math.random() < 0.4) {
             return new WidenPaddlePowerUp(x, y, 10, paddleResizer);
         } else {
-            return new ExtraLifePowerUp(x, y);
+            return new ArrowPowerUp(x, y, 15, gamePane, arkanoidGame);
         }
     }
 }
