@@ -256,6 +256,11 @@ public class Brick extends Rectangle {
     }
 
     public boolean isCleared() {
-        return bricks.isEmpty();
+        for (Brick brick : this.bricks) {
+            if (brick instanceof NormalBrick || brick instanceof StrongBrick) {
+                return false;
+            }
+        }
+        return true;
     }
 }
