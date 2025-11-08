@@ -27,6 +27,8 @@ public class Brick extends Rectangle {
     static final double BRICK_WIDTH = 60;
     static final double BRICK_HEIGHT = 40;
 
+
+
     public static ArrayList<Brick> bricks = new ArrayList<>();
 
     public Brick() {
@@ -175,8 +177,7 @@ public class Brick extends Rectangle {
         hitPoints--;
     }
 
-    public boolean resolveCollision(Ball ball, Pane gamePane) {
-
+    public boolean resolveCollision(Ball ball, Pane gamePane, ArkanoidGame game) {
         Iterator<Brick> it = bricks.iterator();
         while (it.hasNext()) {
             Brick brick = it.next();
@@ -191,6 +192,12 @@ public class Brick extends Rectangle {
             }
             if (brick.isHit(ball)) {
                 brick.takeHit(ball, gamePane);
+                ball.increaseCombo();
+                int bonus = ball.getComboCount() * 10;
+                game.increaseScore(bonus);
+                if (ball.getComboCount() > 1) {
+                    game.setupComboText(ball.getComboCount());
+                }
                 if(brick.isDestroyed()) {
                     it.remove();
                     gamePane.getChildren().remove(brick);
@@ -256,6 +263,11 @@ public class Brick extends Rectangle {
     }
 
     public boolean isCleared() {
-        return bricks.isEmpty();
+        for (Brick brick : this.bricks) {
+            if (brick instanceof NormalBrick || brick instanceof StrongBrick || brick instanceof Flower) {
+                return false;
+            }
+        }
+        return true;
     }
 }

@@ -1,15 +1,22 @@
 package org.example.game;
 
 import javafx.animation.AnimationTimer;
+import javafx.animation.PauseTransition;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
+import javafx.stage.Stage;
+import javafx.util.Duration;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -40,7 +47,14 @@ public class ArkanoidGame {
     private List<Ball> balls = new ArrayList<>();
 
     private int score = 0;
+
+    public int getScore() {
+        return score;
+    }
+
     private Text scoreText;
+
+    private Text comboText;
 
     private Text levelText;
 
@@ -48,6 +62,7 @@ public class ArkanoidGame {
     private List<ImageView> liveList = new ArrayList<>();
 
     private static ArkanoidGame instance;
+    private boolean levelChanging = false;
 
     public static ArkanoidGame getInstance() {
         return instance;
@@ -141,6 +156,30 @@ public class ArkanoidGame {
         updateScoreText();
     } //cộng điểm cho tính năng của Paddle
 
+    public void setupComboText(int combo) {
+        if (comboText == null) {
+            try {
+                Font gameFont = Font.loadFont(getClass().getResourceAsStream("/org/example/game/Font/Black_Stuff_Bold.ttf"), 50);
+                comboText = new Text("COMBO X " + combo);
+                comboText.setFont(gameFont);
+            } catch (Exception e) {
+                System.err.println("Could not load font, using default.");
+                comboText = new Text("COMBO X " + combo);
+                scoreText.setFont(Font.font(30));
+            }
+            comboText.setFill(Color.BLUE);
+            comboText.setX(400);
+            comboText.setY(745);
+            comboText.setVisible(false);
+            gamePane.getChildren().add(comboText);
+        }
+        comboText.setText("COMBO X" + combo);
+        comboText.setVisible(true);
+        PauseTransition pt = new PauseTransition(Duration.seconds(2));
+        pt.setOnFinished(e -> comboText.setVisible(false));
+        pt.play();
+    }
+
     private void setupScoreText() {
         try {
             Font gameFont = Font.loadFont(getClass().getResourceAsStream("/org/example/game/Font/Black_Stuff_Bold.ttf"), 50);
@@ -222,10 +261,10 @@ public class ArkanoidGame {
         paddle.move();
 
         for (Brick brick:Brick.bricks){
-                brick.moveBrick(2);
-                if(!(brick instanceof Flower)){
-                    brick.toFront();
-                }
+            brick.moveBrick(2);
+            if(!(brick instanceof Flower)){
+                brick.toFront();
+            }
         }
         List<Ball> ballsToRemove = new ArrayList<>();
 
@@ -234,22 +273,21 @@ public class ArkanoidGame {
             Ball b = ballIt.next();
             b.move();
             if (b.getBoundsInParent().intersects(paddle.getBoundsInParent())) {
+                b.resetCombo();
                 double hitPos = (b.getCenterX() - paddle.getX()) / paddle.getWidth();
                 double bounceAngle = (hitPos - 0.5) * 2;
                 b.setDirectionX(bounceAngle * 2);
                 b.setDirectionY(-Math.abs(b.getDirectionY()));
             }
-            if (bricks.resolveCollision(b, gamePane)) {
-                //sinh PowerUp
-                score += 10;
-                updateScoreText();
 
-                if (Math.random() < 0.5) {
+            if (bricks.resolveCollision(b, gamePane, this)) {
+                if (Math.random() < 0) {
                     PowerUp p = PowerUpFactory.createPowerUp(b.getCenterX(), b.getCenterY(), gamePane, balls, paddle, paddleResizer, this);
                     activePowerUps.add(p);
                     gamePane.getChildren().add(p);
                 }
             }
+
             if (b.getCenterY() - b.getRadius() > HEIGHT) {
                 ballsToRemove.add(b);
                 ballIt.remove();
@@ -288,7 +326,8 @@ public class ArkanoidGame {
                 effectIt.remove();
             }
         }
-        if (bricks.isCleared()) {
+        if (bricks.isCleared() && !levelChanging) {
+            levelChanging = true;
             nextLevel();
         }
     }
@@ -298,12 +337,17 @@ public class ArkanoidGame {
     }
 
     private void nextLevel() {
-        gamePane.getChildren().removeIf(node -> node instanceof Brick
-                || node instanceof PowerUp || node instanceof Ball);
-        level.next();
-        updateLevelText();
-        level.start(gamePane, ball);
-        resetBall();
+        PauseTransition pause = new PauseTransition(Duration.seconds(2));
+        pause.setOnFinished(event -> {
+            gamePane.getChildren().removeIf(node -> node instanceof Brick
+                    || node instanceof PowerUp || node instanceof Ball);
+            level.next();
+            updateLevelText();
+            level.start(gamePane, ball);
+            resetBall();
+            levelChanging = false;
+        });
+        pause.play();
     }
 
     private void loseLife() {
@@ -316,8 +360,22 @@ public class ArkanoidGame {
             if (lives > 0) {
                 resetBall();
             } else {
-                resetGame();
+                /*resetGame();*//*
+                gameTimer.stop(); // Dừng game loop*/
+                showGameOverScreen();
             }
+        }
+    }
+    private void showGameOverScreen() {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("GameOver.fxml"));
+            Parent gameOverRoot = loader.load();
+            Scene gameOverScene = new Scene(gameOverRoot);
+            Stage primaryStage = (Stage) gamePane.getScene().getWindow();
+            primaryStage.setScene(gameOverScene);
+            primaryStage.setTitle("Game Over!");
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 

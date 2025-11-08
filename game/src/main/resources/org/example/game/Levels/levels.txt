@@ -1,28 +1,28 @@
 m: có thể di chuyển
 ..-angle-minX-maxX-minY-maxY
 LEVEL 1
-N x N x N x N x N x N N  x N x N N N 
-N x N x N x N x N x N N  x N x N N N 
-N x N x N x N x N x N N  x N x N N N 
-N x N x N x N x N x N N  x N x N N N 
-N x N x N x N x N x N N  x N x N N Nm-90- - -300-400 
+N x N x N x N x N x N N  x N x N N N
+N x N x N x N x N x N N  x N x N N N
+N x N x N x N x N x N N  x N x N N N
+N x N x N x N x N x N N  x N x N N N
+N x N x N x N x N x N N  x N x N N Nm-90- - -300-400
 ----
 level 2:
-N N N N N N N x N N N N 
-N N N N N N N x N N N N 
-N N N N N N N x N N N N 
-N N N N N N N x N N N N 
-N N N N U U U x U N N Nm-300-400 
+N N N N N N N x N N N N
+N N N N N N N x N N N N
+N N N N N N N x N N N N
+N N N N N N N x N N N N
+N N N N U U U x U N N Nm-300-400
 ----
 level 0
-Nm-120-40-200-60-400 x Nm-120-100-240-60-400 
+Nm-120-40-200-60-400 x Nm-120-100-240-60-400
 ----
-LEVEl 3  
+LEVEl 3
 x x x x
 x x x
 x
 x
-x x x x x x x 
+x x x x x x x
 x
 x
 x

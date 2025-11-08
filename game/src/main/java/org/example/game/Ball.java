@@ -13,12 +13,26 @@ import javafx.util.Duration;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Ball extends Circle{
+public class Ball extends Circle {
     private double directionX = 1;
     private double directionY = -1;
     private double speed = 3;
 
     private boolean isStrong = false;
+
+    private int comboCount = 0;
+
+    public int getComboCount() {
+        return comboCount;
+    }
+
+    public void resetCombo() {
+        comboCount = 0;
+    }
+
+    public void increaseCombo() {
+        comboCount++;
+    }
 
     public boolean isStrong() {
         return isStrong;
@@ -84,17 +98,23 @@ public class Ball extends Circle{
         }
     }
 
-    public void move(){
-        this.setCenterX(this.getCenterX() + directionX * speed);
-        this.setCenterY(this.getCenterY() + directionY * speed);
+    public void move() {
+        double nextX = this.getCenterX() + directionX * speed;
+        double nextY = this.getCenterY() + directionY * speed;
 
         shadowEffect(this);
 
-        if (getCenterX() - getRadius() <= ArkanoidGame.LEFT_BORDER || getCenterX() + getRadius() >= ArkanoidGame.WIDTH + ArkanoidGame.LEFT_BORDER) {
+        if (nextX - getRadius() <= ArkanoidGame.LEFT_BORDER || nextX + getRadius() >= ArkanoidGame.WIDTH + ArkanoidGame.LEFT_BORDER) {
             directionX *= -1;
+            this.setCenterX(this.getCenterX() + directionX * speed);
+        } else {
+            this.setCenterX(this.getCenterX() + directionX * speed);
         }
         if (getCenterY() - getDirectionX() <= ArkanoidGame.TOP_BORDER) {
             directionY *= -1;
+            this.setCenterY(this.getCenterY() + directionY * speed);
+        } else {
+            this.setCenterY(this.getCenterY() + directionY * speed);
         }
     }
 
