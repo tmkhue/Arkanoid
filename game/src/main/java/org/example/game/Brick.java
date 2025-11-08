@@ -27,6 +27,8 @@ public class Brick extends Rectangle {
     static final double BRICK_WIDTH = 60;
     static final double BRICK_HEIGHT = 40;
 
+
+
     public static ArrayList<Brick> bricks = new ArrayList<>();
 
     public Brick() {
@@ -262,7 +264,7 @@ public class Brick extends Rectangle {
 
     public boolean isCleared() {
         for (Brick brick : this.bricks) {
-            if (brick instanceof NormalBrick || brick instanceof StrongBrick) {
+            if (brick instanceof NormalBrick || brick instanceof StrongBrick || brick instanceof Flower) {
                 return false;
             }
         }
