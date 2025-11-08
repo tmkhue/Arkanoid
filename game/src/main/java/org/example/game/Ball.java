@@ -20,6 +20,20 @@ public class Ball extends Circle {
 
     private boolean isStrong = false;
 
+    private int comboCount = 0;
+
+    public int getComboCount() {
+        return comboCount;
+    }
+
+    public void resetCombo() {
+        comboCount = 0;
+    }
+
+    public void increaseCombo() {
+        comboCount++;
+    }
+
     public boolean isStrong() {
         return isStrong;
     }
