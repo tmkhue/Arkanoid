@@ -22,7 +22,7 @@ public class Levels {
     }
 
     public void next() {
-        level++;
+        level = (level + 1) % (LEVEL + 1);
     }
 
     public void start(Pane gamePane, Ball ball) {
