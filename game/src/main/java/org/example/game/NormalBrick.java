@@ -12,8 +12,10 @@ public class NormalBrick extends Brick {
         super(x, y,"N");
         this.setHitPoints(1);
     }
-    public NormalBrick(double x, double y, boolean movable){
-        super(x, y,"N", movable);
+
+    public NormalBrick(double x, double y, double angle,
+                       double minX, double maxX,double maxY, double minY){
+        super(x, y, "N", angle, minX, maxX, minY, maxY);
         this.setHitPoints(1);
     }
 

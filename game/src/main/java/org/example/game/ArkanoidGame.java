@@ -1,27 +1,20 @@
 package org.example.game;
 
 import javafx.animation.AnimationTimer;
+import javafx.animation.PauseTransition;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
-import javafx.scene.control.Button; // Import Button
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
-import javafx.scene.control.Label;
-import javafx.stage.Stage;
+import javafx.util.Duration;
 
-import java.io.IOException;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Objects;
 
 public class ArkanoidGame {
     public static final int WIDTH = 750;
@@ -39,7 +32,7 @@ public class ArkanoidGame {
     private Brick bricks;
     private Levels level;
 
-    private PaddleResizer paddleResizer = new DefaultPaddleResizer();
+    private PaddleResizer paddleResizer = new DefaultPaddleResizer(); // Declare the resizer
 
     private boolean ballAttached = true;
 
@@ -51,19 +44,14 @@ public class ArkanoidGame {
     private int score = 0;
     private Text scoreText;
 
+    private Text comboText;
+
     private Text levelText;
 
     private int lives = 3;
     private List<ImageView> liveList = new ArrayList<>();
 
     private static ArkanoidGame instance;
-    private AnimationTimer gameTimer; // Lưu trữ gameTimer để có thể dừng nó
-
-    //Thêm GameOver
-    private ImageView gameOverImageView;
-    private Label finalScoreLabel;
-    private Button restartButton; // Nút chơi lại
-    private Button menuButton;    // Nút về menu
 
     public static ArkanoidGame getInstance() {
         return instance;
@@ -126,13 +114,13 @@ public class ArkanoidGame {
         });
 
         // Game loop
-        gameTimer = new AnimationTimer() { // Gán vào gameTimer
+        AnimationTimer timer = new AnimationTimer() {
             @Override
             public void handle(long now) {
                 update();
             }
         };
-        gameTimer.start(); // Bắt đầu timer
+        timer.start();
         Platform.runLater(() -> gamePane.requestFocus());
     }
 
@@ -156,6 +144,30 @@ public class ArkanoidGame {
         score += amount;
         updateScoreText();
     } //cộng điểm cho tính năng của Paddle
+
+    public void setupComboText(int combo) {
+        if (comboText == null) {
+            try {
+                Font gameFont = Font.loadFont(getClass().getResourceAsStream("/org/example/game/Font/Black_Stuff_Bold.ttf"), 50);
+                comboText = new Text("COMBO X " + combo);
+                comboText.setFont(gameFont);
+            } catch (Exception e) {
+                System.err.println("Could not load font, using default.");
+                comboText = new Text("COMBO X " + combo);
+                scoreText.setFont(Font.font(30));
+            }
+            comboText.setFill(Color.BLUE);
+            comboText.setX(400);
+            comboText.setY(745);
+            comboText.setVisible(false);
+            gamePane.getChildren().add(comboText);
+        }
+        comboText.setText("COMBO X" + combo);
+        comboText.setVisible(true);
+        PauseTransition pt = new PauseTransition(Duration.seconds(2));
+        pt.setOnFinished(e -> comboText.setVisible(false));
+        pt.play();
+    }
 
     private void setupScoreText() {
         try {
@@ -237,6 +249,12 @@ public class ArkanoidGame {
         ball.toFront();
         paddle.move();
 
+        for (Brick brick:Brick.bricks){
+                brick.moveBrick(2);
+                if(!(brick instanceof Flower)){
+                    brick.toFront();
+                }
+        }
         List<Ball> ballsToRemove = new ArrayList<>();
 
         Iterator<Ball> ballIt = balls.iterator();
@@ -244,22 +262,21 @@ public class ArkanoidGame {
             Ball b = ballIt.next();
             b.move();
             if (b.getBoundsInParent().intersects(paddle.getBoundsInParent())) {
+                b.resetCombo();
                 double hitPos = (b.getCenterX() - paddle.getX()) / paddle.getWidth();
                 double bounceAngle = (hitPos - 0.5) * 2;
                 b.setDirectionX(bounceAngle * 2);
                 b.setDirectionY(-Math.abs(b.getDirectionY()));
             }
-            if (bricks.resolveCollision(b, gamePane)) {
-                //sinh PowerUp
-                score += 10;
-                updateScoreText();
 
-                if (Math.random() < 0.5) {
+            if (bricks.resolveCollision(b, gamePane, this)) {
+                if (Math.random() < 0) {
                     PowerUp p = PowerUpFactory.createPowerUp(b.getCenterX(), b.getCenterY(), gamePane, balls, paddle, paddleResizer, this);
                     activePowerUps.add(p);
                     gamePane.getChildren().add(p);
                 }
             }
+
             if (b.getCenterY() - b.getRadius() > HEIGHT) {
                 ballsToRemove.add(b);
                 ballIt.remove();
@@ -308,12 +325,16 @@ public class ArkanoidGame {
     }
 
     private void nextLevel() {
-        gamePane.getChildren().removeIf(node -> node instanceof Brick
-                || node instanceof PowerUp || node instanceof Ball);
-        level.next();
-        updateLevelText();
-        level.start(gamePane, ball);
-        resetBall();
+        PauseTransition pause = new PauseTransition(Duration.seconds(2));
+        pause.setOnFinished(event -> {
+            gamePane.getChildren().removeIf(node -> node instanceof Brick
+                    || node instanceof PowerUp || node instanceof Ball);
+            level.next();
+            updateLevelText();
+            level.start(gamePane, ball);
+            resetBall();
+        });
+        pause.play();
     }
 
     private void loseLife() {
@@ -326,8 +347,7 @@ public class ArkanoidGame {
             if (lives > 0) {
                 resetBall();
             } else {
-                gameTimer.stop(); // Dừng game loop
-                showGameOverScreen();
+                resetGame();
             }
         }
     }
@@ -351,20 +371,34 @@ public class ArkanoidGame {
         paddle.setX((WIDTH - paddle.getWidth()) / 2);
     }
 
-    private void showGameOverScreen() {
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("GameOver.fxml"));
-            Parent gameOverRoot = loader.load();
-            Scene gameOverScene = new Scene(gameOverRoot);
-            Stage primaryStage = (Stage) gamePane.getScene().getWindow();
-            primaryStage.setScene(gameOverScene);
-            primaryStage.setTitle("Game Over!");
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
     private void resetGame() {
-        System.out.println("resetGame() called, but it might be redundant now.");
+        new Thread(() -> {
+            try {
+                Thread.sleep(2000);
+                Platform.runLater(() -> {
+                    gamePane.getChildren().removeIf(node -> node instanceof Brick
+                            || node instanceof PowerUp || node instanceof Ball);
+                    balls.clear();
+                    ballAttached = true;
+                    score = 0;
+                    updateScoreText();
+                    for (ImageView live : liveList) {
+                        gamePane.getChildren().remove(live);
+                    }
+                    liveList.clear();
+                    lives = 3;
+                    setLives();
+                    ball = new Ball();
+                    ball.setCenterX(paddle.getX() + paddle.getWidth() / 2);
+                    ball.setCenterY(paddle.getY() - ball.getRadius());
+                    ball.setSpeed(3);
+                    ball.setGamePane(gamePane);
+                    level.start(gamePane, ball);
+                    balls.add(ball);
+                    gamePane.getChildren().add(ball);
+                    paddle.setX((WIDTH - paddle.getWidth()) / 2);
+                });
+            } catch (InterruptedException ignored) {}
+        }).start();
     }
 }
