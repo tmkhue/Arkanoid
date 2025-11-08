@@ -10,11 +10,9 @@
          <image>
             <Image url="@Image/EndGame.png" />
          </image></ImageView>
-      <Button fx:id="restartGame" layoutX="304.0" layoutY="581.0" mnemonicParsing="false"
-              onAction="#restart" prefHeight="70.0" prefWidth="190.0" />
-      <Button fx:id="exitButton" layoutX="304.0" layoutY="686.0" mnemonicParsing="false"
-              prefHeight="70.0" prefWidth="190.0" onAction="#exit" />
-      <Button fx:id="backToMenu" layoutX="39.0" layoutY="692.0" mnemonicParsing="false"
-              prefHeight="80.0" prefWidth="80.0" onAction="#backToMenu"/>
+      <Button fx:id="restartGame" layoutX="304.0" layoutY="581.0" mnemonicParsing="false" onAction="#restart" prefHeight="70.0" prefWidth="190.0" />
+      <Button fx:id="exitButton" layoutX="304.0" layoutY="686.0" mnemonicParsing="false" onAction="#exit" prefHeight="70.0" prefWidth="190.0" />
+      <Button fx:id="backToMenu" layoutX="39.0" layoutY="692.0" mnemonicParsing="false" onAction="#backToMenu" prefHeight="80.0" prefWidth="80.0" />
+      <Label fx:id="HighScore" layoutY="346.0" prefHeight="92.0" prefWidth="203.0" text="Label" textAlignment="CENTER" />
    </children>
 </AnchorPane>

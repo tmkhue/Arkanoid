@@ -47,6 +47,11 @@ public class ArkanoidGame {
     private List<Ball> balls = new ArrayList<>();
 
     private int score = 0;
+
+    public int getScore() {
+        return score;
+    }
+
     private Text scoreText;
 
     private Text comboText;
