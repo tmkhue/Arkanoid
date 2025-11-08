@@ -9,8 +9,13 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.Pane;
+import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -25,15 +30,27 @@ public class GameOverMenu implements Initializable {
     private Button exitButton;
     @FXML
     private Button backToMenu;
+    @FXML
+    private Label HighScore;
 
     @Override
-    public void initialize(URL url, ResourceBundle resourceBundle){
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+        setupScoreText(ArkanoidGame.getInstance());
         setButton(exitButton, "/org/example/game/Image/gameExit.png", "/org/example/game/Image/gameExitOnHover.png", 190, 70);
         setButton(restartGame, "/org/example/game/Image/restart.png", "/org/example/game/Image/restartOnHover.png", 190, 70);
         setButton(backToMenu, "/org/example/game/Image/backToMenu.png", "/org/example/game/Image/backToMenuHover.png", 80, 80);
     }
 
-    private void setButton(Button button, String normal, String onHover,double w,double h){
+    @FXML
+    private void setupScoreText(ArkanoidGame game) {
+        Font gameFont = Font.loadFont(getClass().getResourceAsStream("/org/example/game/Font/Black_Stuff_Bold.ttf"), 50);
+        HighScore.setFont(gameFont);
+        HighScore.setTextFill(Color.rgb(147,39,143));
+        HighScore.setLayoutX(370);
+        HighScore.setText(String.valueOf(game.getScore()));
+    }
+
+    private void setButton(Button button, String normal, String onHover, double w, double h) {
         Image Img = new Image(Objects.requireNonNull(getClass().getResourceAsStream(normal)));
         Image OnHover = new Image(Objects.requireNonNull(getClass().getResourceAsStream(onHover)));
 
@@ -54,7 +71,7 @@ public class GameOverMenu implements Initializable {
     }
 
     @FXML
-    public void restart(ActionEvent event){
+    public void restart(ActionEvent event) {
         try {
             Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
 
@@ -77,7 +94,7 @@ public class GameOverMenu implements Initializable {
     }
 
     @FXML
-    private void backToMenu(ActionEvent event){
+    private void backToMenu(ActionEvent event) {
         try {
             Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
 
