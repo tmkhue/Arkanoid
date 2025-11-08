@@ -4,14 +4,19 @@ import javafx.animation.AnimationTimer;
 import javafx.animation.PauseTransition;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
+import javafx.stage.Stage;
 import javafx.util.Duration;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -350,8 +355,22 @@ public class ArkanoidGame {
             if (lives > 0) {
                 resetBall();
             } else {
-                resetGame();
+                /*resetGame();*//*
+                gameTimer.stop(); // Dừng game loop*/
+                showGameOverScreen();
             }
+        }
+    }
+    private void showGameOverScreen() {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("GameOver.fxml"));
+            Parent gameOverRoot = loader.load();
+            Scene gameOverScene = new Scene(gameOverRoot);
+            Stage primaryStage = (Stage) gamePane.getScene().getWindow();
+            primaryStage.setScene(gameOverScene);
+            primaryStage.setTitle("Game Over!");
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 
