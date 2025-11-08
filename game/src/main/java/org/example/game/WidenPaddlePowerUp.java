@@ -12,15 +12,8 @@ public class WidenPaddlePowerUp extends PowerUp {
 
     public WidenPaddlePowerUp(double x, double y, double duration, PaddleResizer paddleResizer) {
 
-        super("Widen Paddle", duration, x, y, "org/example/game/Image/WidePaddle.png");
+        super("Widen Paddle", duration, x, y, "/org/example/game/Image/WidePaddle.png");
         this.paddleResizer = paddleResizer;
-        try {
-            Image img = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/org/example/game/Image/WidePaddle.png")));
-            setFill(new ImagePattern(img));
-        } catch (Exception e) {
-            System.err.println("⚠️ Could not load WidenPaddlePowerUp image: " + e.getMessage());
-            setFill(javafx.scene.paint.Color.PURPLE);
-        }
     }
 
     @Override

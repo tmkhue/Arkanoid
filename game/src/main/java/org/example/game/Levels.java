@@ -29,13 +29,13 @@ public class Levels {
         drawNormalLevel(gamePane);
         drawBoss(gamePane);
 
-        switch (level) {
+       /* switch (level) {
             case 0 -> Level0(gamePane);
             case 1 -> Level1(gamePane);
             case 2 -> Level2(gamePane);
             case 3 -> Level3(gamePane);
             default -> Level0(gamePane);
-        }
+        }*/
     }
 
     public String[][] loadLevel() {

@@ -1,6 +1,7 @@
 package org.example.game;
 
 import javafx.animation.AnimationTimer;
+import javafx.animation.PauseTransition;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.image.Image;
@@ -9,6 +10,7 @@ import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
+import javafx.util.Duration;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -41,6 +43,8 @@ public class ArkanoidGame {
 
     private int score = 0;
     private Text scoreText;
+
+    private Text comboText;
 
     private Text levelText;
 
@@ -141,6 +145,30 @@ public class ArkanoidGame {
         updateScoreText();
     } //cộng điểm cho tính năng của Paddle
 
+    public void setupComboText(int combo) {
+        if (comboText == null) {
+            try {
+                Font gameFont = Font.loadFont(getClass().getResourceAsStream("/org/example/game/Font/Black_Stuff_Bold.ttf"), 50);
+                comboText = new Text("COMBO X " + combo);
+                comboText.setFont(gameFont);
+            } catch (Exception e) {
+                System.err.println("Could not load font, using default.");
+                comboText = new Text("COMBO X " + combo);
+                scoreText.setFont(Font.font(30));
+            }
+            comboText.setFill(Color.BLUE);
+            comboText.setX(400);
+            comboText.setY(745);
+            comboText.setVisible(false);
+            gamePane.getChildren().add(comboText);
+        }
+        comboText.setText("COMBO X" + combo);
+        comboText.setVisible(true);
+        PauseTransition pt = new PauseTransition(Duration.seconds(2));
+        pt.setOnFinished(e -> comboText.setVisible(false));
+        pt.play();
+    }
+
     private void setupScoreText() {
         try {
             Font gameFont = Font.loadFont(getClass().getResourceAsStream("/org/example/game/Font/Black_Stuff_Bold.ttf"), 50);
@@ -234,22 +262,21 @@ public class ArkanoidGame {
             Ball b = ballIt.next();
             b.move();
             if (b.getBoundsInParent().intersects(paddle.getBoundsInParent())) {
+                b.resetCombo();
                 double hitPos = (b.getCenterX() - paddle.getX()) / paddle.getWidth();
                 double bounceAngle = (hitPos - 0.5) * 2;
                 b.setDirectionX(bounceAngle * 2);
                 b.setDirectionY(-Math.abs(b.getDirectionY()));
             }
-            if (bricks.resolveCollision(b, gamePane)) {
-                //sinh PowerUp
-                score += 10;
-                updateScoreText();
 
-                if (Math.random() < 0.05) {
+            if (bricks.resolveCollision(b, gamePane, this)) {
+                if (Math.random() < 0) {
                     PowerUp p = PowerUpFactory.createPowerUp(b.getCenterX(), b.getCenterY(), gamePane, balls, paddle, paddleResizer, this);
                     activePowerUps.add(p);
                     gamePane.getChildren().add(p);
                 }
             }
+
             if (b.getCenterY() - b.getRadius() > HEIGHT) {
                 ballsToRemove.add(b);
                 ballIt.remove();
@@ -298,12 +325,16 @@ public class ArkanoidGame {
     }
 
     private void nextLevel() {
-        gamePane.getChildren().removeIf(node -> node instanceof Brick
-                || node instanceof PowerUp || node instanceof Ball);
-        level.next();
-        updateLevelText();
-        level.start(gamePane, ball);
-        resetBall();
+        PauseTransition pause = new PauseTransition(Duration.seconds(2));
+        pause.setOnFinished(event -> {
+            gamePane.getChildren().removeIf(node -> node instanceof Brick
+                    || node instanceof PowerUp || node instanceof Ball);
+            level.next();
+            updateLevelText();
+            level.start(gamePane, ball);
+            resetBall();
+        });
+        pause.play();
     }
 
     private void loseLife() {
