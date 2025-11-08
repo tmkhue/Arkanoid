@@ -5,8 +5,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="b31c86f8-594e-4db9-81e9-0d805fcf0aa2" name="Changes" comment="sửa font">
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/game/ArkanoidGame.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/game/ArkanoidGame.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/game/PowerUpFactory.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/game/PowerUpFactory.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/game/Ball.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/game/Ball.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/game/Brick.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/game/Brick.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -41,12 +42,12 @@
     &quot;assignee&quot;: &quot;bichphuong060112&quot;
   }
 }</component>
-  <component name="GithubPullRequestsUISettings">{
-  &quot;selectedUrlAndAccountId&quot;: {
-    &quot;url&quot;: &quot;https://github.com/tmkhue/Arkanoid.git&quot;,
-    &quot;accountId&quot;: &quot;9e9c2778-a245-48a1-b422-66834c895283&quot;
+  <component name="GithubPullRequestsUISettings"><![CDATA[{
+  "selectedUrlAndAccountId": {
+    "url": "https://github.com/tmkhue/Arkanoid.git",
+    "accountId": "e6d9732a-950f-434c-8491-e8686b2a0bc1"
   }
-}</component>
+}]]></component>
   <component name="MavenImportPreferences">
     <option name="generalSettings">
       <MavenGeneralSettings>
@@ -74,9 +75,9 @@
     &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;#18 on hachi&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
     &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;D:/Arkanoid/game&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/codeProjects/Arkanoid/game&quot;,
     &quot;project.structure.last.edited&quot;: &quot;Project&quot;,
     &quot;project.structure.proportion&quot;: &quot;0.19759037&quot;,
     &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,
@@ -104,15 +105,6 @@
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
-    </configuration>
-    <configuration default="true" type="JetRunConfigurationType">
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration default="true" type="KotlinStandaloneScriptRunConfigurationType">
-      <option name="filePath" />
-      <method v="2" />
     </configuration>
     <configuration default="true" type="TestNG">
       <option name="TEST_OBJECT" value="CLASS" />
