@@ -3,16 +3,25 @@ package org.example.game;
 import javafx.animation.AnimationTimer;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.control.Button; // Import Button
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
+import javafx.scene.control.Label;
+import javafx.stage.Stage;
 
+import java.io.IOException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Objects;
 
 public class ArkanoidGame {
     public static final int WIDTH = 750;
@@ -30,7 +39,7 @@ public class ArkanoidGame {
     private Brick bricks;
     private Levels level;
 
-    private PaddleResizer paddleResizer = new DefaultPaddleResizer(); // Declare the resizer
+    private PaddleResizer paddleResizer = new DefaultPaddleResizer();
 
     private boolean ballAttached = true;
 
@@ -48,6 +57,13 @@ public class ArkanoidGame {
     private List<ImageView> liveList = new ArrayList<>();
 
     private static ArkanoidGame instance;
+    private AnimationTimer gameTimer; // Lưu trữ gameTimer để có thể dừng nó
+
+    //Thêm GameOver
+    private ImageView gameOverImageView;
+    private Label finalScoreLabel;
+    private Button restartButton; // Nút chơi lại
+    private Button menuButton;    // Nút về menu
 
     public static ArkanoidGame getInstance() {
         return instance;
@@ -110,13 +126,13 @@ public class ArkanoidGame {
         });
 
         // Game loop
-        AnimationTimer timer = new AnimationTimer() {
+        gameTimer = new AnimationTimer() { // Gán vào gameTimer
             @Override
             public void handle(long now) {
                 update();
             }
         };
-        timer.start();
+        gameTimer.start(); // Bắt đầu timer
         Platform.runLater(() -> gamePane.requestFocus());
     }
 
@@ -310,7 +326,8 @@ public class ArkanoidGame {
             if (lives > 0) {
                 resetBall();
             } else {
-                resetGame();
+                gameTimer.stop(); // Dừng game loop
+                showGameOverScreen();
             }
         }
     }
@@ -334,34 +351,125 @@ public class ArkanoidGame {
         paddle.setX((WIDTH - paddle.getWidth()) / 2);
     }
 
-    private void resetGame() {
-        new Thread(() -> {
+    private void showGameOverScreen() {
+        gamePane.getChildren().clear(); // Xóa tất cả các phần tử trò chơi
+
+        try {
+            Image gameOverImage = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/org/example/game/Image/EndGame.png")));
+            gameOverImageView = new ImageView(gameOverImage);
+            gameOverImageView.setFitWidth(800);
+            gameOverImageView.setFitHeight(800);
+            gameOverImageView.setPreserveRatio(false);
+
+            gameOverImageView.setX((ArkanoidGame.WIDTH - 800) / 2 + ArkanoidGame.LEFT_BORDER);
+            gameOverImageView.setY((ArkanoidGame.HEIGHT - 800) / 2 + ArkanoidGame.TOP_BORDER);
+
+
+            gamePane.getChildren().add(gameOverImageView);
+
+            finalScoreLabel = new Label("" + score);
             try {
-                Thread.sleep(2000);
-                Platform.runLater(() -> {
-                    gamePane.getChildren().removeIf(node -> node instanceof Brick
-                            || node instanceof PowerUp || node instanceof Ball);
-                    balls.clear();
-                    ballAttached = true;
-                    score = 0;
-                    updateScoreText();
-                    for (ImageView live : liveList) {
-                        gamePane.getChildren().remove(live);
-                    }
-                    liveList.clear();
-                    lives = 3;
-                    setLives();
-                    ball = new Ball();
-                    ball.setCenterX(paddle.getX() + paddle.getWidth() / 2);
-                    ball.setCenterY(paddle.getY() - ball.getRadius());
-                    ball.setSpeed(3);
-                    ball.setGamePane(gamePane);
-                    level.start(gamePane, ball);
-                    balls.add(ball);
-                    gamePane.getChildren().add(ball);
-                    paddle.setX((WIDTH - paddle.getWidth()) / 2);
-                });
-            } catch (InterruptedException ignored) {}
-        }).start();
+                Font gameFont = Font.loadFont(Objects.requireNonNull(getClass().getResourceAsStream("/org/example/game/Font/Black_Stuff_Bold.ttf")), 60);
+                finalScoreLabel.setFont(gameFont);
+            } catch (Exception e) {
+                System.err.println("Không thể tải font cho điểm cuối cùng, sử dụng font mặc định.");
+                finalScoreLabel.setFont(Font.font("Arial", 40));
+            }
+            finalScoreLabel.setTextFill(Color.PINK);
+            finalScoreLabel.setLayoutX(WIDTH / 2 );
+            finalScoreLabel.setLayoutY(HEIGHT / 2 + 15);
+
+            gamePane.getChildren().add(finalScoreLabel);
+
+            // Thêm nút Chơi lại
+            restartButton = new Button("Chơi lại");
+            restartButton.setStyle("-fx-font-size: 20px; -fx-background-color: #8A2BE2; -fx-text-fill: white; -fx-padding: 10 20;");
+            restartButton.setLayoutX(WIDTH / 2 - restartButton.prefWidth(-1) / 2 - 150);
+            restartButton.setLayoutY(HEIGHT / 2 + 100);
+            restartButton.setOnAction(event -> restartGame());
+            gamePane.getChildren().add(restartButton);
+
+            // Thêm nút Về Menu
+            menuButton = new Button("Về Menu");
+            menuButton.setStyle("-fx-font-size: 20px; -fx-background-color: #8A2BE2; -fx-text-fill: white; -fx-padding: 10 20;");
+            menuButton.setLayoutX(WIDTH / 2 - menuButton.prefWidth(-1) / 2 + 75); // Đặt nút bên phải
+            menuButton.setLayoutY(HEIGHT / 2 + 100);
+            menuButton.setOnAction(event -> returnToMenu());
+            gamePane.getChildren().add(menuButton);
+
+        } catch (Exception e) {
+            System.err.println("⚠️ Không thể tải hình ảnh EndGame hoặc font: " + e.getMessage());
+        }
+    }
+
+    // khởi động lại trò chơi
+    private void restartGame() {
+        Platform.runLater(() -> {
+            gamePane.getChildren().clear(); // Xóa mọi thứ
+            // Đặt lại các trạng thái trò chơi
+            score = 0;
+            lives = 3;
+            ballAttached = true;
+            balls.clear();
+            activePowerUps.clear();
+            activeEffects.clear();
+
+            // Khởi tạo lại tất cả
+            setBackground();
+            setLives();
+            level = new Levels(); // Bắt đầu lại từ Level 1
+            setupScoreText();
+            setupLevelText();
+
+            paddle = new Paddle();
+            paddle.setX((WIDTH - paddle.getWidth()) / 2);
+            paddle.setY(HEIGHT - 40);
+            gamePane.getChildren().add(paddle);
+
+            // Đặt lại bóng và thanh đỡ
+            ball = new Ball();
+            ball.setCenterX(paddle.getX() + paddle.getWidth() / 2);
+            ball.setCenterY(paddle.getY() - ball.getRadius());
+            ball.setDirectionX(0);
+            ball.setDirectionY(-1);
+            ball.setSpeed(3);
+            ball.setGamePane(gamePane);
+            balls.add(ball);
+
+            gamePane.getChildren().add(ball);
+            level.start(gamePane, ball); // Bắt đầu cấp độ 1
+
+            gameTimer.start(); // Khởi động lại game loop
+            gamePane.requestFocus();
+        });
+    }
+
+    //về menu chính
+    private void returnToMenu() {
+        Platform.runLater(() -> {
+            try {
+                Stage stage = (Stage) gamePane.getScene().getWindow();
+
+                URL fxmlUrl = getClass().getResource("/org/example/game/Menu.fxml");
+                if (fxmlUrl == null) {
+                    throw new IOException("Cannot find Menu.fxml");
+                }
+                FXMLLoader loader = new FXMLLoader(fxmlUrl);
+                Parent menuRoot = loader.load();
+                Scene menuScene = new Scene(menuRoot);
+
+                stage.setScene(menuScene);
+                stage.setTitle("Arkanoid - Main Menu");
+                stage.show();
+
+            } catch (IOException e) {
+                System.err.println("Error returning to menu: " + e.getMessage());
+                e.printStackTrace();
+            }
+        });
+    }
+
+    private void resetGame() {
+        System.out.println("resetGame() called, but it might be redundant now.");
     }
 }
