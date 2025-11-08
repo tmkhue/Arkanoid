@@ -57,6 +57,7 @@ public class ArkanoidGame {
     private List<ImageView> liveList = new ArrayList<>();
 
     private static ArkanoidGame instance;
+    private boolean levelChanging = false;
 
     public static ArkanoidGame getInstance() {
         return instance;
@@ -255,10 +256,10 @@ public class ArkanoidGame {
         paddle.move();
 
         for (Brick brick:Brick.bricks){
-                brick.moveBrick(2);
-                if(!(brick instanceof Flower)){
-                    brick.toFront();
-                }
+            brick.moveBrick(2);
+            if(!(brick instanceof Flower)){
+                brick.toFront();
+            }
         }
         List<Ball> ballsToRemove = new ArrayList<>();
 
@@ -320,7 +321,8 @@ public class ArkanoidGame {
                 effectIt.remove();
             }
         }
-        if (bricks.isCleared()) {
+        if (bricks.isCleared() && !levelChanging) {
+            levelChanging = true;
             nextLevel();
         }
     }
@@ -338,6 +340,7 @@ public class ArkanoidGame {
             updateLevelText();
             level.start(gamePane, ball);
             resetBall();
+            levelChanging = false;
         });
         pause.play();
     }
