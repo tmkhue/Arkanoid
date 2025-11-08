@@ -110,7 +110,7 @@ public class Ball extends Circle {
         } else {
             this.setCenterX(this.getCenterX() + directionX * speed);
         }
-        if (getCenterY() - getDirectionX() <= ArkanoidGame.TOP_BORDER) {
+        if (getCenterY() - getRadius() <= ArkanoidGame.TOP_BORDER) {
             directionY *= -1;
             this.setCenterY(this.getCenterY() + directionY * speed);
         } else {

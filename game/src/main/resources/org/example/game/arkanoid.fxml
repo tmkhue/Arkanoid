@@ -6,6 +6,7 @@
 
 <?import org.example.game.Paddle?>
 <?import org.example.game.Ball?>
+<?import javafx.scene.control.Button?>
 <Pane fx:id="gamePane"
       prefHeight="800"
       prefWidth="800"
@@ -39,6 +40,12 @@
                    radius="15"/>
 
         <!-- Bricks will be added dynamically in Controller -->
+        <Button fx:id="pauseButton"
+                layoutX="625" layoutY="670"
+                onAction="#handlePauseButton" />
+        <Button fx:id="giveUp"
+                layoutX="10" layoutY="10"
+                onAction="#showGameOverScreen" />
     </children>
 
 </Pane>

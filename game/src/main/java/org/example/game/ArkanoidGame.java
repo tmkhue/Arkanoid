@@ -3,14 +3,17 @@ package org.example.game;
 import javafx.animation.AnimationTimer;
 import javafx.animation.PauseTransition;
 import javafx.application.Platform;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Line;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
@@ -20,6 +23,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Objects;
 
 public class ArkanoidGame {
     public static final int WIDTH = 750;
@@ -64,6 +68,17 @@ public class ArkanoidGame {
     private static ArkanoidGame instance;
     private boolean levelChanging = false;
 
+
+    @FXML
+    private Button pauseButton;
+    private AnimationTimer gameTimer;
+    private boolean isPaused;
+    private ImageView handView;
+    private Line connect;
+
+    @FXML
+    private Button giveUp;
+
     public static ArkanoidGame getInstance() {
         return instance;
     }
@@ -93,16 +108,25 @@ public class ArkanoidGame {
             }
         });
 
+        setupPauseImage();
+        setupGiveUpButton();
+
         //Xử lí chuột
         gamePane.setOnMouseMoved(e -> {
-            paddle.setMouseTarget(e.getX());
+            if (!isPaused) {
+                paddle.setMouseTarget(e.getX());
+            }
         });
         gamePane.setOnMouseDragged(e -> {
-            paddle.setMouseTarget(e.getX());
+            if (!isPaused) {
+                paddle.setMouseTarget(e.getX());
+            }
         });
 
         // Xử lí bàn phím
         gamePane.setOnKeyPressed(e -> {
+            if (isPaused) return; // Không xử lý phím khi tạm dừng
+
             switch (e.getCode()) {
                 case LEFT -> paddle.leftPressed = true;
                 case RIGHT -> paddle.rightPressed = true;
@@ -118,11 +142,20 @@ public class ArkanoidGame {
         });
 
         gamePane.setOnKeyReleased(e -> {
+            if (isPaused) return; // Không xử lý phím khi tạm dừng
+
             switch (e.getCode()) {
                 case LEFT -> paddle.leftPressed = false;
                 case RIGHT -> paddle.rightPressed = false;
             }
         });
+
+        gameTimer = new AnimationTimer() {
+            @Override
+            public void handle(long now) {
+                update();
+            }
+        };
 
         // Game loop
         AnimationTimer timer = new AnimationTimer() {
@@ -133,6 +166,15 @@ public class ArkanoidGame {
         };
         timer.start();
         Platform.runLater(() -> gamePane.requestFocus());
+    }
+
+    private void setupGiveUpButton() {
+        Image Img = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/org/example/game/Image/backToMenu.png")));
+        ImageView View = new ImageView(Img);
+        View.setFitHeight(50);
+        View.setFitWidth(50);
+        giveUp.setGraphic(View);
+        giveUp.setStyle("-fx-background-color: transparent; -fx-padding: 0;");
     }
 
     private void setupLevelText() {
@@ -146,7 +188,7 @@ public class ArkanoidGame {
             levelText.setFont(Font.font(30));
         }
         levelText.setFill(Color.BLUE);
-        levelText.setX(WIDTH/2.5);
+        levelText.setX(WIDTH / 2.5);
         levelText.setY(50);
         gamePane.getChildren().add(levelText);
     }
@@ -191,8 +233,8 @@ public class ArkanoidGame {
             scoreText.setFont(Font.font(30));
         }
         scoreText.setFill(Color.BLUE);
-        scoreText.setX(190);
-        scoreText.setY(745);
+        scoreText.setX(170);
+        scoreText.setY(760);
         gamePane.getChildren().add(scoreText);
     }
 
@@ -235,7 +277,7 @@ public class ArkanoidGame {
         });
     }
 
-    private void setBackground(){
+    private void setBackground() {
         try {
             Image backgroundImage = new Image(getClass().getResourceAsStream("/org/example/game/Image/background.png"));
 
@@ -256,13 +298,59 @@ public class ArkanoidGame {
         }
     }
 
+    @FXML
+    private void handlePauseButton(ActionEvent event) {
+        isPaused = !isPaused;
+        if (isPaused) {
+            handView.setLayoutX(balls.get(0).getCenterX() - 20);
+            handView.setLayoutY(balls.get(0).getCenterY() - 20);
+        } else {
+            handView.setLayoutX(590);
+            handView.setLayoutY(660);
+        }
+        connect.setEndX(handView.getLayoutX() + 20);
+        connect.setEndY(handView.getLayoutY() + 50);
+        handView.toFront();
+        balls.get(0).toFront();
+    }
+
+    private void setupPauseImage() {
+        try {
+            Image Img = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/org/example/game/Image/pause.png")));
+            ImageView View = new ImageView(Img);
+            View.setFitHeight(128);
+            View.setFitWidth(150);
+            pauseButton.setGraphic(View);
+            pauseButton.setStyle("-fx-background-color: transparent; -fx-padding: 0;");
+
+            Image icon = new Image(getClass().getResourceAsStream("/org/example/game/Image/hand.png"));
+            handView = new ImageView(icon);
+            handView.setFitWidth(40);
+            handView.setFitHeight(50);
+            handView.setLayoutX(590);
+            handView.setLayoutY(660);
+
+            connect = new Line(pauseButton.getLayoutX(), pauseButton.getLayoutY() + 128 / 2, handView.getLayoutX() + 20, handView.getLayoutY() + 50);
+            connect.setStroke(Color.rgb(110, 39, 113));
+            connect.setStrokeWidth(3);
+
+            gamePane.getChildren().add(handView);
+            gamePane.getChildren().add(connect);
+        } catch (Exception e) {
+            System.err.println("Could not load Pause Icon Image. Skipping moving icon feature.");
+            handView = null;
+        }
+    }
+
     private void update() {
+        if (isPaused) return;
+
         ball.toFront();
         paddle.move();
 
-        for (Brick brick:Brick.bricks){
+        for (Brick brick : Brick.bricks) {
             brick.moveBrick(2);
-            if(!(brick instanceof Flower)){
+            if (!(brick instanceof Flower)) {
                 brick.toFront();
             }
         }
@@ -281,7 +369,7 @@ public class ArkanoidGame {
             }
 
             if (bricks.resolveCollision(b, gamePane, this)) {
-                if (Math.random() < 0) {
+                if (Math.random() < 0.05) {
                     PowerUp p = PowerUpFactory.createPowerUp(b.getCenterX(), b.getCenterY(), gamePane, balls, paddle, paddleResizer, this);
                     activePowerUps.add(p);
                     gamePane.getChildren().add(p);
@@ -321,7 +409,7 @@ public class ArkanoidGame {
         Iterator<ActiveEffect> effectIt = activeEffects.iterator();
         while (effectIt.hasNext()) {
             ActiveEffect effect = effectIt.next();
-            if (now - effect.startTime >= effect.duration * 1000) {
+            if (now - effect.startTime >= effect.duration * 1000 && balls.size() > 0) {
                 effect.powerUp.removeEffect(paddle, balls.get(0));
                 effectIt.remove();
             }
@@ -360,12 +448,13 @@ public class ArkanoidGame {
             if (lives > 0) {
                 resetBall();
             } else {
-                /*resetGame();*//*
-                gameTimer.stop(); // Dừng game loop*/
+                gameTimer.stop(); // Dừng game loop
                 showGameOverScreen();
             }
         }
     }
+
+    @FXML
     private void showGameOverScreen() {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("GameOver.fxml"));
@@ -398,34 +487,68 @@ public class ArkanoidGame {
         paddle.setX((WIDTH - paddle.getWidth()) / 2);
     }
 
-    private void resetGame() {
-        new Thread(() -> {
-            try {
-                Thread.sleep(2000);
-                Platform.runLater(() -> {
-                    gamePane.getChildren().removeIf(node -> node instanceof Brick
-                            || node instanceof PowerUp || node instanceof Ball);
-                    balls.clear();
-                    ballAttached = true;
-                    score = 0;
-                    updateScoreText();
-                    for (ImageView live : liveList) {
-                        gamePane.getChildren().remove(live);
-                    }
-                    liveList.clear();
-                    lives = 3;
-                    setLives();
-                    ball = new Ball();
-                    ball.setCenterX(paddle.getX() + paddle.getWidth() / 2);
-                    ball.setCenterY(paddle.getY() - ball.getRadius());
-                    ball.setSpeed(3);
-                    ball.setGamePane(gamePane);
-                    level.start(gamePane, ball);
-                    balls.add(ball);
-                    gamePane.getChildren().add(ball);
-                    paddle.setX((WIDTH - paddle.getWidth()) / 2);
-                });
-            } catch (InterruptedException ignored) {}
-        }).start();
+    public void restartGame() {
+        Platform.runLater(() -> {
+            if (gameTimer != null) {
+                gameTimer.stop();
+            } /*else gameTimer = new AnimationTimer() {
+                @Override
+                public void handle(long l) {
+                    update();
+                }
+            };*/
+            gamePane.getChildren().removeIf(node ->
+                    node instanceof Ball ||
+                            node instanceof Brick ||
+                            node instanceof PowerUp ||
+                            node == scoreText ||
+                            node == levelText ||
+                            node == comboText ||
+                            node instanceof ImageView && liveList.contains(node)
+            );
+
+            liveList.clear();
+            balls.clear();
+            Brick.bricks.clear();
+            activePowerUps.clear();
+            activeEffects.clear();
+
+            score = 0;
+            lives = 3;
+            ballAttached = true;
+            levelChanging = false;
+
+            setLives();
+            setupScoreText();
+            setupLevelText();
+
+            paddle.setX((WIDTH - paddle.getWidth()) / 2);
+            paddle.setY(610);
+
+            ball = new Ball();
+            ball.setCenterX(paddle.getX() + paddle.getWidth() / 2);
+            ball.setCenterY(paddle.getY() - ball.getRadius());
+            ball.setGamePane(gamePane);
+            ball.setDirectionX(0);
+            ball.setDirectionY(-1);
+            ball.setSpeed(1);
+            balls.add(ball);
+            gamePane.getChildren().add(ball);
+
+            bricks = new Brick();
+            level = new Levels();
+            level.start(gamePane, ball);
+
+            gameTimer = new AnimationTimer() {
+                @Override
+                public void handle(long now) {
+                    update();
+                }
+            };
+            gameTimer.start();
+
+            gamePane.requestFocus();
+        });
     }
+
 }

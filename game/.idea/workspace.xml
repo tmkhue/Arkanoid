@@ -7,8 +7,14 @@
     <list default="true" id="b31c86f8-594e-4db9-81e9-0d805fcf0aa2" name="Changes" comment="sửa font">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/org/example/game/ArkanoidGame.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/game/ArkanoidGame.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/game/Ball.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/game/Ball.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/org/example/game/GameOverMenu.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/game/GameOverMenu.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/org/example/game/GameOver.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/org/example/game/GameOver.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/game/Levels.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/game/Levels.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/game/MusicManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/game/MusicManager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/game/MusicSettingsController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/game/MusicSettingsController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/org/example/game/Image/Track2.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/org/example/game/Image/Track2.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/org/example/game/Music/MoiTrau.mp3" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/org/example/game/arkanoid.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/org/example/game/arkanoid.fxml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -76,7 +82,7 @@
     "ModuleVcsDetector.initialDetectionPerformed": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "RunOnceActivity.git.unshallow": "true",
-    "git-widget-placeholder": "main",
+    "git-widget-placeholder": "menu",
     "kotlin-language-version-configured": "true",
     "last_opened_file_path": "C:/codeProjects/Arkanoid/game",
     "project.structure.last.edited": "Project",
