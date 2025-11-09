@@ -15,10 +15,7 @@
             </image>
         </ImageView>
 
-        <Text layoutX="146.0" layoutY="231.0" strokeType="OUTSIDE" strokeWidth="0.0" text="MUSIC SETTINGS">
-            <font>
-                <Font name="Black Stuff Bold" size="80.0" />
-            </font>
+        <Text fx:id="MusicSetting" layoutX="146.0" layoutY="231.0" strokeType="OUTSIDE" strokeWidth="0.0" text="MUSIC SETTINGS">
             <fill>
                 <LinearGradient endX="1.0" endY="1.0" startX="1.0" startY="0.37115839243498816">
                     <stops>

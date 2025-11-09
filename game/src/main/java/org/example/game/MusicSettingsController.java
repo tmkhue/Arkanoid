@@ -13,6 +13,8 @@ import javafx.scene.control.ToggleButton;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.text.Font;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -26,6 +28,9 @@ public class MusicSettingsController implements Initializable {
 
     @FXML
     private Slider volumeSlider;
+
+    @FXML
+    private Text MusicSetting = new Text("MUSIC SETTINGS");
 
     @FXML
     private ToggleGroup trackToggleGroup;
@@ -43,6 +48,7 @@ public class MusicSettingsController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        setMusicSetting();
         Image playImgage = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/org/example/game/Image/playMusic.png")));
         ImageView playView = new ImageView(playImgage);
         playView.setFitHeight(60);
@@ -105,6 +111,16 @@ public class MusicSettingsController implements Initializable {
         TrackView.setFitWidth(250);
         button.setGraphic(TrackView);
         button.setStyle("-fx-background-color: transparent; -fx-padding: 0;");
+    }
+
+    private void setMusicSetting(){
+        String fontPath = getClass().getResource("/org/example/game/Font/Black_Stuff_Bold.ttf").toExternalForm();
+        Font customFont = Font.loadFont(fontPath, 80);
+        if (customFont != null) {
+            MusicSetting.setFont(customFont);
+        } else {
+            System.err.println("Failed to load custom font: SVN-Black Stuff Bold.ttf");
+        }
     }
 
     @FXML
