@@ -16,6 +16,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
+import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
@@ -233,8 +234,10 @@ public class ArkanoidGame {
             scoreText.setFont(Font.font(30));
         }
         scoreText.setFill(Color.BLUE);
-        scoreText.setX(170);
+        scoreText.setX(150-scoreText.getLayoutX()/2);
         scoreText.setY(760);
+        //scoreText.setLayoutX(150);
+
         gamePane.getChildren().add(scoreText);
     }
 
@@ -485,70 +488,6 @@ public class ArkanoidGame {
         balls.add(newBall);
         gamePane.getChildren().add(newBall);
         paddle.setX((WIDTH - paddle.getWidth()) / 2);
-    }
-
-    public void restartGame() {
-        Platform.runLater(() -> {
-            if (gameTimer != null) {
-                gameTimer.stop();
-            } /*else gameTimer = new AnimationTimer() {
-                @Override
-                public void handle(long l) {
-                    update();
-                }
-            };*/
-            gamePane.getChildren().removeIf(node ->
-                    node instanceof Ball ||
-                            node instanceof Brick ||
-                            node instanceof PowerUp ||
-                            node == scoreText ||
-                            node == levelText ||
-                            node == comboText ||
-                            node instanceof ImageView && liveList.contains(node)
-            );
-
-            liveList.clear();
-            balls.clear();
-            Brick.bricks.clear();
-            activePowerUps.clear();
-            activeEffects.clear();
-
-            score = 0;
-            lives = 3;
-            ballAttached = true;
-            levelChanging = false;
-
-            setLives();
-            setupScoreText();
-            setupLevelText();
-
-            paddle.setX((WIDTH - paddle.getWidth()) / 2);
-            paddle.setY(610);
-
-            ball = new Ball();
-            ball.setCenterX(paddle.getX() + paddle.getWidth() / 2);
-            ball.setCenterY(paddle.getY() - ball.getRadius());
-            ball.setGamePane(gamePane);
-            ball.setDirectionX(0);
-            ball.setDirectionY(-1);
-            ball.setSpeed(1);
-            balls.add(ball);
-            gamePane.getChildren().add(ball);
-
-            bricks = new Brick();
-            level = new Levels();
-            level.start(gamePane, ball);
-
-            gameTimer = new AnimationTimer() {
-                @Override
-                public void handle(long now) {
-                    update();
-                }
-            };
-            gameTimer.start();
-
-            gamePane.requestFocus();
-        });
     }
 
 }

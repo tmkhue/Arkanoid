@@ -87,9 +87,6 @@ public class GameOverMenu implements Initializable {
             stage.setTitle("Arkanoid Game - In Progress");
             stage.show();
 
-            ArkanoidGame game = ArkanoidGame.getInstance();
-            game.restartGame();
-
         } catch (IOException e) {
             e.printStackTrace();
             System.err.println("Error loading game scene: " + e.getMessage());
