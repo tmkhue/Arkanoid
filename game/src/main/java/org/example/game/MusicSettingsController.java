@@ -78,7 +78,7 @@ public class MusicSettingsController implements Initializable {
 
         if (trackToggleGroup != null) {
             track1Button.setUserData(MusicManager.TRACK_GURENGE);
-            track2Button.setUserData(MusicManager.TRACK_MOITRAU);
+            track2Button.setUserData(MusicManager.TRACK_TABC);
             track3Button.setUserData(MusicManager.TRACK_PNL);
             track4Button.setUserData(MusicManager.TRACK_FIRE);
 
@@ -151,7 +151,7 @@ public class MusicSettingsController implements Initializable {
 
     @FXML
     private void setTrackMoiTrau(){
-        MusicManager.changeTrack(MusicManager.TRACK_MOITRAU);
+        MusicManager.changeTrack(MusicManager.TRACK_TABC);
     }
 
     @FXML

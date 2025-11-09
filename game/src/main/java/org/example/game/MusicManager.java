@@ -1,13 +1,9 @@
 package org.example.game;
 
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 
-import java.net.URL;
 import java.util.Objects;
-import java.util.ResourceBundle;
 
 public class MusicManager {
     private static MediaPlayer mediaPlayer;
@@ -15,7 +11,7 @@ public class MusicManager {
 
     public static final String TRACK_DEFAULT = "/org/example/game/Music/Default.mp3";
     public static final String TRACK_GURENGE = "/org/example/game/Music/Gurenge.mp3";
-    public static final String TRACK_MOITRAU = "/org/example/game/Music/MoiTrau.mp3";
+    public static final String TRACK_TABC = "/org/example/game/Music/TinhAnhBanChieu.mp3";
     public static final String TRACK_PNL = "/org/example/game/Music/PeaceNLove.mp3";
     public static final String TRACK_FIRE = "/org/example/game/Music/Fire.mp3";
 

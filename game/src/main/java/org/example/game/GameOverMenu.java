@@ -164,6 +164,7 @@ public class GameOverMenu implements Initializable {
             e.printStackTrace();
             System.err.println("Error loading game scene: " + e.getMessage());
         }
+
     }
 
     @FXML
