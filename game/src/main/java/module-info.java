@@ -8,6 +8,7 @@ module org.example.game {
     requires com.almasb.fxgl.all;
     requires javafx.graphics;
     requires javafx.media;
+    requires java.prefs;
 
     opens org.example.game to javafx.fxml;
     exports org.example.game;
