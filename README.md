@@ -2,12 +2,17 @@
 ## Author
 Group 2 - Class INT2204 11
 
-Đinh Thị Tuyết Anh - 24021360
-Hà Hoàng Kim Chi - 24021393
-Trần Minh Khuê - 24021537
-Bùi Thị Bích Phượng - 24021601
-Instructor: [Tên giảng viên]
-Semester: [HK1/HK2 - Năm học]
+### Thành viên nhóm
+| Họ và tên | MSV |
+|-----|--------| 
+| Đinh Thị Tuyết Anh | 24021360 | 
+| Hà Hoàng Kim Chi | 24021393 | 
+| Trần Minh Khuê | 24021537 | 
+| Bùi Thị Bích Phượng | 24021601 |
+
+Instructor: Trần Hoàng Việt, Kiều Văn Tuyên
+
+Semester: HK1 năm học 2025-2026
 
 ---
 
@@ -41,12 +46,22 @@ This is a classic Arkanoid game developed in Java as a final project for Object-
 
 ## Design Patterns Implementation
 
-_Có dùng hay không và dùng ở đâu_
-
 ### 1. Singleton Pattern
-**Used in:** `GameManager`, `AudioManager`, `ResourceLoader`
+**Used in:** `ArkanoidGame`, `MusicManager`
 
-**Purpose:** Ensure only one instance exists throughout the application.
+**Purpose:** Đảm bảo chỉ tồn tại 1 instance trong game.
+### 2. Factory Method
+**Used in:** `PowerUp`, `PowerUpFactory`
+
+**Purpose:** Tạo lớp Power Up để những Power Up cụ thể có thể kế thừa và thay đổi các chức năng chính của Power Up.
+### 3. Template method
+**Used in:** `Brick`
+
+**Purpose:** Tạo những chức năng chính (số lần va chạm, xử lí va chạm,...) ở lớp cha nhưng để những lớp con viết đè lên 1 số bước cụ thể mà không thay đổi cấu trúc.
+### 4. Observer
+**Used in:** `ArkanoidGame`, `PowerUpFactory`, `MusicManager`, `Levels`
+
+**Purpose:** Tạo 1 hệ thống để truyền thông tin cho nhiều lớp về 1 sự kiện đang xảy ra.
 
 ---
 
@@ -73,12 +88,11 @@ The game uses multiple threads to ensure smooth performance:
 ### Controls
 | Key | Action |
 |-----|--------|
-| `←` | Move paddle left |
-| `→` | Move paddle right |
-| `SPACE` | Launch ball / Shoot laser |
-| `P` or `ESC` | Pause game |
-| `R` | Restart game |
-| `Q` | Quit to menu |
+| `←` | Di chuyển paddle sang trái |
+| `→` | Di chuyển paddle sang phải |
+| `↑` | Bắn bóng từ paddle |
+| `SPACE` | Pause |
+| `ESC` | Give up và về màn hình Game Over |
 
 ### How to Play
 1. **Start the game**: ấn "START" để di chuyển paddle
@@ -132,21 +146,15 @@ https://drive.google.com/file/d/1OC5rtuqmhx7wi4Qt1_6sM7YsaTI8R0H6/view?usp=drive
 ## Future Improvements
 
 ### Planned Features
-1. **Additional game modes**
-   - Time attack mode
-   - Survival mode with endless levels
-   - Co-op multiplayer mode
+1. **Thêm nhiều Power up hơn**
+   - Gạch dính
+   - Bóng di chuyển hình vòng cung
 
-2. **Enhanced gameplay**
-   - Boss battles at end of worlds
-   - More power-up varieties (freeze time, shield wall, etc.)
-   - Achievements system
+2. **Thêm cơ chế lưu màn hình khi đóng game**
+   - Vị trí bóng, điểm và mạng còn lại sẽ được lưu cho đến khi người chơi tiếp tục.
 
-3. **Technical improvements**
-   - Migrate to LibGDX or JavaFX for better graphics
-   - Add particle effects and advanced animations
-   - Implement AI opponent mode
-   - Add online leaderboard with database backend
+3. **Cải thiện lại phần nhìn**
+   - Thêm những hiệu ứng animation
 
 ---
 
@@ -159,16 +167,5 @@ https://drive.google.com/file/d/1OC5rtuqmhx7wi4Qt1_6sM7YsaTI8R0H6/view?usp=drive
 | Maven | 3.9+ | Build tool |
 | Jackson | 2.15.0 | JSON processing |
 
-
----
-
-## Notes
-
-- The game was developed as part of the Object-Oriented Programming with Java course curriculum.
-- All code is written by group members with guidance from the instructor.
-- Some assets (images, sounds) may be used for educational purposes under fair use.
-- The project demonstrates practical application of OOP concepts and design patterns.
-
----
 
 *Last updated: [10/11/2025]*
