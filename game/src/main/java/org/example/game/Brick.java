@@ -211,7 +211,6 @@ public class Brick extends Rectangle {
                 if(brick.isDestroyed()) {
                     it.remove();
                     brick.removeBrick(gamePane);
-//                    gamePane.getChildren().remove(brick);
                     if (brick instanceof BoomBrick){
                         ((BoomBrick) brick).explode(ball, gamePane);
                     }
@@ -248,11 +247,11 @@ public class Brick extends Rectangle {
         double overlapY = Math.min(ball.getCenterY() + ball.getRadius() - this.getY(),
                 this.getY() + this.getHeight() - (ball.getCenterY() - ball.getRadius()));
         if (overlapX < overlapY) {
-//                     Xử lý quả bóng chui vào trong this từ 2 cạnh bên
+            // Xử lý quả bóng chui vào trong this từ 2 cạnh bên
             if (overlapX == ball.getCenterX() + ball.getRadius() - this.getX()) {
                 ball.setCenterX(this.getX() - ball.getRadius());
             } else {
-                ball.setCenterX(this.getX() + BRICK_WIDTH + ball.getRadius());
+                ball.setCenterX(this.getX() + this.getWidth() + ball.getRadius());
             }
             if (!ball.isStrong() || this instanceof UnbreakableBrick)
                 ball.setDirectionX(ball.getDirectionX() * (-1));
@@ -261,7 +260,7 @@ public class Brick extends Rectangle {
             if (ball.getCenterY() < this.getY()) {
                 ball.setCenterY(this.getY() - ball.getRadius());
             } else {
-                ball.setCenterY(this.getY() + BRICK_HEIGHT + ball.getRadius());
+                ball.setCenterY(this.getY() + this.getHeight() + ball.getRadius());
             }
             if (!ball.isStrong() || this instanceof UnbreakableBrick)
                 ball.setDirectionY(ball.getDirectionY() * (-1));

@@ -4,8 +4,14 @@ type: loại brick
 angle: góc chuyển động so với trục Ox
 minX-maxX: phạm vi di chuyển theo trục hoành
 minY-maxY: phạm vi di chuyển theo trục tung
-LEVEL 1
+LEVEL 0
 X
+X
+X X N N N N N N N X X
+----
+LEVEL 1
+N X N X N X N X N X N
+N X N X N X N X N X N
 N X N X N X N X N X N
 N X N X N X N X N X N
 N X N X N X N X N X N
@@ -51,4 +57,17 @@ N N N N N B N N N N N
 x
 X
 Um-90---245-400 Um-270---245-400 Um-90---245-400 Um-270---245-400 Um-90---245-400 Um-270---245-400 Um-90---245-400 Um-270---245-400 Um-90---245-400 Um-270---245-400 Um-90---245-400
+----
+LEVEL 8
+N B N N G x x x N B N
+N B U U x X X X U B N
+N B U U X X X x U B N
+N N N N x X X X N N N
+----
+N B B N N S S N B B N
+----
+N N N N N N N N N N N N
+N U N G       N U N N N
+N N N         N N N N N
+N N N         N N N N N
 ----

@@ -19,8 +19,8 @@ import static org.example.game.Brick.bricks;
 public class Levels {
     protected static int countStar = 0;
     public static final int COUNT_STARS = 5;
-    protected static int level = 1;
-    public static final int LEVEL = 10;
+    protected static int level = 8;
+    public static final int LEVEL = 16;
 
     public int getLevel() {
         return level;
@@ -67,6 +67,7 @@ public class Levels {
         String[][] data = loadLevel();
         for (int i = 0; i < data.length; i++) {
             for (int j = 0; j < data[i].length; j++) {
+                char type = data[i][j].charAt(0);
                 int distance = 5;
                 double x = ArkanoidGame.LEFT_BORDER + 20 + j * (Brick.BRICK_WIDTH + distance);
                 double y = ArkanoidGame.TOP_BORDER + 30 + i * (Brick.BRICK_HEIGHT + distance);
@@ -95,7 +96,7 @@ public class Levels {
                         System.out.println("Invalid string");
                     }
                 }
-                brick = BrickFactory.createBrick(data[i][j].charAt(0), angle, x, y, minX, maxX, minY, maxY);
+                brick = BrickFactory.createBrick(type, angle, x, y, minX, maxX, minY, maxY);
                 if (brick == null) continue;
                 bricks.add(brick);
                 brick.applyTexture("", gamePane);

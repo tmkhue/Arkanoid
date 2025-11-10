@@ -364,7 +364,6 @@ public class Flower extends Brick {
                     } else {
                         flowerCenter.setFill(pattern2);
                     }
-//                    flowerCenter.toFront();
                 }
             }
         };
@@ -433,7 +432,6 @@ public class Flower extends Brick {
     }
     @Override
     public void bounceOff(Ball ball){
-//        if (brick instanceof Flower) {
             double dx = ball.getCenterX() - this.flowerCenter.getCenterX();
             double dy = ball.getCenterY() - this.flowerCenter.getCenterY();
             double sumR = ball.getRadius() +
@@ -445,12 +443,9 @@ public class Flower extends Brick {
             if (Math.abs(overlapX) > Math.abs(overlapY)) {
                 ball.setCenterX(ball.getCenterX() + Math.sqrt(dx*dx+dy*dy) -sumR);
                 ball.setDirectionX(ball.getDirectionX() * (-1));
-//                return true;
             }
             ball.setDirectionY(ball.getDirectionY() * (-1));
             ball.setCenterY(ball.getCenterY() + Math.sqrt(dx*dx+dy*dy) - sumR);
-//            return true;
-//        }
     }
     static {
         try {

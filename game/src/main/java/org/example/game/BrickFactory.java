@@ -24,9 +24,9 @@ public class BrickFactory {
             case 'F':
                 brick = new Flower(x, y, angle, minX, maxX, minY, maxY);
                 break;
-//            case 'G':
-//                brick = new GiantBrick(x, y, angle, minX, maxX, minY, maxY);
-//                break;
+            case 'G':
+                brick = new GiantBrick(x, y, angle, minX, maxX, minY, maxY);
+                break;
             case 'R':
                 int i = (int) (Math.random()*RANDOMS_TYPES.length);
                 brick = createBrick(RANDOMS_TYPES[i], x, y, angle, minX, maxX, minY, maxY);
@@ -35,5 +35,11 @@ public class BrickFactory {
                 break;
         }
         return brick;
+    }
+    public static int getSizeMultiplier(char type){
+        if (type == 'G'){
+            return 4;
+        }
+        return 1;
     }
 }
