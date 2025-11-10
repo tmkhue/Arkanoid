@@ -2,14 +2,14 @@ package org.example.game;
 
 import javafx.scene.layout.Pane;
 
-import static org.example.game.Brick.bricks;
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+
+import static org.example.game.Brick.bricks;
 
 public class Levels {
     protected int BrickCols = 11;
@@ -52,7 +52,6 @@ public class Levels {
                 System.out.println(line);
                 lines.add(line.split("\\s+"));
             }
-            br.close();
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -60,12 +59,6 @@ public class Levels {
     }
 
     public void drawNormalLevel(Pane gamePane) {
-
-//        Brick flower = new Flower(200, 150, 300);
-//        bricks.add(flower);
-//        flower.applyTexture("", gamePane);
-//        flower.toBack();
-//        ((Flower) flower).getFlowerCenter().toBack();
         String[][] data = loadLevel();
         for (int i = 0; i < data.length; i++) {
             for (int j = 0; j < data[i].length; j++) {
@@ -97,28 +90,12 @@ public class Levels {
                         System.out.println("Invalid string");
                     }
                 }
-                switch (data[i][j].charAt(0)) {
-                    case 'N':
-                        brick = new NormalBrick(x, y, angle, minX, maxX, minY, maxY);
-                        break;
-                    case 'S':
-                        brick = new StrongBrick(x, y, angle, minX, maxX, minY, maxY);
-                        break;
-                    case 'U':
-                        brick = new UnbreakableBrick(x, y, angle, minX, maxX, minY, maxY);
-                        break;
-                    default:
-                        continue;
-                }
-
+                brick = BrickFactory.createBrick(data[i][j].charAt(0), angle, x, y, minX, maxX, minY, maxY);
+                if (brick == null) continue;
                 bricks.add(brick);
                 brick.applyTexture("", gamePane);
             }
         }
-//        if (Brick.bricks.stream().noneMatch(
-//                b -> b instanceof NormalBrick || b instanceof StrongBrick)) {
-//            drawBoss(gamePane);
-//        }
     }
 
     public void drawBoss(Pane gamePane) {
