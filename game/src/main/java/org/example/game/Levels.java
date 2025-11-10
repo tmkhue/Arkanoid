@@ -1,6 +1,11 @@
 package org.example.game;
 
+import javafx.animation.AnimationTimer;
+import javafx.animation.PauseTransition;
+import javafx.application.Platform;
 import javafx.scene.layout.Pane;
+import javafx.scene.paint.ImagePattern;
+import javafx.util.Duration;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -14,7 +19,7 @@ import static org.example.game.Brick.bricks;
 public class Levels {
     protected static int countStar = 0;
     public static final int COUNT_STARS = 5;
-    protected static int level = 8;
+    protected static int level = 1;
     public static final int LEVEL = 10;
 
     public int getLevel() {
@@ -99,8 +104,37 @@ public class Levels {
     }
 
     public void drawBoss(Pane gamePane) {
-//        bricks.clear();
-
+        List<PetalPiece> petalPieces = new ArrayList<>();
+        for (int i = 0; i < 30; i++) {
+            double y = Math.random() * 150 + 100;
+            double x = Math.random() * 700 + 50;
+            PetalPiece p = new PetalPiece(30, x, y, 0, 1);
+            p.setFill(new ImagePattern(Flower.petalPiece, 0, 0, 1, 1, true));
+            petalPieces.add(p);
+        }
+        int m = (int) (Math.random() * 10); // index bất kì của petalpieces để tăng count
+        for (int i = 0; i < 30; i++) {
+            PauseTransition pause = new PauseTransition(Duration.seconds(Math.random() * 60));
+            PetalPiece p = petalPieces.get(i);
+            int finalI = i;
+            pause.setOnFinished(event -> {
+                gamePane.getChildren().add(p);
+                AnimationTimer timer = new AnimationTimer() {
+                    @Override
+                    public void handle(long now) {
+                        if (p.checkCollisionWithPaddle() && finalI == m) {
+                            p.resolve(gamePane);
+                            this.stop();
+                        } else {
+                            p.setCenterY(p.getCenterY()+1);
+                        }
+                    }
+                };
+                timer.start();
+                Platform.runLater(() -> gamePane.requestFocus());
+            });
+            pause.play();
+        }
         if (level == LEVEL) {
             System.out.println("DRAW BOSS");
             Brick flower = new Flower(200, 150, 300);

@@ -9,6 +9,7 @@ module org.example.game {
     requires javafx.graphics;
     requires javafx.media;
     requires java.prefs;
+    requires javafx.base;
 
     opens org.example.game to javafx.fxml;
     exports org.example.game;
