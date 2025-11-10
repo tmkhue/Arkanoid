@@ -21,10 +21,10 @@ public class UnbreakableBrick extends Brick {
     }
     @Override
     public boolean isDestroyed() {
-//        if (Brick.bricks.stream().noneMatch(
-//                b -> b instanceof NormalBrick || b instanceof StrongBrick)) {
-//            return true;
-//        }
+        if (Brick.bricks.stream().noneMatch(
+                b -> b instanceof NormalBrick || b instanceof StrongBrick)) {
+            return true;
+        }
         return false;
     }
 
