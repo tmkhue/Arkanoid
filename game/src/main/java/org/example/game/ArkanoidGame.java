@@ -117,21 +117,24 @@ public class ArkanoidGame {
             if (!isPaused) {
                 paddle.setMouseTarget(e.getX());
             }
+            gamePane.requestFocus();
         });
         gamePane.setOnMouseDragged(e -> {
             if (!isPaused) {
                 paddle.setMouseTarget(e.getX());
             }
+            gamePane.requestFocus();
         });
 
         // Xử lí bàn phím
         gamePane.setOnKeyPressed(e -> {
-            if (isPaused) return; // Không xử lý phím khi tạm dừng
 
             switch (e.getCode()) {
                 case LEFT -> paddle.leftPressed = true;
                 case RIGHT -> paddle.rightPressed = true;
-                case SPACE -> {
+                case ESCAPE -> showGameOverScreen();
+                case SPACE -> handlePauseButton();
+                case UP -> {
                     if (ballAttached && !balls.isEmpty()) {
                         Ball b = balls.get(0);
                         b.setDirectionX(0);
@@ -140,6 +143,7 @@ public class ArkanoidGame {
                     }
                 }
             }
+            gamePane.requestFocus();
         });
 
         gamePane.setOnKeyReleased(e -> {
@@ -149,6 +153,7 @@ public class ArkanoidGame {
                 case LEFT -> paddle.leftPressed = false;
                 case RIGHT -> paddle.rightPressed = false;
             }
+            gamePane.requestFocus();
         });
 
         gameTimer = new AnimationTimer() {
@@ -302,7 +307,7 @@ public class ArkanoidGame {
     }
 
     @FXML
-    private void handlePauseButton(ActionEvent event) {
+    private void handlePauseButton() {
         isPaused = !isPaused;
         if (isPaused) {
             handView.setLayoutX(balls.get(0).getCenterX() - 20);
@@ -350,6 +355,12 @@ public class ArkanoidGame {
 
         ball.toFront();
         paddle.move();
+
+        if (ballAttached && !balls.isEmpty()) {
+            Ball attachedBall = balls.get(0);
+            attachedBall.setCenterX(paddle.getX() + paddle.getWidth() / 2);
+            attachedBall.setCenterY(paddle.getY() - attachedBall.getRadius());
+        }
 
         for (Brick brick : Brick.bricks) {
             brick.moveBrick(2);
@@ -478,16 +489,21 @@ public class ArkanoidGame {
     private void resetBall() {
         balls.clear();
         ballAttached = true;
+
         Ball newBall = new Ball();
+        newBall.setGamePane(gamePane);
+
+        paddle.setX((WIDTH - paddle.getWidth()) / 2);
+
         newBall.setCenterX(paddle.getX() + paddle.getWidth() / 2);
         newBall.setCenterY(paddle.getY() - newBall.getRadius());
+
         newBall.setDirectionX(0);
-        newBall.setDirectionY(-1);
-        newBall.setSpeed(3);
-        newBall.setGamePane(gamePane);
+        newBall.setDirectionY(0);
+        System.out.println("toc do moi" + newBall.getSpeed());
+
         balls.add(newBall);
         gamePane.getChildren().add(newBall);
-        paddle.setX((WIDTH - paddle.getWidth()) / 2);
     }
 
 }
