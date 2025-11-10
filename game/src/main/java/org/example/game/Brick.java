@@ -207,6 +207,7 @@ public class Brick extends Rectangle {
                 if (ball.getComboCount() > 1) {
                     game.setupComboText(ball.getComboCount());
                 }
+                if (brick.isHidden()) continue;
                 if(brick.isDestroyed()) {
                     it.remove();
                     gamePane.getChildren().remove(brick);

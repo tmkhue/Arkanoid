@@ -56,6 +56,13 @@ public class ArkanoidGame {
     public int getScore() {
         return score;
     }
+    public Paddle getPaddle(){
+        return paddle;
+    }
+
+    public Levels getLevel() {
+        return level;
+    }
 
     private Text scoreText;
 

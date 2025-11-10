@@ -61,11 +61,11 @@ public class Flower extends Brick {
         this.flowerCenter = flowerCenter;
     }
 
-    /**
-     * Override.
-     */
     @Override
     public boolean isHit(Ball ball) {
+        if (Levels.countStar<Levels.COUNT_STARS){
+            return false;
+        }
         if (Brick.bricks.stream().noneMatch(
                 b -> b instanceof NormalBrick || b instanceof StrongBrick)) {
             double dx = ball.getCenterX() - flowerCenter.getCenterX();
@@ -175,7 +175,8 @@ public class Flower extends Brick {
                     this.stop();
                 }
                 for (int j = root.size() - 1; j >= 0; j--) {
-                    if (root.get(j).check()) {
+                    if (root.get(j).checkCollisionWithPaddle()
+                    || root.get(j).getCenterY()>=600) {
                         root.get(j).resolve(gamePane);
                         root.remove(j);
                     } else {

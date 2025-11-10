@@ -1,32 +1,54 @@
-m: có thể di chuyển
-..-angle-minX-maxX-minY-maxY
+chứa m: có thể di chuyển
+type-angle-minX-maxX-minY-maxY
+type: loại brick
+angle: góc chuyển động so với trục Ox
+minX-maxX: phạm vi di chuyển theo trục hoành
+minY-maxY: phạm vi di chuyển theo trục tung
 LEVEL 1
-N x N x N x N x N x N N  x N x N N N
-N x N x N x N x N x N N  x N x N N N
-N x N x N x N x N x N N  x N x N N N
-N x N x N x N x N x N N  x N x N N N
-N x N x N x N x N x N N  x N x N N Nm-90- - -300-400
+X
+N X N X N X N X N X N
+N X N X N X N X N X N
+N X N X N X N X N X N
 ----
-level 2:
-N N N N N N N x N N N N
-N N N N N N N x N N N N
-N N N N N N N x N N N N
-N N N N N N N x N N N N
-N N N N U U U x U N N Nm-300-400
+level 2
+N B N X N B N X N B N
+N N N X N N N X N N N
+X
+N N N X N N N X N N N
+N B N X N B N X N B N
 ----
-level 0
-Nm-120-40-200-60-400 x Nm-120-100-240-60-400
+LEVEL 3
+N X N X B X N X B X N
+N X B X N X B X N X N
+N X N X B X N X B X N
+N X B X N X B X N X N
+N X U X U X U X U X N
 ----
-LEVEl 3
-x x x x
-x x x
-x
-x
-x x x x x x x
-x
-x
-x
-x x x x x N x     x 
+LEVEl 4
+N N N X N N N X N N N
+N B N X N B N X N B N
+N B N X N B N X N N N
+N B N X N B N X N B B
+N N N X N N N X N B B
 ----
-Nm-120-40-200-300-400  N  Nm-120-140-300-300-400  x N N N  x Nm-90---300-400  N  Nm-90---300-400  
+LEVEL 5
+X S X X X S X X X S X
+X S X X X S X X X S X
+X S X X X S X X X S X
+N B U U X U X U U B N
+----
+LEVEL 6
+N X N X N X N X N X N
+N X N X N X N X N X N
+N X N X N X N X N X N
+N X N X N X N X N X N
+S X S X S X S X S X S
+----
+LEVEL 7
+N N N N N N N N N N N
+N B S B N N N B S B N
+N N N N N B N N N N N
+x
+X
+Um-90---245-400 Um-270---245-400 Um-90---245-400 Um-270---245-400 Um-90---245-400 Um-270---245-400 Um-90---245-400 Um-270---245-400 Um-90---245-400 Um-270---245-400 Um-90---245-400
 ----

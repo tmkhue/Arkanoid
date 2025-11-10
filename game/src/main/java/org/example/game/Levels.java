@@ -12,10 +12,10 @@ import java.util.Objects;
 import static org.example.game.Brick.bricks;
 
 public class Levels {
-    protected int BrickCols = 11;
-    protected int BrickRows = 5;
-    private int level = 1;
-    public static final int LEVEL = 3;
+    protected static int countStar = 0;
+    public static final int COUNT_STARS = 5;
+    protected static int level = 8;
+    public static final int LEVEL = 10;
 
     public int getLevel() {
         return level;
@@ -70,21 +70,21 @@ public class Levels {
                 }
                 double minY = y, maxY = y;
                 double maxX = x, minX = x;
-                double angle = 90;
+                double angle = 180;
                 Brick brick = new Brick();
                 if (data[i][j].contains("m")) {
                     String[] parts = data[i][j].split("-");
                     try {
                         angle = Double.parseDouble(parts[1]);
-                        if (angle != 90) {
+                        if (angle % 180 != 90) {
                             minX = Double.parseDouble(parts[2]);
                             maxX = Double.parseDouble(parts[3]);
                         }
-                        if (angle != 180) {
+                        if (angle % 180 != 0) {
                             minY = Double.parseDouble(parts[4]);
                             maxY = Double.parseDouble(parts[5]);
                         }
-                        System.out.printf("MINX = %.1f, MAX Y = %.1f, MINX = %.1f, MAX Y = %.1f\n",
+                        System.out.printf("MINX = %.1f, MAXX = %.1f, MINY = %.1f, MAX Y = %.1f\n",
                                 minX, maxX, minY, maxY);
                     } catch (NumberFormatException e) {
                         System.out.println("Invalid string");
@@ -106,74 +106,6 @@ public class Levels {
             Brick flower = new Flower(200, 150, 300);
             bricks.add(flower);
             flower.applyTexture("", gamePane);
-        }
-    }
-
-    public void Level0(Pane gamePane) {
-        Brick brick = new Flower(350, 300, 300);
-        brick.applyTexture("", gamePane);
-        bricks.add(brick);
-    }
-
-    public void Level1(Pane gamePane) {
-        for (int row = 0; row < BrickRows; row++) {
-            for (int col = 0; col < BrickCols; col++) {
-                double x = ArkanoidGame.LEFT_BORDER + 20 + col * (Brick.BRICK_WIDTH + 5);
-                double y = ArkanoidGame.TOP_BORDER + 30 + row * (Brick.BRICK_HEIGHT + 5);
-                if (x + Brick.BRICK_WIDTH < ArkanoidGame.LEFT_BORDER + ArkanoidGame.WIDTH) {
-                    System.out.println("vào if");
-                    Brick brick = new NormalBrick(x, y);
-                    bricks.add(brick);
-                    brick.applyTexture("", gamePane);
-                } else break;
-            }
-        }
-    }
-
-    public void Level2(Pane gamePane) {
-        for (int i = 0; i < BrickRows; i++) {
-            for (int j = 0; j < BrickCols; j++) {
-                double x = ArkanoidGame.LEFT_BORDER + 20 + j * (Brick.BRICK_WIDTH + 5);
-                double y = ArkanoidGame.TOP_BORDER + 30 + i * (Brick.BRICK_HEIGHT + 5);
-                if (!(x + Brick.BRICK_WIDTH < ArkanoidGame.LEFT_BORDER + ArkanoidGame.WIDTH)) {
-                    break;
-                }
-                if (j >= 3 && j <= 7 && i == BrickRows - 1) {
-                    Brick brick = new UnbreakableBrick(x, y);
-                    bricks.add(brick);
-                    brick.applyTexture("", gamePane);
-                } else {
-                    Brick brick = new NormalBrick(x, y);
-                    bricks.add(brick);
-                    brick.applyTexture("", gamePane);
-                }
-            }
-        }
-    }
-
-    public void Level3(Pane gamePane) {
-        for (int i = 0; i < BrickRows; i++) {
-            for (int j = 0; j < BrickCols; j++) {
-                double x = ArkanoidGame.LEFT_BORDER + 20 + j * (Brick.BRICK_WIDTH + 5);
-                double y = ArkanoidGame.TOP_BORDER + 30 + i * (Brick.BRICK_HEIGHT + 5);
-                if (!(x + Brick.BRICK_WIDTH < ArkanoidGame.LEFT_BORDER + ArkanoidGame.WIDTH)) {
-                    break;
-                }
-                if (((j == 1 || j == 5) && i > 0 && i < 4)
-                        || (j == 9 && i == 1)) {
-                    Brick brick = new StrongBrick(x, y);
-                    bricks.add(brick);
-                    brick.applyTexture("", gamePane);
-                } else if (j != 3 && j != 7 && j < 9 || (j > 8 && i < 3)) {
-                    Brick brick = new NormalBrick(x, y);
-                    bricks.add(brick);
-                    brick.applyTexture("", gamePane);
-                } else {
-                    Brick brick = new UnbreakableBrick(x, y);
-                    bricks.add(brick);
-                    brick.applyTexture("", gamePane);
-                }
-            }
         }
     }
 }

@@ -22,6 +22,14 @@ public class Ball extends Circle {
 
     private int comboCount = 0;
 
+    public Ball(double r, double x, double y, double dx, double dy) {
+        this.setRadius(r);
+        this.setCenterX(x);
+        this.setCenterY(y);
+        this.setDirectionX(dx);
+        this.setDirectionY(dy);
+    }
+
     public int getComboCount() {
         return comboCount;
     }
