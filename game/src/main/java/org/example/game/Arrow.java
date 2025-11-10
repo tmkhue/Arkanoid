@@ -40,15 +40,14 @@ public class Arrow extends Rectangle {
         while (it.hasNext()) {
             Brick brick = it.next();
             if (this.getBoundsInParent().intersects(brick.getBoundsInParent())) {
-                brick.takeHit(null, gamePane);
+                if(!(brick instanceof Flower)){
+                    brick.takeHit(null, gamePane);
+                }
                 if (brick.isDestroyed()) {
                     it.remove();
-                    gamePane.getChildren().remove(brick);
+                    brick.removeBrick(gamePane);
                     if (arkanoidGame != null) {
                         arkanoidGame.increaseScore(10);
-                    }
-                    if (brick instanceof Flower) {
-                        gamePane.getChildren().remove(((Flower) brick).flowerCenter);
                     }
                 }
                 return true;
