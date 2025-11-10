@@ -18,6 +18,7 @@ public class Brick extends Rectangle {
     protected String type;
     protected double brickHeight;
     protected double brickWidth;
+    protected boolean hidden =false;
     // các thuộc tính của brick di chuyển được
     private int directionX = 1, directionY = 1;
     double angle = 90;
@@ -91,8 +92,12 @@ public class Brick extends Rectangle {
         this.type = type;
     }
 
-    public boolean equals(Object obj) {
-        return super.equals(obj);
+    public boolean isHidden() {
+        return hidden;
+    }
+
+    public void setHidden(boolean hidden) {
+        this.hidden = hidden;
     }
 
     public void applyTexture(String path, Pane gamePane) {
@@ -181,6 +186,10 @@ public class Brick extends Rectangle {
         Iterator<Brick> it = bricks.iterator();
         while (it.hasNext()) {
             Brick brick = it.next();
+            if (brick.isHidden()){
+                it.remove();
+                gamePane.getChildren().remove(brick);
+            }
             if (!isPaused && Brick.bricks.stream().noneMatch(
                     b -> b instanceof NormalBrick || b instanceof StrongBrick)) {
                     PauseTransition pause = new PauseTransition(Duration.seconds(0.5));
@@ -201,6 +210,9 @@ public class Brick extends Rectangle {
                 if(brick.isDestroyed()) {
                     it.remove();
                     gamePane.getChildren().remove(brick);
+                    if (brick instanceof BoomBrick){
+                        ((BoomBrick) brick).explode(ball, gamePane);
+                    }
                     if (brick instanceof Flower) {
                         PauseTransition pause = new PauseTransition(Duration.seconds(0.5));
                         pause.setOnFinished(event -> {

@@ -48,6 +48,10 @@ public class Flower extends Brick {
         this.setHitPoints(HIT_POINTS);
         flowerCenter = new Circle(x + brickWidth / 2.0, y + brickHeight / 2.0, radius);
     }
+    public Flower(double x, double y,double angle,
+                  double minX, double maxX, double minY, double maxY)  {
+        super(x, y, "F", angle, minX, maxX, minY, maxY);
+    }
 
     public Circle getFlowerCenter() {
         return flowerCenter;
