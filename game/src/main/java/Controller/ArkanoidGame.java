@@ -70,7 +70,7 @@ public class ArkanoidGame {
     public Levels getLevel() {
         return level;
     }
-
+    private Text countStarText;
     private Text scoreText;
 
     private Text comboText;
@@ -109,6 +109,7 @@ public class ArkanoidGame {
         level = new Levels();
         setupScoreText();
         setupLevelText();
+        setupCountStarText();
         ball.setCenterX(paddle.getX() - paddle.getWidth() / 2);
         ball.setCenterY(paddle.getY() - ball.getRadius());
         ball.setGamePane(gamePane);
@@ -542,5 +543,26 @@ public class ArkanoidGame {
         balls.add(newBall);
         gamePane.getChildren().add(newBall);
     }
-
+    private void setupCountStarText() {
+        try {
+            Font gameFont = Font.loadFont(getClass().getResourceAsStream("/org/example/game/Font/Black_Stuff_Bold.ttf"), 15);
+            countStarText = new Text("You have no stars!");
+            countStarText.setFont(gameFont);
+        } catch (Exception e) {
+            System.err.println("Could not load font, using default.");
+            countStarText = new Text("0");
+            countStarText.setFont(Font.font(5));
+        }
+        countStarText.setFill(Color.BLUE);
+        countStarText.setX(70-countStarText.getLayoutX()/2);
+        countStarText.setY(780);
+        gamePane.getChildren().add(countStarText);
+    }
+    public void updatecountStarText() {
+        if (Levels.countStar == 1){
+            countStarText.setText("You have 1 star");
+        } else {
+            countStarText.setText("You have " + Levels.countStar + " stars");
+        }
+    }
 }

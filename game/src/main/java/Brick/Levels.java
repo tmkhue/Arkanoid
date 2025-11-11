@@ -115,7 +115,6 @@ public class Levels {
             p.setFill(new ImagePattern(Flower.petalPiece, 0, 0, 1, 1, true));
             petalPieces.add(p);
         }
-        int m = (int) (Math.random() * 10); // index bất kì của petalpieces để tăng count
         for (int i = 0; i < 20; i++) {
             PauseTransition pause = new PauseTransition(Duration.seconds(Math.random() * 50));
             PetalPiece p = petalPieces.get(i);
@@ -126,8 +125,9 @@ public class Levels {
                     @Override
                     public void handle(long now) {
                         if (p.checkCollisionWithPaddle()) {
-                            if( finalI == m) {
+                            if( finalI== 5) {
                                 Levels.countStar++;
+                                ArkanoidGame.getInstance().updatecountStarText();
                                 System.out.println("CountStars = "+countStar);
                             }
                             p.resolve(gamePane);
