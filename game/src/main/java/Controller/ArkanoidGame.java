@@ -477,6 +477,7 @@ public class ArkanoidGame {
             gamePane.getChildren().removeIf(node -> node instanceof Brick
                     || node instanceof PowerUp || node instanceof Ball);
             level.next();
+            level.setCurrLevel();
             updateLevelText();
             level.start(gamePane, ball);
             resetBall();

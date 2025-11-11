@@ -21,8 +21,9 @@ import Ball.*;
 public class Levels {
     protected static int countStar = 0;
     public static final int COUNT_STARS = 0;
-    protected static int level = 1;
-    public static final int LEVEL = 8;
+    protected static int level = 1; // this is for current level
+    public static int levelUnlocked = 1;
+    public static final int LEVEL = 20;
 
     public int getLevel() {
         return level;
@@ -30,6 +31,14 @@ public class Levels {
 
     public void next() {
         level = (level + 1) % (LEVEL + 1);
+    }
+
+    public static void selectLevel(int levelChosen){
+        level = levelChosen;
+    }
+
+    public void setCurrLevel(){
+        if(levelUnlocked < level) levelUnlocked = level;
     }
 
     public void start(Pane gamePane, Ball ball) {

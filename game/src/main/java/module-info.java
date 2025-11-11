@@ -10,6 +10,7 @@ module org.example.game {
     requires javafx.media;
     requires java.prefs;
     requires javafx.base;
+    requires java.desktop;
 
     opens org.example.game to javafx.fxml;
     //exports org.example.game;

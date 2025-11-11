@@ -41,6 +41,8 @@ public class MenuController implements Initializable {
 
     @FXML
     private Button StartButton = new Button();
+    @FXML
+    private Button LevelButton;
 
     @FXML
     private Button MusicButton;
@@ -56,6 +58,7 @@ public class MenuController implements Initializable {
         setButton(ExitButton, "/org/example/game/Image/Exit.png", "/org/example/game/Image/Exit_on_hover.png");
         setButton(StartButton, "/org/example/game/Image/Start.png", "/org/example/game/Image/Start_on_hover.png");
         setButton(MusicButton, "/org/example/game/Image/Music.png", "/org/example/game/Image/Music_on_hover.png");
+        setButton(LevelButton, "/org/example/game/Image/LevelButton.png", "/org/example/game/Image/LevelOnHover.png");
     }
 
     private void setButton(Button button, String normal, String onHover){
@@ -160,6 +163,31 @@ public class MenuController implements Initializable {
         } catch (IOException e) {
             e.printStackTrace();
             System.err.println("Error loading music settings scene: " + e.getMessage());
+        }
+    }
+
+    @FXML
+    private void openLevel(ActionEvent event) {
+        try {
+            MusicManager.startBackgroundMusic();
+
+            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+
+            URL fxmlUrl = getClass().getResource("/org/example/game/Level.fxml");
+            if (fxmlUrl == null) {
+                throw new IOException("Cannot find Level.fxml");
+            }
+
+            Parent musicRoot = FXMLLoader.load(fxmlUrl);
+            Scene musicScene = new Scene(musicRoot);
+
+            stage.setScene(musicScene);
+            stage.setTitle("Arkanoid Game - Levels");
+            stage.show();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+            System.err.println("Error loading levels scene: " + e.getMessage());
         }
     }
 }
