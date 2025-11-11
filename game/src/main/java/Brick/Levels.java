@@ -1,4 +1,4 @@
-package org.example.game;
+package Brick;
 
 import javafx.animation.AnimationTimer;
 import javafx.animation.PauseTransition;
@@ -14,13 +14,15 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-import static org.example.game.Brick.bricks;
+import Controller.ArkanoidGame;
+import static Brick.Brick.bricks;
+import Ball.*;
 
 public class Levels {
     protected static int countStar = 0;
     public static final int COUNT_STARS = 0;
-    protected static int level = 15;
-    public static final int LEVEL = 16;
+    protected static int level = 1;
+    public static final int LEVEL = 8;
 
     public int getLevel() {
         return level;

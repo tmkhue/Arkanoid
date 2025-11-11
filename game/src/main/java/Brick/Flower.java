@@ -1,5 +1,7 @@
-package org.example.game;
+package Brick;
 
+import Controller.ArkanoidGame;
+import Ball.*;
 import javafx.animation.AnimationTimer;
 import javafx.application.Platform;
 import javafx.geometry.Bounds;

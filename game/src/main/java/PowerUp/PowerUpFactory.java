@@ -9,7 +9,7 @@ import Paddle.PaddleResizer;
 import java.util.List;
 
 public class PowerUpFactory {
-    public static PowerUp createPowerUp(double x, double y, Pane gamePane, List<Ball> balls, Paddle paddle, PaddleResizer paddleResizer, ArkanoidGame arkanoidGame) {
+    public static PowerUp createPowerUp(double x, double y, Pane gamePane, List<Ball> balls, Paddle paddle, PaddleResizer paddleResizer) {
         if (Math.random() < 0.1) {
             return new FastBallPowerUp(x, y, 15);
         } else if (Math.random() < 0.2) {
@@ -19,7 +19,7 @@ public class PowerUpFactory {
         } else if (Math.random() < 0.4) {
             return new WidenPaddlePowerUp(x, y, 10, paddleResizer);
         } else if (Math.random() < 0.5) {
-            return new ArrowPowerUp(x, y, 15, gamePane, arkanoidGame);
+            return new ArrowPowerUp(x, y, 15, gamePane);
         } else {
             return new ExtraLifePowerUp(x, y);
         }

@@ -21,7 +21,8 @@ public class ArrowPowerUp extends PowerUp {
     private List<Arrow> activeArrows = new ArrayList<>();
     private ArkanoidGame arkanoidGame; // Thêm tham chiếu đến ArkanoidGame
 
-    public ArrowPowerUp(double x, double y, double duration, Pane gamePane, ArkanoidGame arkanoidGame) { // Cập nhật constructor
+    public ArrowPowerUp(double x, double y, double duration, Pane gamePane) { // Cập nhật constructor
+        ArkanoidGame arkanoidGame = ArkanoidGame.getInstance();
         super("Sức mạnh Mũi tên", duration, x, y, "/org/example/game/Image/ArrowPower.png");
         this.gamePane = gamePane;
         this.arkanoidGame = arkanoidGame;
