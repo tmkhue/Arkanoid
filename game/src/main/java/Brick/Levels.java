@@ -22,6 +22,7 @@ public class Levels {
     public static int countStar = 0;
     public static final int COUNT_STARS = 5;
     protected static int level = 0;
+    public static int levelUnlocked = 1;
     public static final int LEVEL = 20;
 
     public int getLevel() {
@@ -30,6 +31,14 @@ public class Levels {
 
     public void next() {
         level = (level + 1) % (LEVEL + 1);
+    }
+
+    public static void selectLevel(int levelChosen){
+        level = levelChosen;
+    }
+
+    public void setCurrLevel(){
+        if(levelUnlocked < level) levelUnlocked = level;
     }
 
     public void start(Pane gamePane, Ball ball) {
