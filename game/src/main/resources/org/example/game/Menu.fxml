@@ -14,15 +14,19 @@
                 <Image url="@Image/menuBackground.png" />
             </image>
         </ImageView>
-
-        <Button fx:id="StartButton" layoutX="342.0" layoutY="419.0" mnemonicParsing="false" onAction="#startGame" snapToPixel="false" textOverrun="LEADING_ELLIPSIS">
+      <VBox alignment="CENTER" layoutX="321.0" layoutY="413.0" prefHeight="305.0" prefWidth="169.0" spacing="40.0">
+         <children>
+      
+              <Button fx:id="StartButton" mnemonicParsing="false" onAction="#startGame" snapToPixel="false" textOverrun="LEADING_ELLIPSIS">
         </Button>
-
-        <Button fx:id="MusicButton" layoutX="342.0" layoutY="528.0" mnemonicParsing="false" onAction="#openMusicSettings">
+            <Button fx:id="LevelButton" mnemonicParsing="false" onAction="#openLevel"/>
+      
+              <Button fx:id="MusicButton" mnemonicParsing="false" onAction="#openMusicSettings">
         </Button>
-
-        <Button fx:id="ExitButton" layoutY="645.0" mnemonicParsing="false" onAction="#exit">
+      
+              <Button fx:id="ExitButton" alignment="CENTER" mnemonicParsing="false" onAction="#exit">
         </Button>
+         </children></VBox>
 
 <!--        <Button fx:id="MusicButton" layoutX="342.0" layoutY="478.0" onAction="#toggleMusic" />-->
         <Text fx:id="GameName" boundsType="VISUAL" depthTest="DISABLE" fontSmoothingType="LCD" layoutX="74.0" layoutY="309.0" strokeType="OUTSIDE" strokeWidth="0.0" text="ARKANOID">

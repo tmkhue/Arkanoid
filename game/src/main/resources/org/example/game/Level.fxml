@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.effect.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.paint.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane prefHeight="800.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.LevelController">
+   <children>
+      <ImageView fitHeight="800.0" fitWidth="800.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@Image/LevelBG.png" />
+         </image>
+      </ImageView>
+       <Text boundsType="VISUAL" depthTest="DISABLE" fontSmoothingType="LCD" layoutX="265.0" layoutY="225.0" strokeType="OUTSIDE" strokeWidth="0.0" text="LEVELS">
+           <effect>
+               <DropShadow spread="0.31">
+                   <color>
+                       <Color red="0.9485278129577637" green="0.5299999713897705" blue="1.0" />
+                   </color>
+               </DropShadow>
+           </effect>
+           <fill>
+               <LinearGradient endX="1.0" endY="1.0" startX="1.0" startY="0.37115839243498816">
+                   <stops>
+                       <Stop>
+                           <color>
+                               <Color red="0.33526235818862915" green="0.07699804753065109" blue="0.5197368264198303" />
+                           </color>
+                       </Stop>
+                       <Stop offset="0.743295019157088">
+                           <color>
+                               <Color red="0.5958333611488342" green="0.2361111044883728" blue="0.75" />
+                           </color>
+                       </Stop>
+                       <Stop offset="1.0">
+                           <color>
+                               <Color red="0.8520833253860474" green="0.5069444179534912" blue="1.0" />
+                           </color>
+                       </Stop>
+                   </stops>
+               </LinearGradient>
+           </fill>
+         <font>
+            <Font name="Black Stuff Bold" size="96.0" />
+         </font>
+       </Text>
+      <GridPane fx:id="gridPane" accessibleRole="BUTTON" alignment="CENTER" layoutX="38.0" layoutY="285.0" nodeOrientation="LEFT_TO_RIGHT" prefHeight="398.0" prefWidth="722.0">
+        <columnConstraints>
+          <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+            <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+            <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+            <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+          <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+        </columnConstraints>
+        <rowConstraints>
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+        </rowConstraints>
+         <children>
+            <Button alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" prefHeight="50.0" prefWidth="110.0" text="LEVEL 1" textOverrun="CENTER_ELLIPSIS">
+               <padding>
+                  <Insets left="-5.0" right="-5.0" />
+               </padding></Button>
+             <Button alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" prefHeight="50.0" prefWidth="110.0" text="LEVEL 2" textOverrun="CENTER_ELLIPSIS" GridPane.columnIndex="1">
+                 <padding>
+                     <Insets left="-5.0" right="-5.0" />
+                 </padding></Button>
+             <Button alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" prefHeight="50.0" prefWidth="110.0" text="LEVEL 3" textOverrun="CENTER_ELLIPSIS" GridPane.columnIndex="2">
+                 <padding>
+                     <Insets left="-5.0" right="-5.0" />
+                 </padding></Button>
+             <Button alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" prefHeight="50.0" prefWidth="110.0" text="LEVEL 4" textOverrun="CENTER_ELLIPSIS" GridPane.columnIndex="3">
+                 <padding>
+                     <Insets left="-5.0" right="-5.0" />
+                 </padding></Button>
+             <Button alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" prefHeight="50.0" prefWidth="110.0" text="LEVEL 5" textOverrun="CENTER_ELLIPSIS" GridPane.columnIndex="4">
+                 <padding>
+                     <Insets left="-5.0" right="-5.0" />
+                 </padding></Button>
+             <Button alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" prefHeight="50.0" prefWidth="110.0" text="LEVEL 6" textOverrun="CENTER_ELLIPSIS" GridPane.rowIndex="1">
+                 <padding>
+                 <Insets left="-5.0" right="-5.0" />
+             </padding></Button>
+             <Button alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" prefHeight="50.0" prefWidth="110.0" text="LEVEL 7" textOverrun="CENTER_ELLIPSIS" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                 <padding>
+                 <Insets left="-5.0" right="-5.0" />
+             </padding></Button>
+             <Button alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" prefHeight="50.0" prefWidth="110.0" text="LEVEL 8" textOverrun="CENTER_ELLIPSIS" GridPane.columnIndex="2" GridPane.rowIndex="1">
+                 <padding>
+                     <Insets left="-5.0" right="-5.0" />
+                 </padding></Button>
+             <Button alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" prefHeight="50.0" prefWidth="110.0" text="LEVEL 9" textOverrun="CENTER_ELLIPSIS" GridPane.columnIndex="3" GridPane.rowIndex="1">
+                 <padding>
+                     <Insets left="-5.0" right="-5.0" />
+                 </padding></Button>
+             <Button alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" prefHeight="50.0" prefWidth="110.0" text="LEVEL 10" textOverrun="CENTER_ELLIPSIS" GridPane.columnIndex="4" GridPane.rowIndex="1">
+                 <padding>
+                     <Insets left="-5.0" right="-5.0" />
+                 </padding></Button>
+             <Button alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" prefHeight="50.0" prefWidth="110.0" text="LEVEL 11" textOverrun="CENTER_ELLIPSIS" GridPane.rowIndex="2"><padding>
+                 <Insets left="-5.0" right="-5.0" />
+             </padding></Button>
+             <Button alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" prefHeight="50.0" prefWidth="110.0" text="LEVEL 12" textOverrun="CENTER_ELLIPSIS" GridPane.columnIndex="1" GridPane.rowIndex="2">
+               <padding>
+                  <Insets left="-5.0" right="-5.0" />
+               </padding></Button>
+             <Button alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" prefHeight="50.0" prefWidth="110.0" text="LEVEL 13" textOverrun="CENTER_ELLIPSIS" GridPane.columnIndex="2" GridPane.rowIndex="2">
+               <padding>
+                  <Insets left="-5.0" right="-5.0" />
+               </padding></Button>
+             <Button alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" prefHeight="50.0" prefWidth="110.0" text="LEVEL 14" textOverrun="CENTER_ELLIPSIS" GridPane.columnIndex="3" GridPane.rowIndex="2">
+               <padding>
+                  <Insets left="-5.0" right="-5.0" />
+               </padding></Button>
+             <Button alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" prefHeight="50.0" prefWidth="110.0" text="LEVEL 15" textOverrun="CENTER_ELLIPSIS" GridPane.columnIndex="4" GridPane.rowIndex="2">
+               <padding>
+                  <Insets left="-5.0" right="-5.0" />
+               </padding></Button>
+             <Button alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" prefHeight="50.0" prefWidth="110.0" text="LEVEL 16" textOverrun="CENTER_ELLIPSIS" GridPane.rowIndex="3">
+               <padding>
+                  <Insets left="-5.0" right="-5.0" />
+               </padding></Button>
+             <Button alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" prefHeight="50.0" prefWidth="110.0" text="LEVEL 17" textOverrun="CENTER_ELLIPSIS" GridPane.columnIndex="1" GridPane.rowIndex="3">
+               <padding>
+                  <Insets left="-5.0" right="-5.0" />
+               </padding></Button>
+             <Button alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" prefHeight="50.0" prefWidth="110.0" text="LEVEL 18" textOverrun="CENTER_ELLIPSIS" GridPane.columnIndex="2" GridPane.rowIndex="3">
+               <padding>
+                  <Insets left="-5.0" right="-5.0" />
+               </padding></Button>
+             <Button alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" prefHeight="50.0" prefWidth="110.0" text="LEVEL 19" textOverrun="CENTER_ELLIPSIS" GridPane.columnIndex="3" GridPane.rowIndex="3">
+               <padding>
+                  <Insets left="-5.0" right="-5.0" />
+               </padding></Button>
+             <Button alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" prefHeight="50.0" prefWidth="110.0" style="-fx-background-image: locked;" text="LEVEL 20" textOverrun="CENTER_ELLIPSIS" GridPane.columnIndex="4" GridPane.rowIndex="3">
+               <padding>
+                  <Insets left="-5.0" right="-5.0" />
+               </padding></Button>
+         </children>
+      </GridPane>
+      <Button layoutX="29.0" layoutY="28.0" mnemonicParsing="false" onAction="#backToMenu" style="-fx-background-color: mistyrose; -fx-border-color: darkmagenta;" text="Back To Menu" textFill="#6b0cab">
+         <font>
+            <Font name="System Bold" size="24.0" />
+         </font></Button>
+      <Text fill="#620b7a" layoutX="156.0" layoutY="267.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Chơi lần lượt các cấp độ để mở khóa những cấp độ tiếp theo" wrappingWidth="487.13671875">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Text>
+   </children>
+</AnchorPane>
