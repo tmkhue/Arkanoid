@@ -1,5 +1,15 @@
-package org.example.game;
+package Controller;
 
+import Ball.Ball;
+import Brick.Brick;
+import Paddle.Paddle;
+import PowerUp.PowerUp;
+import Brick.Levels;
+import Paddle.PaddleResizer;
+import Paddle.DefaultPaddleResizer;
+import PowerUp.ActiveEffect;
+import Brick.Flower;
+import PowerUp.PowerUpFactory;
 import javafx.animation.AnimationTimer;
 import javafx.animation.PauseTransition;
 import javafx.application.Platform;
@@ -23,6 +33,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Objects;
+import PowerUp.TripleBallPowerUp;
 
 public class ArkanoidGame {
     public static final int WIDTH = 750;
@@ -404,8 +415,23 @@ public class ArkanoidGame {
         }
 
         for (Ball b : ballsToRemove) {
-            gamePane.getChildren().remove(b);
-            balls.remove(b);
+            boolean replaced = false;
+            for (ActiveEffect ae : activeEffects) {
+                if (ae.powerUp instanceof TripleBallPowerUp) {
+                    TripleBallPowerUp tpb = (TripleBallPowerUp) ae.powerUp;
+                    Ball newMain = tpb.promoteNewMainBall(b);
+                    if (newMain != null) {
+                        balls.add(newMain);
+                        gamePane.getChildren().add(newMain);
+                        replaced = true;
+                        break;
+                    }
+                }
+            }
+            if (!replaced) {
+                balls.remove(b);
+                gamePane.getChildren().remove(b);
+            }
         }
 
         if (balls.isEmpty()) {
@@ -478,7 +504,9 @@ public class ArkanoidGame {
     @FXML
     private void showGameOverScreen() {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("GameOver.fxml"));
+            FXMLLoader loader = new FXMLLoader();
+
+            loader.setLocation(getClass().getResource("/org/example/game/GameOver.fxml"));
             Parent gameOverRoot = loader.load();
             Scene gameOverScene = new Scene(gameOverRoot);
             Stage primaryStage = (Stage) gamePane.getScene().getWindow();

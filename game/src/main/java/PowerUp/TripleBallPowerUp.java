@@ -1,5 +1,7 @@
-package org.example.game;
+package PowerUp;
 
+import Ball.Ball;
+import Paddle.Paddle;
 import javafx.scene.layout.Pane;
 
 import java.util.ArrayList;
@@ -44,5 +46,17 @@ public class TripleBallPowerUp extends PowerUp {
         }
         extra.clear();
         System.out.println("Ball x 1");
+    }
+
+    //Khi bóng chính chết, chọn 1 trong 2 bóng phụ extra thành bóng chính mới
+    public Ball promoteNewMainBall(Ball mainBall) {
+        if (!extra.isEmpty()) {
+            Ball newMain = extra.remove(0);
+            balls.remove(mainBall);
+            gamePane.getChildren().remove(mainBall);
+            System.out.println("Bóng chính mới");
+            return newMain;
+        }
+        return null;
     }
 }

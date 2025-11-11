@@ -1,5 +1,8 @@
-package org.example.game;
+package Ball;
 
+import Brick.Levels;
+import Controller.ArkanoidGame;
+import Paddle.Paddle;
 import javafx.scene.layout.Pane;
 
 public class PetalPiece extends Ball {

@@ -1,5 +1,9 @@
-package org.example.game;
+package Paddle;
 
+import Brick.Brick;
+import Brick.Flower;
+
+import Controller.ArkanoidGame;
 import javafx.scene.image.Image;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.ImagePattern;

@@ -1,8 +1,7 @@
-package org.example.game;
+package Brick;
 
+import Ball.Ball;
 import javafx.scene.layout.Pane;
-
-import java.util.*;
 
 public class BoomBrick extends Brick {
 

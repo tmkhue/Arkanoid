@@ -163,9 +163,8 @@ https://drive.google.com/file/d/1OC5rtuqmhx7wi4Qt1_6sM7YsaTI8R0H6/view?usp=drive
 | Technology | Version | Purpose |
 |------------|---------|---------|
 | Java | 17+ | Core language |
-| JavaFX | 19.0.2 | GUI framework |
-| Maven | 3.9+ | Build tool |
-| Jackson | 2.15.0 | JSON processing |
+| JavaFX | 21.0.6 | GUI framework |
+| Maven | 3.9.9 | Build tool |
 
 
 *Last updated: [10/11/2025]*

@@ -1,7 +1,10 @@
-package org.example.game;
+package PowerUp;
 
+import Ball.Ball;
+import Controller.ArkanoidGame;
+import Paddle.Paddle;
 import javafx.scene.layout.Pane;
-import javafx.scene.text.Text;
+import Paddle.PaddleResizer;
 
 import java.util.List;
 

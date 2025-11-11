@@ -1,4 +1,4 @@
-package org.example.game;
+package Controller;
 
 import javafx.animation.RotateTransition;
 import javafx.animation.TranslateTransition;
@@ -15,7 +15,6 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
-import javafx.scene.transform.Rotate;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 

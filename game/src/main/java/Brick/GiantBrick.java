@@ -1,4 +1,4 @@
-package org.example.game;
+package Brick;
 
 import javafx.animation.AnimationTimer;
 import javafx.application.Platform;

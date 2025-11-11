@@ -1,4 +1,8 @@
-package org.example.game;
+package PowerUp;
+
+import Ball.Ball;
+import Controller.ArkanoidGame;
+import Paddle.Paddle;
 
 public class ExtraLifePowerUp extends PowerUp {
     public ExtraLifePowerUp(double x, double y) {

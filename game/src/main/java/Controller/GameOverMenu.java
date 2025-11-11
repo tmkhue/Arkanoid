@@ -1,4 +1,4 @@
-package org.example.game;
+package Controller;
 
 import javafx.application.Platform;
 import javafx.event.ActionEvent;

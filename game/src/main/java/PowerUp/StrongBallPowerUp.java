@@ -1,6 +1,9 @@
 
-package org.example.game;
+package PowerUp;
 
+import Ball.Ball;
+import Controller.ArkanoidGame;
+import Paddle.Paddle;
 import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.ImagePattern;

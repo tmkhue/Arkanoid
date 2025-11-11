@@ -1,6 +1,9 @@
-package org.example.game;
+package PowerUp;
 
-import static org.example.game.ArkanoidGame.activeEffects;
+import Ball.Ball;
+import Paddle.Paddle;
+
+import static Controller.ArkanoidGame.activeEffects;
 
 public class FastBallPowerUp extends PowerUp {
     private double originalSpeed;

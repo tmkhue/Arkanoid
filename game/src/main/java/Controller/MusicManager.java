@@ -1,4 +1,4 @@
-package org.example.game;
+package Controller;
 
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;

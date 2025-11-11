@@ -1,10 +1,10 @@
 
-package org.example.game;
+package PowerUp;
 
 public class ActiveEffect {
-    PowerUp powerUp;
-    long startTime;
-    double duration;
+    public PowerUp powerUp;
+    public long startTime;
+    public double duration;
 
     public ActiveEffect(PowerUp powerUp, long startTime, double duration) {
         this.powerUp = powerUp;

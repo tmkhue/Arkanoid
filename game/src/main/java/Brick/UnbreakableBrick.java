@@ -1,8 +1,6 @@
-package org.example.game;
+package Brick;
 
 import javafx.scene.layout.Pane;
-import javafx.scene.paint.Color;
-import javafx.scene.shape.Rectangle;
 
 public class UnbreakableBrick extends Brick {
     public UnbreakableBrick() {

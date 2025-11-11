@@ -1,5 +1,6 @@
-package org.example.game;
+package Brick;
 
+import Ball.Ball;
 import javafx.scene.image.Image;
 import javafx.scene.image.PixelReader;
 import javafx.scene.image.WritableImage;
@@ -12,7 +13,7 @@ import java.util.Objects;
 
 import static javafx.scene.paint.Color.RED;
 
-public class StrongBrick extends Brick{
+public class StrongBrick extends Brick {
     public static final List<WritableImage> frames;
     public static final int HIT_POINTS = 5;
     public StrongBrick(){

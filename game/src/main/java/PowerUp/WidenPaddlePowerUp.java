@@ -1,9 +1,10 @@
-package org.example.game;
+package PowerUp;
 
+import Ball.Ball;
+import Controller.ArkanoidGame;
+import Paddle.Paddle;
 import javafx.animation.AnimationTimer;
-import javafx.scene.image.Image;
-import javafx.scene.paint.ImagePattern;
-import java.util.Objects;
+import Paddle.PaddleResizer;
 
 public class WidenPaddlePowerUp extends PowerUp {
     private PaddleResizer paddleResizer;

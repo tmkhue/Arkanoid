@@ -1,4 +1,4 @@
-package org.example.game;
+package Ball;
 
 import javafx.animation.FadeTransition;
 import javafx.scene.SnapshotParameters;
@@ -9,6 +9,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Circle;
 import javafx.util.Duration;
+import Controller.ArkanoidGame;
 
 import java.util.ArrayList;
 import java.util.List;

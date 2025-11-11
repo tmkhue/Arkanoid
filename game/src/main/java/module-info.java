@@ -12,5 +12,17 @@ module org.example.game {
     requires javafx.base;
 
     opens org.example.game to javafx.fxml;
-    exports org.example.game;
+    //exports org.example.game;
+    exports Ball;
+    opens Ball to javafx.fxml;
+    exports Controller;
+    opens Controller to javafx.fxml;
+    exports Main;
+    opens Main to javafx.fxml;
+    exports Brick;
+    opens Brick to javafx.fxml;
+    exports Paddle;
+    opens Paddle to javafx.fxml;
+    exports PowerUp;
+    opens PowerUp to javafx.fxml;
 }

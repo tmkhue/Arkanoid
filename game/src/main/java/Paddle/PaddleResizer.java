@@ -1,4 +1,4 @@
-package org.example.game;
+package Paddle;
 
 public interface PaddleResizer {
     void increaseLength(Paddle paddle, double amount);

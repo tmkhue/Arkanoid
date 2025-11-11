@@ -1,7 +1,7 @@
-package org.example.game;
+package Paddle;
 
+import Controller.ArkanoidGame;
 import javafx.scene.image.Image;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Rectangle;
 

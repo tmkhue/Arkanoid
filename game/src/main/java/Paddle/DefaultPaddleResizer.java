@@ -1,4 +1,4 @@
-package org.example.game;
+package Paddle;
 
 public class DefaultPaddleResizer implements PaddleResizer {
     public static final double MAX_PADDLE_WIDTH = 250;
