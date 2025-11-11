@@ -13,6 +13,9 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Objects;
 
+import Ball.*;
+import Controller.ArkanoidGame;
+
 import static javafx.scene.paint.Color.RED;
 
 public class Brick extends Rectangle {
@@ -29,7 +32,6 @@ public class Brick extends Rectangle {
     static boolean isPaused = false;
     static final double BRICK_WIDTH = 60;
     static final double BRICK_HEIGHT = 40;
-
 
 
     public static ArrayList<Brick> bricks = new ArrayList<>();
@@ -60,6 +62,10 @@ public class Brick extends Rectangle {
         this.maxX = maxX;
         this.minY = minY;
         this.maxY = maxY;
+    }
+
+    public int getBricksSize(){
+        return bricks.size();
     }
 
     public double getMinY() {
@@ -184,7 +190,8 @@ public class Brick extends Rectangle {
         hitPoints--;
     }
 
-    public boolean resolveCollision(Ball ball, Pane gamePane, ArkanoidGame game) {
+    public boolean resolveCollision(Ball ball, Pane gamePane) {
+        ArkanoidGame game = ArkanoidGame.getInstance();
         Iterator<Brick> it = bricks.iterator();
         while (it.hasNext()) {
             Brick brick = it.next();

@@ -398,9 +398,9 @@ public class ArkanoidGame {
                 b.setDirectionY(-Math.abs(b.getDirectionY()));
             }
 
-            if (bricks.resolveCollision(b, gamePane, this)) {
+            if (bricks.resolveCollision(b, gamePane)) {
                 if (Math.random() < 0.05) {
-                    PowerUp p = PowerUpFactory.createPowerUp(b.getCenterX(), b.getCenterY(), gamePane, balls, paddle, paddleResizer, this);
+                    PowerUp p = PowerUpFactory.createPowerUp(b.getCenterX(), b.getCenterY(), gamePane, balls, paddle, paddleResizer);
                     activePowerUps.add(p);
                     gamePane.getChildren().add(p);
                 }

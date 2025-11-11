@@ -17,7 +17,7 @@ import java.util.List;
 public class Ball extends Circle {
     private double directionX = 1;
     private double directionY = -1;
-    private double speed = 3;
+    private double speed = 2;
 
     private boolean isStrong = false;
 

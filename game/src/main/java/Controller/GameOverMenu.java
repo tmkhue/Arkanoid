@@ -1,5 +1,6 @@
 package Controller;
 
+import Brick.Brick;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -159,7 +160,6 @@ public class GameOverMenu implements Initializable {
             stage.setScene(gameScene);
             stage.setTitle("Arkanoid Game - In Progress");
             stage.show();
-
         } catch (IOException e) {
             e.printStackTrace();
             System.err.println("Error loading game scene: " + e.getMessage());
