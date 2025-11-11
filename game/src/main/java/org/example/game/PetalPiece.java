@@ -14,7 +14,7 @@ public class PetalPiece extends Ball {
         if ( arkanoidGame != null) {
             Paddle paddle =  arkanoidGame.getPaddle();
             boolean check =true;
-            if (check&&paddle != null
+            if (check && paddle != null
                     && this.getBoundsInParent().intersects(paddle.getBoundsInParent())) {
                 check = false;
                 return true;
@@ -24,9 +24,15 @@ public class PetalPiece extends Ball {
     }
 
     public void resolve(Pane gamePane) {
-        if (checkCollisionWithPaddle()){
-            Levels.countStar++;
+        if (checkCollisionWithPaddle()) {
             arkanoidGame.increaseScore(5);
+            gamePane.getChildren().remove(this);
+        }
+    }
+
+    public void removePiece(Pane gamePane) {
+        if (!(checkCollisionWithPaddle())) {
+            arkanoidGame.loseLife();
             gamePane.getChildren().remove(this);
         }
     }

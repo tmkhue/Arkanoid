@@ -3,7 +3,6 @@ package org.example.game;
 import javafx.animation.AnimationTimer;
 import javafx.animation.PauseTransition;
 import javafx.application.Platform;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -16,7 +15,6 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
-import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
@@ -49,7 +47,7 @@ public class ArkanoidGame {
     private List<PowerUp> activePowerUps = new ArrayList<>();
     public static List<ActiveEffect> activeEffects = new ArrayList<>();
 
-    private List<Ball> balls = new ArrayList<>();
+    protected List<Ball> balls = new ArrayList<>();
 
     private int score = 0;
 
@@ -139,7 +137,10 @@ public class ArkanoidGame {
             switch (e.getCode()) {
                 case LEFT -> paddle.leftPressed = true;
                 case RIGHT -> paddle.rightPressed = true;
-                case ESCAPE -> showGameOverScreen();
+                case ESCAPE -> {
+                    showGameOverScreen();
+                    isPaused = true;
+                }
                 case SPACE -> handlePauseButton();
                 case UP -> {
                     if (ballAttached && !balls.isEmpty()) {
@@ -376,7 +377,6 @@ public class ArkanoidGame {
             }
         }
         List<Ball> ballsToRemove = new ArrayList<>();
-
         Iterator<Ball> ballIt = balls.iterator();
         while (ballIt.hasNext()) {
             Ball b = ballIt.next();
@@ -459,7 +459,7 @@ public class ArkanoidGame {
         pause.play();
     }
 
-    private void loseLife() {
+    protected void loseLife() {
         if (lives > 0) {
             lives--;
             if (!liveList.isEmpty()) {
@@ -494,7 +494,11 @@ public class ArkanoidGame {
     }
 
     private void resetBall() {
+        for (Ball b : balls) {
+            gamePane.getChildren().remove(b);
+        }
         balls.clear();
+
         ballAttached = true;
 
         Ball newBall = new Ball();

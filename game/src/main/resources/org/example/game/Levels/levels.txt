@@ -50,7 +50,15 @@ N X N X N X N X N X N
 N X N X N X N X N X N
 S X S X S X S X S X S
 ----
-LEVEL 7
+Level 8
+R X R X R X R X R X R
+R X R X R X R X R X R
+R X R X R X R X R X R
+X
+X
+Rm-90---245-400 x Rm-90---245-400 x Rm-90---245-400 x Rm-90---245-400 x Rm-90---245-400 x Rm-90---245-400
+----
+LEVEL 11
 N N N N N N N N N N N
 N B S B N N N B S B N
 N N N N N B N N N N N
@@ -58,16 +66,34 @@ x
 X
 Um-90---245-400 Um-270---245-400 Um-90---245-400 Um-270---245-400 Um-90---245-400 Um-270---245-400 Um-90---245-400 Um-270---245-400 Um-90---245-400 Um-270---245-400 Um-90---245-400
 ----
-LEVEL 8
+level 7
+B G x x x B G X X X B
+B x X X X B X X X X B
+B x X X X B X X X X B
+B X x X X B X X X X B
+----
+LEVEL 9
 N B N N G x x x N B N
 N B U U x X X X U B N
 N B U U X X X x U B N
 N N N N x X X X N N N
-----
 N B B N N S S N B B N
 ----
-N N N N N N N N N N N N
-N U N G       N U N N N
-N N N         N N N N N
-N N N         N N N N N
+level 10
+R R R R R R R R R R R
+R R R R R R R R R R R
+R R R R R R R R R R R
+R R R R R R R R R R R
+R R R R R R R R R R R
+----
+level 15
+X G X X X U G X X X X
+X X X X X B X X X X X
+X X X X X B X X X X X
+X X X X X B X X X X X
+X X X B B B B B X X X
+X
+Um-90---335-450 Um-270---335-450 X Sm-90---335-400 Sm-90---335-400 Sm-90---335-400 Sm-90---335-400 Sm-90---335-400 X Um-270---335-450 Um-90---335-450
+----
+x x  x x N
 ----

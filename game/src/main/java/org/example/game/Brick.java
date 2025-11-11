@@ -186,12 +186,17 @@ public class Brick extends Rectangle {
         Iterator<Brick> it = bricks.iterator();
         while (it.hasNext()) {
             Brick brick = it.next();
-            if (brick.isHidden()){
+            if (brick.isHidden()) {
                 it.remove();
                 gamePane.getChildren().remove(brick);
+                if (brick instanceof BoomBrick) {
+                    ((BoomBrick) brick).explode(ball, gamePane);
+                }
             }
             if (!isPaused && Brick.bricks.stream().noneMatch(
-                    b -> b instanceof NormalBrick || b instanceof StrongBrick)) {
+                    b -> b instanceof NormalBrick
+                            || b instanceof StrongBrick
+                            || b instanceof BoomBrick)) {
                     PauseTransition pause = new PauseTransition(Duration.seconds(0.5));
                     pause.setOnFinished(event -> {
                         System.out.println("Tạm dừng");
@@ -229,7 +234,10 @@ public class Brick extends Rectangle {
 
     public boolean isCleared() {
         for (Brick brick : this.bricks) {
-            if (brick instanceof NormalBrick || brick instanceof StrongBrick || brick instanceof Flower) {
+            if (brick instanceof NormalBrick
+                    || brick instanceof StrongBrick
+                    || brick instanceof Flower
+                    || brick instanceof BoomBrick) {
                 return false;
             }
         }

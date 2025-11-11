@@ -18,8 +18,8 @@ import static org.example.game.Brick.bricks;
 
 public class Levels {
     protected static int countStar = 0;
-    public static final int COUNT_STARS = 5;
-    protected static int level = 8;
+    public static final int COUNT_STARS = 0;
+    protected static int level = 15;
     public static final int LEVEL = 16;
 
     public int getLevel() {
@@ -76,7 +76,7 @@ public class Levels {
                 }
                 double minY = y, maxY = y;
                 double maxX = x, minX = x;
-                double angle = 180;
+                double angle = 0;
                 Brick brick = new Brick();
                 if (data[i][j].contains("m")) {
                     String[] parts = data[i][j].split("-");
@@ -96,7 +96,7 @@ public class Levels {
                         System.out.println("Invalid string");
                     }
                 }
-                brick = BrickFactory.createBrick(type, angle, x, y, minX, maxX, minY, maxY);
+                brick = BrickFactory.createBrick(type, x, y, angle,minX, maxX, minY, maxY);
                 if (brick == null) continue;
                 bricks.add(brick);
                 brick.applyTexture("", gamePane);
@@ -114,7 +114,7 @@ public class Levels {
             petalPieces.add(p);
         }
         int m = (int) (Math.random() * 10); // index bất kì của petalpieces để tăng count
-        for (int i = 0; i < 30; i++) {
+        for (int i = 0; i < 20; i++) {
             PauseTransition pause = new PauseTransition(Duration.seconds(Math.random() * 60));
             PetalPiece p = petalPieces.get(i);
             int finalI = i;
@@ -124,6 +124,7 @@ public class Levels {
                     @Override
                     public void handle(long now) {
                         if (p.checkCollisionWithPaddle() && finalI == m) {
+                            Levels.countStar++;
                             p.resolve(gamePane);
                             this.stop();
                         } else {

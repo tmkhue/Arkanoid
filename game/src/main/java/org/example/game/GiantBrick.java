@@ -36,8 +36,9 @@ public class GiantBrick extends StrongBrick {
                 double x = xB + (BRICK_WIDTH + 5) * j;
                 double y = yB + (BRICK_HEIGHT + 5) * i;
                 Brick b = BrickFactory.createBrick('R', x, y, 0, 0, 0, 0, 0);
-                b.setX(x);
-                b.setY(y);
+                if (b== null){
+                    b = BrickFactory.createBrick('N', x, y, 0, 0, 0, 0, 0);
+                }
                 brickList.add(b);
                 System.out.println("Brick: get" + cnt + ":X = " + b.getX() + ", y = " + b.getY());
                 System.out.println("Brick" + cnt + ":X = " + x + ", y = " + y);

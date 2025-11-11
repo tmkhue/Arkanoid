@@ -1,11 +1,10 @@
 package org.example.game;
 
-import java.util.List;
-
 public class BrickFactory {
 
-    private static final char[] RANDOMS_TYPES = new char[]{'N', 'S', 'U', 'B'};
-    public static Brick createBrick(char type,  double angle,double x, double y,
+    private static final char[] RANDOMS_TYPES = new char[]{'N', 'S', 'U', 'B','N', 'S', 'x', 'B'};
+
+    public static Brick createBrick(char type, double x, double y, double angle,
                                     double minX, double maxX, double minY, double maxY){
         Brick brick = null;
         switch (type) {
@@ -29,6 +28,7 @@ public class BrickFactory {
                 break;
             case 'R':
                 int i = (int) (Math.random()*RANDOMS_TYPES.length);
+                System.out.println("Random R -> " + RANDOMS_TYPES[i] + ", orig angle=" + angle + ", x=" + x + ", y=" + y);
                 brick = createBrick(RANDOMS_TYPES[i], x, y, angle, minX, maxX, minY, maxY);
                 break;
             default:
