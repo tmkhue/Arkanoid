@@ -4,15 +4,15 @@
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.Pane?>
 
-<?import org.example.game.Paddle?>
-<?import org.example.game.Ball?>
+<?import Paddle.Paddle?>
+<?import Ball.Ball?>
 <?import javafx.scene.control.Button?>
 <Pane fx:id="gamePane"
       prefHeight="800"
       prefWidth="800"
       xmlns="http://javafx.com/javafx/21"
       xmlns:fx="http://javafx.com/fxml/1"
-      fx:controller="org.example.game.ArkanoidGame">
+      fx:controller="Controller.ArkanoidGame">
     <children>
         <ImageView fx:id="playboard"
                    fitWidth="750"
@@ -35,9 +35,9 @@
 
         <!-- Ball -->
         <Ball fx:id="ball"
-                   centerX="300"
-                   centerY="250"
-                   radius="15"/>
+              centerX="300"
+              centerY="250"
+              radius="15"/>
 
         <!-- Bricks will be added dynamically in Controller -->
         <Button fx:id="pauseButton"
