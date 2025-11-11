@@ -33,6 +33,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Objects;
+import PowerUp.TripleBallPowerUp;
 
 public class ArkanoidGame {
     public static final int WIDTH = 750;
@@ -412,8 +413,23 @@ public class ArkanoidGame {
         }
 
         for (Ball b : ballsToRemove) {
-            gamePane.getChildren().remove(b);
-            balls.remove(b);
+            boolean replaced = false;
+            for (ActiveEffect ae : activeEffects) {
+                if (ae.powerUp instanceof TripleBallPowerUp) {
+                    TripleBallPowerUp tpb = (TripleBallPowerUp) ae.powerUp;
+                    Ball newMain = tpb.promoteNewMainBall(b);
+                    if (newMain != null) {
+                        balls.add(newMain);
+                        gamePane.getChildren().add(newMain);
+                        replaced = true;
+                        break;
+                    }
+                }
+            }
+            if (!replaced) {
+                balls.remove(b);
+                gamePane.getChildren().remove(b);
+            }
         }
 
         if (balls.isEmpty()) {
