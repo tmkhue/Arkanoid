@@ -1,5 +1,7 @@
-package org.example.game;
+package Brick;
 
+import Ball.*;
+import Controller.ArkanoidGame;
 import javafx.animation.AnimationTimer;
 import javafx.animation.PauseTransition;
 import javafx.application.Platform;
@@ -14,13 +16,13 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-import static org.example.game.Brick.bricks;
+import static Brick.Brick.bricks;
 
 public class Levels {
-    protected static int countStar = 0;
-    public static final int COUNT_STARS = 0;
-    protected static int level = 15;
-    public static final int LEVEL = 16;
+    public static int countStar = 0;
+    public static final int COUNT_STARS = 5;
+    protected static int level = 0;
+    public static final int LEVEL = 20;
 
     public int getLevel() {
         return level;
@@ -115,7 +117,7 @@ public class Levels {
         }
         int m = (int) (Math.random() * 10); // index bất kì của petalpieces để tăng count
         for (int i = 0; i < 20; i++) {
-            PauseTransition pause = new PauseTransition(Duration.seconds(Math.random() * 60));
+            PauseTransition pause = new PauseTransition(Duration.seconds(Math.random() * 50));
             PetalPiece p = petalPieces.get(i);
             int finalI = i;
             pause.setOnFinished(event -> {
@@ -123,8 +125,11 @@ public class Levels {
                 AnimationTimer timer = new AnimationTimer() {
                     @Override
                     public void handle(long now) {
-                        if (p.checkCollisionWithPaddle() && finalI == m) {
-                            Levels.countStar++;
+                        if (p.checkCollisionWithPaddle()) {
+                            if( finalI == m) {
+                                Levels.countStar++;
+                                System.out.println("CountStars = "+countStar);
+                            }
                             p.resolve(gamePane);
                             this.stop();
                         } else {

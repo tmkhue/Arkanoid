@@ -1,14 +1,11 @@
 package Controller;
 
 import Ball.Ball;
-import Brick.Brick;
 import Paddle.Paddle;
 import PowerUp.PowerUp;
-import Brick.Levels;
 import Paddle.PaddleResizer;
 import Paddle.DefaultPaddleResizer;
 import PowerUp.ActiveEffect;
-import Brick.Flower;
 import PowerUp.PowerUpFactory;
 import javafx.animation.AnimationTimer;
 import javafx.animation.PauseTransition;
@@ -34,6 +31,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Objects;
 import PowerUp.TripleBallPowerUp;
+import Brick.*;
 
 public class ArkanoidGame {
     public static final int WIDTH = 750;
@@ -485,7 +483,7 @@ public class ArkanoidGame {
         pause.play();
     }
 
-    protected void loseLife() {
+    public void loseLife() {
         if (lives > 0) {
             lives--;
             if (!liveList.isEmpty()) {

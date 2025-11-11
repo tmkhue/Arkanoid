@@ -1,4 +1,4 @@
-package org.example.game;
+package Brick;
 
 public class BrickFactory {
 

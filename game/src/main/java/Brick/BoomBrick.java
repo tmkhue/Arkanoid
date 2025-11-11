@@ -17,12 +17,21 @@ public class BoomBrick extends Brick {
     }
 
     public void explode(Ball ball, Pane gamePane) {
-        double explosionRadius = BRICK_HEIGHT*BRICK_HEIGHT+BRICK_WIDTH*BRICK_WIDTH+1500;
+        double explosionRadius = 50;
         for(Brick b:bricks) {
             if (b == this) continue;
             if (b instanceof Flower) continue;
-            double dx = b.getX() - this.getX();
-            double dy = b.getY() - this.getY();
+            double dx=0, dy=0;
+            if (b.getX()+ b.getWidth()< this.getX()) {
+                dx = this.getX() - (b.getX()+ b.getWidth());
+            } else if(this.getX()+ this.getWidth()< b.getX()) {
+                dx = b.getX() - (this.getX()+ this.getWidth());
+            }
+            if (b.getY()+ b.getHeight()< this.getY()) {
+                dy = this.getY() - (b.getY()+ b.getHeight());
+            } else if(this.getY()+ this.getHeight()< b.getY()) {
+                dy = b.getY() - (this.getY()+ this.getHeight());
+            }
             if (dx*dx+dy*dy <= explosionRadius) {
                 b.takeHit(ball, gamePane);
             }

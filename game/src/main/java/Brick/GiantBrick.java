@@ -28,8 +28,6 @@ public class GiantBrick extends StrongBrick {
         double xB = this.getX();
         double yB = this.getY();
         gamePane.getChildren().remove(this);
-        System.out.println("BRICK: x= "+this.getX()+" xB = "+xB + "yB= "+yB+", y = "+this.getY() );
-        int cnt = 0;
         for (int i = 0; i < 4; i++) {
             for (int j = 0; j < 4; j++) {
 
@@ -40,18 +38,10 @@ public class GiantBrick extends StrongBrick {
                     b = BrickFactory.createBrick('N', x, y, 0, 0, 0, 0, 0);
                 }
                 brickList.add(b);
-                System.out.println("Brick: get" + cnt + ":X = " + b.getX() + ", y = " + b.getY());
-                System.out.println("Brick" + cnt + ":X = " + x + ", y = " + y);
-                cnt++;
             }
         }
-        cnt = 0;
-        for (Brick b : brickList){
-            System.out.println("Brick" + cnt + ":X = " + b.getX() + ", y = " + b.getY());
-            cnt++;
-        }
         List<Integer> list = new ArrayList<>();
-        while (list.size() < 5) {
+        while (list.size() < 8) {
             int index = (int) (Math.random() * brickList.size());
             if (!list.contains(index)) {
                 list.add(index);
@@ -60,13 +50,11 @@ public class GiantBrick extends StrongBrick {
         for (int index : list) {
             Brick b = brickList.get(index);
             Brick.bricks.add(b);
-            System.out.println("Brick" + index + ":X = " + b.getX() + ", y = " + b.getY());
             b.applyTexture("", gamePane);
 
             double targetX = b.getX();
             double targetY = b.getY();
 
-            // bắt đầu từ giữa GiantBrick
             b.setX(getX() + getWidth() / 2.0);
             b.setY(getY() + getHeight() / 2.0);
 
@@ -76,11 +64,9 @@ public class GiantBrick extends StrongBrick {
                     double dx = targetX - b.getX();
                     double dy = targetY - b.getY();
 
-                    // Di chuyển mượt
-                    b.setX(b.getX() + dx / 10.0);
-                    b.setY(b.getY() + dy / 10.0);
+                    b.setX(b.getX() + dx / 20.0);
+                    b.setY(b.getY() + dy / 20.0);
 
-                    // Nếu gần đúng vị trí, dừng lại
                     if (Math.abs(dx) < 1 && Math.abs(dy) < 1) {
                         b.setX(targetX);
                         b.setY(targetY);

@@ -1,5 +1,7 @@
-package org.example.game;
+package Brick;
 
+import Ball.Ball;
+import Controller.ArkanoidGame;
 import javafx.animation.PauseTransition;
 import javafx.scene.image.Image;
 import javafx.scene.layout.Pane;

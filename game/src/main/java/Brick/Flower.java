@@ -1,5 +1,7 @@
-package org.example.game;
+package Brick;
 
+import Ball.*;
+import Controller.ArkanoidGame;
 import javafx.animation.AnimationTimer;
 import javafx.application.Platform;
 import javafx.geometry.Bounds;
@@ -10,6 +12,7 @@ import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.transform.Rotate;
+import Brick.Levels;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -66,7 +69,7 @@ public class Flower extends Brick {
 
     @Override
     public boolean isHit(Ball ball) {
-        if (Levels.countStar<Levels.COUNT_STARS){
+        if (Levels.countStar< Levels.COUNT_STARS){
             return false;
         }
         if (Brick.bricks.stream().noneMatch(
