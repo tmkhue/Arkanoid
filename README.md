@@ -51,7 +51,7 @@ This is a classic Arkanoid game developed in Java as a final project for Object-
 
 **Purpose:** Đảm bảo chỉ tồn tại 1 instance trong game.
 ### 2. Factory Method
-**Used in:** `PowerUp`, `PowerUpFactory`
+**Used in:** `PowerUp`, `PowerUpFactory`, `BrickFactory`
 
 **Purpose:** Tạo lớp Power Up để những Power Up cụ thể có thể kế thừa và thay đổi các chức năng chính của Power Up.
 ### 3. Template method
