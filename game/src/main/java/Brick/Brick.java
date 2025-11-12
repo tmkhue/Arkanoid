@@ -193,11 +193,11 @@ public class Brick extends Rectangle {
         while (it.hasNext()) {
             Brick brick = it.next();
             if (brick.isHidden()) {
-                it.remove();
-                gamePane.getChildren().remove(brick);
                 if (brick instanceof BoomBrick) {
                     ((BoomBrick) brick).explode(ball, gamePane);
                 }
+                it.remove();
+                brick.removeBrick(gamePane);
             }
             if (!isPaused && Brick.bricks.stream().noneMatch(
                     b -> b instanceof NormalBrick
@@ -209,6 +209,7 @@ public class Brick extends Rectangle {
                     });
                     pause.play();
                     isPaused = true;
+                    ball.setCenterX(110);
             }
             if (brick.isHit(ball)) {
                 brick.takeHit(ball, gamePane);
@@ -234,7 +235,6 @@ public class Brick extends Rectangle {
     }
 
     public boolean isDestroyed() {
-        System.out.println("hitpoints: " + hitPoints);
         return hitPoints <= 0;
     }
 

@@ -13,10 +13,10 @@ N X N X N X N X N X N
 ----
 LEVEL 2
 U U U U U B U U U U U
-U U S S U B U S S U U
-B B B B B B B B B B B
-U U S S U B U S S U U
 U U U U U B U U U U U
+B B B B B B B B B B B
+U U U U U B U U U U U
+U U U U U S U U U U U
 ----
 level 3
 N B N X N B N X N B N
@@ -33,11 +33,11 @@ N X B X N X B X N X N
 N X U X U X U X U X N
 ----
 LEVEL 5
-N B N B N B N B N B N
+N B N U N B N U N B N
 B N B N B N B N B N B
-N B N B N B N B N B N
+N B N U N B N U N B N
 B N B N B N B N B N B
-N B N B N B N B N B N
+N B N U N B N U N B N
 ----
 LEVEl 6
 N N N X N N N X N N N
@@ -94,12 +94,12 @@ N N N N x X X X N N N
 N B B N N S S N B B N
 ----
 LEVEL 14
-Sm-180-110-280 X X Sm-180-280-450 X X Sm-180-450-620
+Um-180-110-280 X X Um-180-280-450 X X Um-180-450-620
 U G X X X B G X X X U
 U X X X X B X X X X U
 U X X X X B X X X X U
 U X X X X B X X X X U
-Sm-0-110-280 X X Sm-0-280-450 X X Sm-0-450-620
+Um-0-110-280 X X Um-0-280-450 X X Um-0-450-620
 ----
 level 15
 X G X X X U G X X X X

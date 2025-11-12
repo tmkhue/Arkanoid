@@ -21,7 +21,7 @@ import static Brick.Brick.bricks;
 public class Levels {
     public static int countStar = 0;
     public static final int COUNT_STARS = 5;
-    protected static int level = 1;
+    public static int level = 1;
     public static int levelUnlocked = 1;
     public static final int LEVEL = 20;
 

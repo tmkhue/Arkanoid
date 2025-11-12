@@ -1,5 +1,6 @@
 package Controller;
 
+import Brick.Levels;
 import javafx.animation.RotateTransition;
 import javafx.animation.TranslateTransition;
 import javafx.application.Platform;
@@ -18,7 +19,7 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
-import java.io.IOException;
+import java.io.*;
 import java.net.URL;
 import java.util.Objects;
 import java.util.ResourceBundle;
@@ -26,6 +27,8 @@ import java.util.ResourceBundle;
 public class MenuController implements Initializable {
     private static final int BUTTON_W = 120;
     private static final int BUTTON_H = 50;
+
+    private static final String LEVEL_UNLOCKED = "levelUnlocked.txt";
 
     @FXML
     private ImageView flower;
@@ -53,6 +56,11 @@ public class MenuController implements Initializable {
         setGameName();
         startSpinningAnimation();
         moving();
+
+        int currentLevelUnlocked = Levels.levelUnlocked;
+        Levels.levelUnlocked = updateLevelUnlocked(currentLevelUnlocked);
+        Levels.level = Levels.levelUnlocked;
+        System.out.println("Update levelUnlocked: " + Levels.levelUnlocked);
 
         //tao anh cho cac nut
         setButton(ExitButton, "/org/example/game/Image/Exit.png", "/org/example/game/Image/Exit_on_hover.png");
@@ -189,5 +197,40 @@ public class MenuController implements Initializable {
             e.printStackTrace();
             System.err.println("Error loading levels scene: " + e.getMessage());
         }
+    }
+    private int loadLevelUnlocked() {
+        int level = 0;
+        File file = new File(LEVEL_UNLOCKED);
+        if (file.exists()) {
+            try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
+                String line;
+                while ((line = reader.readLine()) != null) {
+                    try {
+                        level =Integer.parseInt(line.trim());
+                    } catch (NumberFormatException e) {
+                        System.err.println("Invalid format in levelUnlocked.txt: " + line);
+                    }
+                }
+            } catch (IOException e) {
+                System.err.println("Error loading levelUnlocked: " + e.getMessage());
+            }
+        }
+        return level;
+    }
+    private void saveLevelUnlocked(int level) {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(LEVEL_UNLOCKED))) {
+            writer.write(String.valueOf(level));
+            writer.newLine();
+        } catch (IOException e) {
+            System.err.println("Error saving high scores: " + e.getMessage());
+        }
+    }
+    private int updateLevelUnlocked(int currentLevelUnlocked) {
+        int levelUnlocked = loadLevelUnlocked();
+        if (levelUnlocked < currentLevelUnlocked) {
+            levelUnlocked = currentLevelUnlocked;
+            saveLevelUnlocked(currentLevelUnlocked);
+        }
+        return levelUnlocked;
     }
 }
