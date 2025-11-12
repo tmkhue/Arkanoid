@@ -25,6 +25,17 @@ public class Levels {
     public static int levelUnlocked = 1;
     public static final int LEVEL = 20;
 
+    public static int Score = 0;
+    public static int Lives = 3;
+
+    public static void setLives(int lives) {
+        Lives = lives;
+    }
+
+    public void setScore(int score) {
+        Score = score;
+    }
+
     public int getLevel() {
         return level;
     }

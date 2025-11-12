@@ -13,9 +13,9 @@ N X N X N X N X N X N
 ----
 LEVEL 2
 U U U U U B U U U U U
-U U S S U B U S S U U
+U U U U U B U U U U U
 B B B B B B B B B B B
-U U S S U B U S S U U
+U U U U U B U U U U U
 U U U U U B U U U U U
 ----
 level 3

@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane prefHeight="800.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.FinishLevel">
+   <children>
+      <ImageView fitHeight="800.0" fitWidth="800.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@Image/finishLevel.png" />
+         </image>
+      </ImageView>
+      <Text fx:id="finish" fill="#6c1399" layoutX="199.0" layoutY="266.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" textAlignment="CENTER" wrappingWidth="402.13671875">
+         <font>
+            <Font name="Black Stuff Bold" size="55.0" />
+         </font>
+      </Text>
+      <Button layoutX="289.0" layoutY="400.0" mnemonicParsing="false" onAction="#backToMenu" prefHeight="102.0" prefWidth="223.0" style="-fx-background-color: lavenderblush; -fx-border-color: darkmagenta; -fx-border-radius: 9; -fx-border-width: 2;" text="Back To Menu" textFill="#7b0bb4">
+         <font>
+            <Font name="System Bold" size="23.0" />
+         </font>
+      </Button>
+   </children>
+</AnchorPane>

@@ -58,7 +58,7 @@ public class ArkanoidGame {
 
     protected List<Ball> balls = new ArrayList<>();
 
-    private int score = 0;
+    private int score = level.Score;
 
     public int getScore() {
         return score;
@@ -77,7 +77,7 @@ public class ArkanoidGame {
 
     private Text levelText;
 
-    private int lives = 3;
+    private int lives = level.Lives;
     private List<ImageView> liveList = new ArrayList<>();
 
     private static ArkanoidGame instance;
@@ -218,7 +218,8 @@ public class ArkanoidGame {
     }
 
     public void increaseScore(int amount) {
-        score += amount;
+        level.Score += amount;
+        score = level.Score;
         updateScoreText();
     } //cộng điểm cho tính năng của Paddle
 
@@ -249,11 +250,11 @@ public class ArkanoidGame {
     private void setupScoreText() {
         try {
             Font gameFont = Font.loadFont(getClass().getResourceAsStream("/org/example/game/Font/Black_Stuff_Bold.ttf"), 50);
-            scoreText = new Text("0");
+            scoreText = new Text(Integer.toString(score));
             scoreText.setFont(gameFont);
         } catch (Exception e) {
             System.err.println("Could not load font, using default.");
-            scoreText = new Text("0");
+            scoreText = new Text(Integer.toString(score));
             scoreText.setFont(Font.font(30));
         }
         scoreText.setFill(Color.BLUE);
@@ -285,6 +286,7 @@ public class ArkanoidGame {
         Platform.runLater(() -> {
             if (lives < 3) {
                 lives++;
+                level.setLives(lives);
                 try {
                     Image liveImg = new Image(getClass().getResourceAsStream("/org/example/game/Image/Hearts.png"));
                     ImageView live = new ImageView(liveImg);
@@ -462,25 +464,32 @@ public class ArkanoidGame {
         }
         if (bricks.isCleared() && !levelChanging) {
             levelChanging = true;
-            nextLevel();
+            isPaused = true;
+            level.next();
+            level.setCurrLevel();
+            finishLevel();
         }
     }
 
     private void updateLevelText() {
         levelText.setText("LEVEL " + level.getLevel());
     }
-
-    private void nextLevel() {
+    private void finishLevel() {
         PauseTransition pause = new PauseTransition(Duration.seconds(2));
         pause.setOnFinished(event -> {
-            gamePane.getChildren().removeIf(node -> node instanceof Brick
-                    || node instanceof PowerUp || node instanceof Ball);
-            level.next();
-            level.setCurrLevel();
-            updateLevelText();
-            level.start(gamePane, ball);
-            resetBall();
-            levelChanging = false;
+
+            try {
+                FXMLLoader loader = new FXMLLoader();
+
+                loader.setLocation(getClass().getResource("/org/example/game/Finish.fxml"));
+                Parent finishRoot = loader.load();
+                Scene finishScene = new Scene(finishRoot);
+                Stage primaryStage = (Stage) gamePane.getScene().getWindow();
+                primaryStage.setScene(finishScene);
+                primaryStage.setTitle("Yay!");
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         });
         pause.play();
     }
@@ -488,6 +497,7 @@ public class ArkanoidGame {
     public void loseLife() {
         if (lives > 0) {
             lives--;
+            level.setLives(lives);
             if (!liveList.isEmpty()) {
                 ImageView liveToRemove = liveList.remove(liveList.size() - 1);
                 gamePane.getChildren().remove(liveToRemove);
@@ -496,6 +506,8 @@ public class ArkanoidGame {
                 resetBall();
             } else {
                 gameTimer.stop(); // Dừng game loop
+                level.setScore(0);
+                level.setLives(3);
                 showGameOverScreen();
             }
         }
