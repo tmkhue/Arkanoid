@@ -446,7 +446,9 @@ public class ArkanoidGame {
             PowerUp p = it.next();
             p.move();
             if (p.getBoundsInParent().intersects(paddle.getBoundsInParent())) {
-                p.applyEffect(paddle, balls.get(0));
+                if(!balls.isEmpty()){
+                    p.applyEffect(paddle, balls.get(0));
+                }
                 activeEffects.add(new ActiveEffect(p, System.currentTimeMillis(), p.getDuration()));
                 gamePane.getChildren().remove(p);
                 it.remove();
