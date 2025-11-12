@@ -25,7 +25,7 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
-import java.io.IOException;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -83,7 +83,6 @@ public class ArkanoidGame {
     private static ArkanoidGame instance;
     private boolean levelChanging = false;
 
-
     @FXML
     private Button pauseButton;
     private AnimationTimer gameTimer;
@@ -101,6 +100,7 @@ public class ArkanoidGame {
     @FXML
     public void initialize() {
         instance = this;
+
         setBackground();
 
         setLives();
@@ -423,7 +423,9 @@ public class ArkanoidGame {
                     Ball newMain = tpb.promoteNewMainBall(b);
                     if (newMain != null) {
                         balls.add(newMain);
-                        gamePane.getChildren().add(newMain);
+                        if(!gamePane.getChildren().contains(newMain)) {
+                            gamePane.getChildren().add(newMain);
+                        }
                         replaced = true;
                         break;
                     }

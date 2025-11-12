@@ -10,7 +10,6 @@ import javafx.scene.shape.Rectangle;
 import javafx.util.Duration;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.Objects;
 
 import static javafx.scene.paint.Color.RED;
@@ -189,26 +188,32 @@ public class Brick extends Rectangle {
 
     public boolean resolveCollision(Ball ball, Pane gamePane) {
         ArkanoidGame game = ArkanoidGame.getInstance();
-        Iterator<Brick> it = bricks.iterator();
-        while (it.hasNext()) {
-            Brick brick = it.next();
+        for (int i=bricks.size()-1; i>=0; i--){
+            Brick brick = bricks.get(i);
             if (brick.isHidden()) {
-                it.remove();
-                gamePane.getChildren().remove(brick);
                 if (brick instanceof BoomBrick) {
                     ((BoomBrick) brick).explode(ball, gamePane);
                 }
+               bricks.remove(brick);
+                brick.removeBrick(gamePane);
             }
-            if (!isPaused && Brick.bricks.stream().noneMatch(
+            if (Brick.bricks.stream().noneMatch(
                     b -> b instanceof NormalBrick
                             || b instanceof StrongBrick
                             || b instanceof BoomBrick)) {
+                if(!isPaused) {
                     PauseTransition pause = new PauseTransition(Duration.seconds(0.5));
                     pause.setOnFinished(event -> {
                         System.out.println("Tạm dừng");
                     });
                     pause.play();
                     isPaused = true;
+                    ball.setCenterX(110);
+                }
+                if(brick instanceof UnbreakableBrick){
+                    bricks.remove(brick);
+                    brick.removeBrick(gamePane);
+                }
             }
             if (brick.isHit(ball)) {
                 brick.takeHit(ball, gamePane);
@@ -220,7 +225,7 @@ public class Brick extends Rectangle {
                 }
                 if (brick.isHidden()) continue;
                 if(brick.isDestroyed()) {
-                    it.remove();
+                    bricks.remove(brick);
                     brick.removeBrick(gamePane);
                     if (brick instanceof BoomBrick){
                         ((BoomBrick) brick).explode(ball, gamePane);
@@ -234,7 +239,6 @@ public class Brick extends Rectangle {
     }
 
     public boolean isDestroyed() {
-        System.out.println("hitpoints: " + hitPoints);
         return hitPoints <= 0;
     }
 

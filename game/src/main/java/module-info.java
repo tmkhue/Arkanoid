@@ -11,6 +11,7 @@ module org.example.game {
     requires java.prefs;
     requires javafx.base;
     requires java.desktop;
+//    requires org.example.game;
 
     opens org.example.game to javafx.fxml;
     //exports org.example.game;
