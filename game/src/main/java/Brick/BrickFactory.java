@@ -2,7 +2,7 @@ package Brick;
 
 public class BrickFactory {
 
-    private static final char[] RANDOMS_TYPES = new char[]{'N', 'S', 'U', 'B','N', 'S', 'x', 'B'};
+    private static final char[] RANDOMS_TYPES = new char[]{'N', 'S','N', 'S', 'U', 'B','N', 'S', 'x', 'B'};
 
     public static Brick createBrick(char type, double x, double y, double angle,
                                     double minX, double maxX, double minY, double maxY){

@@ -96,7 +96,7 @@ public class Levels {
                 char type = data[i][j].charAt(0);
                 int distance = 5;
                 double x = ArkanoidGame.LEFT_BORDER + 20 + j * (Brick.BRICK_WIDTH + distance);
-                double y = ArkanoidGame.TOP_BORDER + 30 + i * (Brick.BRICK_HEIGHT + distance);
+                double y = ArkanoidGame.TOP_BORDER + 20 + i * (Brick.BRICK_HEIGHT + distance);
                 if (!(x + Brick.BRICK_WIDTH < ArkanoidGame.LEFT_BORDER + ArkanoidGame.WIDTH)) {
                     break;
                 }
@@ -138,7 +138,7 @@ public class Levels {
             petalPieces.add(p);
         }
         for (int i = 0; i < 30; i++) {
-            PauseTransition pause = new PauseTransition(Duration.seconds(Math.random()*5*(i+1)));
+            PauseTransition pause = new PauseTransition(Duration.seconds(4*(i+1)));
             PetalPiece p = petalPieces.get(i);
             int finalI = i;
             pause.setOnFinished(event -> {

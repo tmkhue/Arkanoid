@@ -3,10 +3,15 @@ package Brick;
 import Ball.Ball;
 import javafx.scene.layout.Pane;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class BoomBrick extends Brick {
 
     public BoomBrick() {
         super();
+        this.setHitPoints(1);
+        this.setType("B");
     }
 
     public BoomBrick(double x, double y, double angle,
@@ -17,7 +22,8 @@ public class BoomBrick extends Brick {
     }
 
     public void explode(Ball ball, Pane gamePane) {
-        double explosionRadius = 50;
+        double explosionRadius = 10;
+        List<Brick> toRemove = new ArrayList<>();
         for(Brick b:bricks) {
             if (b == this) continue;
             if (b instanceof Flower) continue;
@@ -32,13 +38,16 @@ public class BoomBrick extends Brick {
             } else if(this.getY()+ this.getHeight()< b.getY()) {
                 dy = b.getY() - (this.getY()+ this.getHeight());
             }
-            if (dx*dx+dy*dy <= explosionRadius) {
+            if (Math.sqrt(dx*dx+dy*dy) <= explosionRadius) {
                 b.takeHit(ball, gamePane);
             }
             if(b.isDestroyed()){
                 b.setHidden(true);
-                gamePane.getChildren().remove(b);
+                toRemove.add(b);
             }
+        }
+        for(Brick b:toRemove){
+            gamePane.getChildren().remove(b);
         }
     }
 
