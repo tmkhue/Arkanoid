@@ -28,7 +28,7 @@ public class PetalPiece extends Ball {
 
     public void resolve(Pane gamePane) {
         if (checkCollisionWithPaddle()) {
-            arkanoidGame.increaseScore(5);
+            arkanoidGame.increaseScore(2);
             gamePane.getChildren().remove(this);
         }
     }
