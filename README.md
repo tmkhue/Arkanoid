@@ -22,10 +22,10 @@ This is a classic Arkanoid game developed in Java as a final project for Object-
 **Key features:**
 1. The game is developed using Java 17+ with JavaFX/Swing for GUI.
 2. Implements core OOP principles: Encapsulation, Inheritance, Polymorphism, and Abstraction.
-3. Applies multiple design patterns: Singleton, Factory Method, Strategy, Observer, and State.
+3. Applies multiple design patterns: Singleton, Factory Method, Template, Observer.
 4. Features multithreading for smooth gameplay and responsive UI.
-5. Includes sound effects, animations, and power-up systems.
-6. Supports save/load game functionality and leaderboard system.
+5. Includes background music, animations, and power-up systems.
+6. Supports leaderboard system.
 
 **Game mechanics:**
 - Control a paddle to bounce a ball and destroy bricks
@@ -102,7 +102,7 @@ This is a classic Arkanoid game developed in Java as a final project for Object-
 | 💗 | Extra Life | Thêm 1 mạng |
 
 ### Scoring System
-Đối với mỗi khoảng thời gian giữa 2 lần bóng va chạm với paddle liên tiếp, điểm sẽ tăng theo điểm += 10*n với n là số lần bóng va chạm với 1 viên gạch trên màn hình.
+Đối với mỗi khoảng thời gian giữa 2 lần bóng va chạm với paddle liên tiếp, điểm sẽ tăng theo điểm += 10*n với n là số lần bóng va chạm với 1 viên gạch trên màn hình và với mỗi lần ăn được sao rơi xuống, điểm sẽ được cộng thêm 2. Điểm sẽ được tiếp tục tính và cộng cho đến khi hết mạng.
 
 ---
 
@@ -120,6 +120,7 @@ https://drive.google.com/drive/folders/11J0_xOVS681hop5AZCwmSis5ihGAFeHf?usp=dri
 
 2. **Thêm cơ chế lưu màn hình khi đóng game**
    - Vị trí bóng, điểm và mạng còn lại sẽ được lưu cho đến khi người chơi tiếp tục.
+   - Thêm phần restart và tự động chuyển level.
 
 3. **Cải thiện lại phần nhìn**
    - Thêm những hiệu ứng animation
@@ -135,4 +136,4 @@ https://drive.google.com/drive/folders/11J0_xOVS681hop5AZCwmSis5ihGAFeHf?usp=dri
 | Maven | 3.9.9 | Build tool |
 
 
-*Last updated: [10/11/2025]*
+*Last updated: [12/11/2025]*
