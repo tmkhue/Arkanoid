@@ -28,7 +28,6 @@ public class BrickFactory {
                 break;
             case 'R':
                 int i = (int) (Math.random()*RANDOMS_TYPES.length);
-                System.out.println("Random R -> " + RANDOMS_TYPES[i] + ", orig angle=" + angle + ", x=" + x + ", y=" + y);
                 brick = createBrick(RANDOMS_TYPES[i], x, y, angle, minX, maxX, minY, maxY);
                 break;
             default:

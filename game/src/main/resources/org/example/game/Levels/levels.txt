@@ -13,9 +13,9 @@ N X N X N X N X N X N
 ----
 LEVEL 2
 U U U U U B U U U U U
-U U U U U B U U U U U
+U U S S U B U S S U U
 B B B B B B B B B B B
-U U U U U B U U U U U
+U U S S U B U S S U U
 U U U U U B U U U U U
 ----
 level 3
@@ -131,6 +131,13 @@ U U U S N N N S U U U
 U U U U S N S U U U U
 ----
 LEVEL 19
+R N N N G x x x N N R
+R N U U x X X X U N R
+R N S U X X X x S N R
+N R N N x X X X N R N
+N R B N N S S N B R N
+----
+LEVEL 20
 N N N N N N N N N N N
 N B S B N N N B S B N
 N N N N N B N N N N N
@@ -138,10 +145,10 @@ x
 X
 Um-90---245-400 Um-270---245-400 Um-90---245-400 Um-270---245-400 Um-90---245-400 Um-270---245-400 Um-90---245-400 Um-270---245-400 Um-90---245-400 Um-270---245-400 Um-90---245-400
 ----
-level 20
+level 21
 R R R R R R R R R R R
 R R R R R R R R R R R
 R R R R R R R R R R R
-x
-Rm-90---245-400 Rm-270---245-400 Rm-90---245-400 Rm-270---245-400 Rm-90---245-400 Rm-270---245-400 Rm-90---245-400 Rm-270---245-400 Rm-90---245-400 Rm-270---245-400 Rm-90---245-400
+R R R R R R R R R R R
+R R R R R R R R R R R
 ----

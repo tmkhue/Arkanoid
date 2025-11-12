@@ -13,9 +13,6 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Objects;
 
-import Ball.*;
-import Controller.ArkanoidGame;
-
 import static javafx.scene.paint.Color.RED;
 
 public class Brick extends Rectangle {

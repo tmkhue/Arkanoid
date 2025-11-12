@@ -8,6 +8,7 @@ public class NormalBrick extends Brick {
         this.setType("N");
         this.setHitPoints(1);
     }
+
     public NormalBrick(double x, double y){
         super(x, y,"N");
         this.setHitPoints(1);

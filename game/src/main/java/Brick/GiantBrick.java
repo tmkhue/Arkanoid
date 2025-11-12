@@ -30,7 +30,6 @@ public class GiantBrick extends StrongBrick {
         gamePane.getChildren().remove(this);
         for (int i = 0; i < 4; i++) {
             for (int j = 0; j < 4; j++) {
-
                 double x = xB + (BRICK_WIDTH + 5) * j;
                 double y = yB + (BRICK_HEIGHT + 5) * i;
                 Brick b = BrickFactory.createBrick('R', x, y, 0, 0, 0, 0, 0);
@@ -41,7 +40,7 @@ public class GiantBrick extends StrongBrick {
             }
         }
         List<Integer> list = new ArrayList<>();
-        while (list.size() < 8) {
+        while (list.size() < 6) {
             int index = (int) (Math.random() * brickList.size());
             if (!list.contains(index)) {
                 list.add(index);
@@ -51,10 +50,8 @@ public class GiantBrick extends StrongBrick {
             Brick b = brickList.get(index);
             Brick.bricks.add(b);
             b.applyTexture("", gamePane);
-
             double targetX = b.getX();
             double targetY = b.getY();
-
             b.setX(getX() + getWidth() / 2.0);
             b.setY(getY() + getHeight() / 2.0);
 
@@ -70,7 +67,7 @@ public class GiantBrick extends StrongBrick {
                     if (Math.abs(dx) < 1 && Math.abs(dy) < 1) {
                         b.setX(targetX);
                         b.setY(targetY);
-                        stop();
+                        this.stop();
                     }
                 }
             };

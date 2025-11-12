@@ -16,6 +16,7 @@ import static javafx.scene.paint.Color.RED;
 public class StrongBrick extends Brick {
     public static final List<WritableImage> frames;
     public static final int HIT_POINTS = 5;
+
     public StrongBrick(){
         super();
         this.setType("S");
@@ -32,13 +33,13 @@ public class StrongBrick extends Brick {
         super(x, y, "S", angle, minX, maxX, minY, maxY);
         this.setHitPoints(HIT_POINTS);
     }
+
     @Override
     public void applyTexture(String path, Pane gamePane) {
         int index = 5 - hitPoints;
         Image img = null;
         if (index >= 0 && index < frames.size()) {
             img = frames.get(index);
-            System.out.println("frame: " + index);
         }
         if (img != null) {
             ImagePattern pattern = new ImagePattern(img, 0, 0, 1, 1, true);
@@ -74,7 +75,5 @@ public class StrongBrick extends Brick {
                     (int) frameWidth, (int) frameHeight);
             frames.add(frame);
         }
-
-        System.out.println("Đã lấy " + frames.size() + " phần ảnh từ sprite sheet.");
     }
 }

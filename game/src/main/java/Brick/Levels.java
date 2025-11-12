@@ -21,7 +21,7 @@ import static Brick.Brick.bricks;
 public class Levels {
     public static int countStar = 0;
     public static final int COUNT_STARS = 5;
-    protected static int level = 21;
+    protected static int level = 1;
     public static int levelUnlocked = 1;
     public static final int LEVEL = 20;
 
@@ -54,8 +54,8 @@ public class Levels {
         List<String[]> lines = new ArrayList<>();
         String line;
         int l = level;
-        if (l>20){
-            l = 20;
+        if (l>21){
+            l = 21;
         }
         boolean isFound = false;
         try (BufferedReader br = new BufferedReader(new InputStreamReader(
@@ -105,8 +105,6 @@ public class Levels {
                             minY = Double.parseDouble(parts[4]);
                             maxY = Double.parseDouble(parts[5]);
                         }
-                        System.out.printf("MINX = %.1f, MAXX = %.1f, MINY = %.1f, MAX Y = %.1f\n",
-                                minX, maxX, minY, maxY);
                     } catch (NumberFormatException e) {
                         System.out.println("Invalid string");
                     }
@@ -128,8 +126,8 @@ public class Levels {
             p.setFill(new ImagePattern(Flower.petalPiece, 0, 0, 1, 1, true));
             petalPieces.add(p);
         }
-        for (int i = 0; i < 20; i++) {
-            PauseTransition pause = new PauseTransition(Duration.seconds(Math.random() * 50));
+        for (int i = 0; i < 30; i++) {
+            PauseTransition pause = new PauseTransition(Duration.seconds(Math.random()*5*(i+1)));
             PetalPiece p = petalPieces.get(i);
             int finalI = i;
             pause.setOnFinished(event -> {
@@ -138,7 +136,7 @@ public class Levels {
                     @Override
                     public void handle(long now) {
                         if (p.checkCollisionWithPaddle()) {
-                            if( finalI== 5) {
+                            if( finalI== 7) {
                                 Levels.countStar++;
                                 ArkanoidGame.getInstance().updatecountStarText();
                                 System.out.println("CountStars = "+countStar);

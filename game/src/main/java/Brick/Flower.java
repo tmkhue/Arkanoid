@@ -1,8 +1,10 @@
 package Brick;
 
-import Ball.*;
+import Ball.Ball;
+import Ball.PetalPiece;
 import Controller.ArkanoidGame;
 import javafx.animation.AnimationTimer;
+import javafx.animation.PauseTransition;
 import javafx.application.Platform;
 import javafx.geometry.Bounds;
 import javafx.scene.Node;
@@ -12,7 +14,7 @@ import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.transform.Rotate;
-import Brick.Levels;
+import javafx.util.Duration;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -198,9 +200,7 @@ public class Flower extends Brick {
     }
     @Override
     public void removeBrick(Pane gamePane) {
-        while (true) {
             List<PetalPiece> pp = burstIntoBalls(gamePane);
-            gamePane.getChildren().remove(flowerCenter);
             AnimationTimer timer = new AnimationTimer() {
                 @Override
                 public void handle(long now) {
@@ -235,11 +235,14 @@ public class Flower extends Brick {
             };
             timer.start();
             Platform.runLater(gamePane::requestFocus);
-            Brick b = BrickFactory.createBrick('G', 200, 100, 60, 50, 500, 80, 200);
-            Brick.bricks.add(b);
-            b.applyTexture("", gamePane);
-            break;
-        }
+        PauseTransition pause = new PauseTransition(Duration.seconds(1.5));
+        pause.setOnFinished(event -> {
+            gamePane.getChildren().remove(flowerCenter);
+        });
+        pause.play();
+        Brick b = BrickFactory.createBrick('G', 200, 100, 60, 50, 500, 80, 200);
+        Brick.bricks.add(b);
+        b.applyTexture("", gamePane);
     }
 
     public List<PetalPiece> burstIntoBalls(Pane gamePane) {
@@ -281,15 +284,15 @@ public class Flower extends Brick {
         double nx = dx / distance;
         double ny = dy / distance;
 
-        // Đẩy bóng ra ngoài đúng bằng phần chồng lấn
         double overlap = sumR - distance;
         if (overlap > 0) {
             ball.setCenterX(ball.getCenterX() + nx * overlap);
             ball.setCenterY(ball.getCenterY() + ny * overlap);
         }
 
-        ball.setDirectionX(ball.getDirectionX() * (-1));
-        ball.setDirectionY(ball.getDirectionY() * (-1));
+        double vn = ball.getDirectionX() * nx + ball.getDirectionY() * ny;
+        ball.setDirectionX(ball.getDirectionX() - 2 * vn * nx);
+        ball.setDirectionY(ball.getDirectionY() - 2 * vn * ny + 0.5);
     }
     static {
         try {
