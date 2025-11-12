@@ -19,16 +19,16 @@ public class Brick extends Rectangle {
     protected String type;
     protected double brickHeight;
     protected double brickWidth;
-    protected boolean hidden =false;
+    protected boolean hidden = false;
     // các thuộc tính của brick di chuyển được
     private int directionX = 1, directionY = 1;
     double angle = 90;
     private double minY, minX;
     private double maxY, maxX;
     static boolean isPaused = false;
+    //kích thước brick thường
     static final double BRICK_WIDTH = 60;
     static final double BRICK_HEIGHT = 40;
-
 
     public static ArrayList<Brick> bricks = new ArrayList<>();
 
@@ -60,7 +60,7 @@ public class Brick extends Rectangle {
         this.maxY = maxY;
     }
 
-    public int getBricksSize(){
+    public int getBricksSize() {
         return bricks.size();
     }
 
@@ -113,7 +113,7 @@ public class Brick extends Rectangle {
             }
             setFill(new ImagePattern(img));
         } catch (Exception e) {
-            System.err.println("Cannot load "+ type +" image, using default color");
+            System.err.println("Cannot load " + type + " image, using default color");
             setFill(RED);
         }
         if (!gamePane.getChildren().contains(this)) {
@@ -155,7 +155,6 @@ public class Brick extends Rectangle {
             }
             if (this.getBoundsInParent().intersects(brick.getBoundsInParent())) {
                 directionX *= -1;
-                System.out.println("VA CHAM");
                 break;
             }
         }
@@ -179,7 +178,7 @@ public class Brick extends Rectangle {
 
         double distanceS = Math.pow(xA - ball.getCenterX(), 2)
                 + Math.pow(yA - ball.getCenterY(), 2);
-        return distanceS <= Math.pow(ball.getRadius(),2);
+        return distanceS <= Math.pow(ball.getRadius(), 2);
     }
 
     public void takeHit(Ball ball, Pane gamePane) {
@@ -188,20 +187,20 @@ public class Brick extends Rectangle {
 
     public boolean resolveCollision(Ball ball, Pane gamePane) {
         ArkanoidGame game = ArkanoidGame.getInstance();
-        for (int i=bricks.size()-1; i>=0; i--){
+        for (int i = bricks.size() - 1; i >= 0; i--) {
             Brick brick = bricks.get(i);
             if (brick.isHidden()) {
                 if (brick instanceof BoomBrick) {
                     ((BoomBrick) brick).explode(ball, gamePane);
                 }
-               bricks.remove(brick);
+                bricks.remove(brick);
                 brick.removeBrick(gamePane);
             }
             if (Brick.bricks.stream().noneMatch(
                     b -> b instanceof NormalBrick
                             || b instanceof StrongBrick
                             || b instanceof BoomBrick)) {
-                if(!isPaused) {
+                if (!isPaused) {
                     PauseTransition pause = new PauseTransition(Duration.seconds(0.5));
                     pause.setOnFinished(event -> {
                         System.out.println("Tạm dừng");
@@ -210,7 +209,7 @@ public class Brick extends Rectangle {
                     isPaused = true;
                     ball.setCenterX(110);
                 }
-                if(brick instanceof UnbreakableBrick){
+                if (brick instanceof UnbreakableBrick) {
                     bricks.remove(brick);
                     brick.removeBrick(gamePane);
                 }
@@ -224,10 +223,10 @@ public class Brick extends Rectangle {
                     game.setupComboText(ball.getComboCount());
                 }
                 if (brick.isHidden()) continue;
-                if(brick.isDestroyed()) {
+                if (brick.isDestroyed()) {
                     bricks.remove(brick);
                     brick.removeBrick(gamePane);
-                    if (brick instanceof BoomBrick){
+                    if (brick instanceof BoomBrick) {
                         ((BoomBrick) brick).explode(ball, gamePane);
                     }
                 }
@@ -243,7 +242,7 @@ public class Brick extends Rectangle {
     }
 
     public boolean isCleared() {
-        for (Brick brick : this.bricks) {
+        for (Brick brick : bricks) {
             if (brick instanceof NormalBrick
                     || brick instanceof StrongBrick
                     || brick instanceof Flower
