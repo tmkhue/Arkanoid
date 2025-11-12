@@ -4,11 +4,6 @@ type: loại brick
 angle: góc chuyển động so với trục Ox
 minX-maxX: phạm vi di chuyển theo trục hoành
 minY-maxY: phạm vi di chuyển theo trục tung
-LEVEL 0
-X
-X
-X X N N N N N N N X X
-----
 LEVEL 1
 N X N X N X N X N X N
 N X N X N X N X N X N

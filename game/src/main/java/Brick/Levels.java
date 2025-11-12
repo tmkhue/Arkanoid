@@ -21,7 +21,7 @@ import static Brick.Brick.bricks;
 public class Levels {
     public static int countStar = 0;
     public static final int COUNT_STARS = 5;
-    protected static int level = 0;
+    protected static int level = 21;
     public static int levelUnlocked = 1;
     public static final int LEVEL = 20;
 
@@ -30,7 +30,7 @@ public class Levels {
     }
 
     public void next() {
-        level = (level + 1) % (LEVEL + 1);
+        level ++;
     }
 
     public static void selectLevel(int levelChosen){
@@ -53,11 +53,15 @@ public class Levels {
         String path = "/org/example/game/Levels/levels.txt";
         List<String[]> lines = new ArrayList<>();
         String line;
+        int l = level;
+        if (l>20){
+            l = 20;
+        }
         boolean isFound = false;
         try (BufferedReader br = new BufferedReader(new InputStreamReader(
                 Objects.requireNonNull(getClass().getResourceAsStream(path))))) {
             while ((line = br.readLine()) != null) {
-                if (line.trim().equalsIgnoreCase("level " + level)) {
+                if (line.trim().equalsIgnoreCase("level " + l)) {
                     isFound = true;
                     continue;
                 }
