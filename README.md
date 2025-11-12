@@ -65,18 +65,6 @@ This is a classic Arkanoid game developed in Java as a final project for Object-
 
 ---
 
-## Multithreading Implementation
-_Có dùng hay không và dùng như thế nào_
-
-The game uses multiple threads to ensure smooth performance:
-
-1. **Game Loop Thread**: Updates game logic at 60 FPS
-2. **Rendering Thread**: Handles graphics rendering (EDT for JavaFX Application Thread)
-3. **Audio Thread Pool**: Plays sound effects asynchronously
-4. **I/O Thread**: Handles save/load operations without blocking UI
-
----
-
 ## Installation
 
 1. Clone the project from the repository.
@@ -120,27 +108,7 @@ The game uses multiple threads to ensure smooth performance:
 
 ## Demo
 
-### Screenshots
-
-**Main Menu**  
-[<img width="1623" height="1651" alt="image" src="https://github.com/user-attachments/assets/609e8cd5-d1d9-4d00-a1f1-e84b61239dbf" />](https://drive.google.com/file/d/1B6SImK5VKgddLgWHz-xwudOdHq16cVnz/view?usp=drive_link)
-
-**Music Settings**
-https://drive.google.com/open?id=1X1AoK-rtSsMe2otat1kEibC5PLAvSxM6&usp=drive_copy
-
-**Gameplay**  
-https://drive.google.com/open?id=1X1AoK-rtSsMe2otat1kEibC5PLAvSxM6&usp=drive_copy
-
-**Game in progress**  
-<img width="1598" height="1658" alt="image" src="https://github.com/user-attachments/assets/b9d69c60-d714-472f-8061-68f6961e0587" />
-
-**Leaderboard**  
-https://drive.google.com/file/d/1OC5rtuqmhx7wi4Qt1_6sM7YsaTI8R0H6/view?usp=drive_link
-
-### Video Demo
-
-*Full gameplay video is available in `docs/demo/gameplay.mp4`*
-
+https://drive.google.com/drive/folders/11J0_xOVS681hop5AZCwmSis5ihGAFeHf?usp=drive_link
 ---
 
 ## Future Improvements
