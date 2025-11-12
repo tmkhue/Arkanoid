@@ -88,10 +88,10 @@ Rm-90---245-400 x Rm-90---245-400 x Rm-90---245-400 x Rm-90---245-400 x Rm-90---
 ----
 LEVEL 13
 N B N N G x x x N B N
-N B U U x X X X U B N
+N U U U x X X X U U N
 N B U U X X X x U B N
 N N N N x X X X N N N
-N B B N N S S N B B N
+N B N N N S S N N B N
 ----
 LEVEL 15
 Um-180-110-280 X X Um-180-280-450 X X Um-180-450-620

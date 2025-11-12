@@ -59,7 +59,6 @@ public class MenuController implements Initializable {
 
         int currentLevelUnlocked = Levels.levelUnlocked;
         Levels.levelUnlocked = updateLevelUnlocked(currentLevelUnlocked);
-        Levels.level = Levels.levelUnlocked;
         System.out.println("Update levelUnlocked: " + Levels.levelUnlocked);
 
         //tao anh cho cac nut
